@@ -1,6 +1,7 @@
 package com.fwdekker.randomness
 
 import com.fasterxml.uuid.Generators
+import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.util.xmlb.annotations.Transient
 import kotlin.random.Random
 import kotlin.random.asJavaRandom
@@ -77,6 +78,8 @@ abstract class State {
      * @return `null` if the state is valid, or a string explaining why the state is invalid
      */
     open fun doValidate(): String? = null
+
+    open fun doValidate2(): ValidationInfo? = doValidate()?.let { ValidationInfo(it) }
 
     /**
      * Returns a deep copy, retaining the [uuid] if and only if [retainUuid] is `true`.

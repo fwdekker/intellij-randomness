@@ -14,6 +14,7 @@ import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.uuid.UuidScheme
 import com.fwdekker.randomness.word.DefaultWordList
 import com.fwdekker.randomness.word.WordScheme
+import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.util.xmlb.annotations.OptionTag
 
 
@@ -52,6 +53,19 @@ data class TemplateList(
 
         return when {
             duplicate != null -> Bundle("template_list.error.duplicate_name", duplicate)
+            invalid != null -> invalid
+            else -> null
+        }
+    }
+
+    override fun doValidate2(): ValidationInfo? {
+        val templateNames = templates.map { it.name }
+        val duplicate = templateNames.firstOrNull { templateNames.indexOf(it) != templateNames.lastIndexOf(it) }
+        val invalid =
+            templates.firstNotNullOfOrNull { template -> template.doValidate2()?.let { ValidationInfo("${template.name} > $it", it.component) } }
+
+        return when {
+            duplicate != null -> ValidationInfo(Bundle("template_list.error.duplicate_name", duplicate))
             invalid != null -> invalid
             else -> null
         }

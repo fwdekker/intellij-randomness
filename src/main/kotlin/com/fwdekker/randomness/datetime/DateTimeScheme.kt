@@ -7,10 +7,12 @@ import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.array.ArrayDecorator
 import com.fwdekker.randomness.nextTimestampInclusive
+import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.JBColor
 import com.intellij.util.xmlb.annotations.OptionTag
 import java.awt.Color
 import java.time.format.DateTimeFormatter
+import javax.swing.JLabel
 
 
 /**
@@ -43,6 +45,12 @@ data class DateTimeScheme(
             ?: maxDateTime.doValidate()
             ?: (if (maxDateTime.isBefore(minDateTime)) Bundle("datetime.error.min_datetime_above_max") else null)
             ?: pattern.doValidateDateTimePattern()
+
+    override fun doValidate2(): ValidationInfo? =
+        (minDateTime.doValidate()?.let { ValidationInfo(it, JLabel("minDateTime")) })
+            ?: (maxDateTime.doValidate()?.let { ValidationInfo(it, JLabel("maxDateTime")) })
+            ?: (if (maxDateTime.isBefore(minDateTime)) ValidationInfo(Bundle("datetime.error.min_datetime_above_max")) else null)
+            ?: (pattern.doValidateDateTimePattern()?.let { ValidationInfo(it, JLabel("pattern")) })
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(arrayDecorator = arrayDecorator.deepCopy(retainUuid)).deepCopyTransient(retainUuid)

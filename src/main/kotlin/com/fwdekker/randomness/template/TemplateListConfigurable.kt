@@ -7,6 +7,7 @@ import com.intellij.openapi.Disposable
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurationException
 import com.intellij.openapi.options.ex.Settings
+import com.intellij.openapi.ui.ComponentValidator
 import com.intellij.openapi.util.Disposer
 import java.awt.Component
 import javax.swing.JComponent
@@ -63,9 +64,16 @@ internal class TemplateListConfigurable : Configurable, Disposable {
      */
     @Throws(ConfigurationException::class)
     override fun apply() {
-        val validationInfo = editor.doValidate()
-        if (validationInfo != null)
-            throw ConfigurationException(validationInfo, Bundle("template_list.error.failed_to_save_settings"))
+        val validationInfo = editor.doValidate2()
+        if (validationInfo != null) {
+            val cmp = validationInfo.component
+            if (validationInfo.component != null) {
+                ComponentValidator(this).installOn(cmp!!).withValidator { validationInfo }.revalidate()
+                throw ConfigurationException("fix something somewhere, find the cause yourself!", "title")
+            } else {
+                throw ConfigurationException(validationInfo.message, Bundle("template_list.error.failed_to_save_settings"))
+            }
+        }
 
         val oldList = editor.originalTemplateList.deepCopy(retainUuid = true)
         editor.apply()

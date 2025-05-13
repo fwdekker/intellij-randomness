@@ -13,6 +13,7 @@ import com.fwdekker.randomness.integer.IntegerSchemeEditor
 import com.fwdekker.randomness.setAll
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.string.StringSchemeEditor
+import com.fwdekker.randomness.template.TemplateListEditor.Companion.useTestSplitter
 import com.fwdekker.randomness.ui.PreviewPanel
 import com.fwdekker.randomness.ui.addChangeListenerTo
 import com.fwdekker.randomness.uuid.UuidScheme
@@ -20,6 +21,7 @@ import com.fwdekker.randomness.uuid.UuidSchemeEditor
 import com.fwdekker.randomness.word.WordScheme
 import com.fwdekker.randomness.word.WordSchemeEditor
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.openapi.util.Disposer
 import com.intellij.ui.JBSplitter
 import com.intellij.ui.OnePixelSplitter
@@ -31,6 +33,7 @@ import java.awt.KeyboardFocusManager
 import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
 import javax.swing.JComponent
+import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.SwingUtilities
 
@@ -164,6 +167,13 @@ class TemplateListEditor(
      * @return `null` if the state is valid, or a string explaining why the state is invalid
      */
     fun doValidate(): String? = currentTemplateList.doValidate()
+
+    fun doValidate2(): ValidationInfo? =
+        currentTemplateList.doValidate2()?.let { validationInfo ->
+            val cmp = validationInfo.component
+            if (cmp == null || cmp !is JLabel) return@let null
+            ValidationInfo(validationInfo.message, schemeEditor!!.components.filterIsInstance<JComponent>().find { it.name == cmp.text!! })
+        }
 
     /**
      * Returns `true` if and only if the editor contains modifications relative to the last saved state.

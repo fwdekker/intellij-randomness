@@ -13,6 +13,7 @@ import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.uuid.UuidScheme
 import com.fwdekker.randomness.word.WordScheme
+import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.Gray
 import com.intellij.util.xmlb.annotations.OptionTag
 import com.intellij.util.xmlb.annotations.XCollection
@@ -90,6 +91,11 @@ data class Template(
         if (name.isBlank()) Bundle("template.error.no_name", Bundle("template.name.empty"))
         else schemes.firstNotNullOfOrNull { scheme -> scheme.doValidate()?.let { "${scheme.name} > $it" } }
             ?: arrayDecorator.doValidate()
+
+    override fun doValidate2() =
+        if (name.isBlank()) ValidationInfo(Bundle("template.error.no_name", Bundle("template.name.empty")))
+        else schemes.firstNotNullOfOrNull { scheme -> scheme.doValidate2()?.let { ValidationInfo("${scheme.name} > $it", it.component) } }
+            ?: arrayDecorator.doValidate2()
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(
