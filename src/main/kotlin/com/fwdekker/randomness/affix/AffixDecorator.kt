@@ -2,6 +2,7 @@ package com.fwdekker.randomness.affix
 
 import com.fwdekker.randomness.Bundle
 import com.fwdekker.randomness.DecoratorScheme
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 
 
 /**
@@ -20,6 +21,12 @@ data class AffixDecorator(
     override val name = Bundle("affix.title")
     override val decorators = emptyList<DecoratorScheme>()
     override val isEnabled get() = enabled
+    override val validators = validators {
+        of(::descriptor).check(
+            { !it.fold(false) { escaped, char -> if (char == '\\') !escaped else false } },
+            { Bundle("affix.error.trailing_escape") }
+        )
+    }
 
 
     override fun generateUndecoratedStrings(count: Int): List<String> {
@@ -42,9 +49,6 @@ data class AffixDecorator(
         return generator(count).map { affixes.joinToString(it) }
     }
 
-    override fun doValidate(): String? =
-        if (!descriptor.fold(false) { escaped, char -> if (char == '\\') !escaped else false }) null
-        else Bundle("affix.error.trailing_escape")
 
     override fun deepCopy(retainUuid: Boolean) = copy().deepCopyTransient(retainUuid)
 

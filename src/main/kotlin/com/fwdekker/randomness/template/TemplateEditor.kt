@@ -23,8 +23,9 @@ class TemplateEditor(scheme: Template) : SchemeEditor<Template>(scheme) {
                 .withFixedWidth(UIConstants.SIZE_LARGE)
                 .withName("templateName")
                 .bindText(scheme::name)
+                .bindValidation(scheme::name)
         }
-    }
+    }.finalize(this)
 
 
     init {

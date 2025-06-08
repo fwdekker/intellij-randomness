@@ -46,6 +46,11 @@ formatting:
   TrailingCommaOnCallSite:
     active: false
 
+naming:
+  # [Disagree] I can judge just fine when there's exceptions to the rule, for example in custom DSLs.
+  FunctionMinLength:
+    active: false
+
 potential-bugs:
   # [Exception] Initialised by scene builder.
   LateinitUsage:

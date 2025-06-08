@@ -14,6 +14,7 @@ import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.ui.JBColor
 import com.intellij.util.xmlb.annotations.OptionTag
 import com.intellij.util.xmlb.annotations.Transient
@@ -43,6 +44,11 @@ data class UuidScheme(
     override val name = Bundle("uuid.title")
     override val typeIcon get() = BASE_ICON
     override val decorators get() = listOf(affixDecorator, arrayDecorator)
+    override val validators = validators {
+        of(::version).check({ it in SUPPORTED_VERSIONS }, { Bundle("uuid.error.unknown_version", it) })
+        include(::affixDecorator)
+        include(::arrayDecorator)
+    }
 
 
     /**
@@ -70,10 +76,6 @@ data class UuidScheme(
             }
     }
 
-
-    override fun doValidate() =
-        if (version !in SUPPORTED_VERSIONS) Bundle("uuid.error.unknown_version", version)
-        else affixDecorator.doValidate() ?: arrayDecorator.doValidate()
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(

@@ -33,6 +33,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
                     .withFixedWidth(UIConstants.SIZE_LARGE)
                     .withName("minDateTime")
                     .bindTimestamp(scheme::minDateTime)
+                    .bindValidation(scheme::minDateTime)
                     .also { minDateTimeField = it.component }
             }
 
@@ -41,6 +42,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
                     .withFixedWidth(UIConstants.SIZE_LARGE)
                     .withName("maxDateTime")
                     .bindTimestamp(scheme::maxDateTime)
+                    .bindValidation(scheme::maxDateTime)
                     .also { maxDateTimeField = it.component }
             }.bottomGap(BottomGap.SMALL)
 
@@ -52,6 +54,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
                     .comment(Bundle("datetime.ui.pattern_comment"))
                     .withName("pattern")
                     .bindText(scheme::pattern)
+                    .bindValidation(scheme::pattern)
 
                 browserLink(Bundle("datetime.ui.value.pattern_help"), Bundle("datetime.ui.value.pattern_help_url"))
             }
@@ -62,7 +65,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
                 .also { decoratorEditors += it }
                 .let { cell(it.rootComponent).align(AlignX.FILL) }
         }
-    }
+    }.finalize(this)
 
 
     init {

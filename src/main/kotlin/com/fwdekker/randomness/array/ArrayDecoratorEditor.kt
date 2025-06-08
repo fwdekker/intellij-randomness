@@ -51,6 +51,7 @@ class ArrayDecoratorEditor(
                     .loadMnemonic()
                     .withName("arrayEnabled")
                     .bindSelected(scheme::enabled)
+                    .bindValidation(scheme::enabled)
                     .also { enabledCheckBox = it }
                     .also { isEnabled = enabledCheckBox.selected.or(ComponentPredicate.ofConstant(embedded)) }
             }.visible(!embedded)
@@ -64,6 +65,7 @@ class ArrayDecoratorEditor(
                         .withFixedWidth(UIConstants.SIZE_SMALL)
                         .withName("arrayMinCount")
                         .bindIntValue(scheme::minCount)
+                        .bindValidation(scheme::minCount)
                         .also { minCountSpinner = it.component }
                 }
 
@@ -72,6 +74,7 @@ class ArrayDecoratorEditor(
                         .withFixedWidth(UIConstants.SIZE_SMALL)
                         .withName("arrayMaxCount")
                         .bindIntValue(scheme::maxCount)
+                        .bindValidation(scheme::maxCount)
                         .also { maxCountSpinner = it.component }
                 }.bottomGap(BottomGap.SMALL)
 
@@ -83,6 +86,7 @@ class ArrayDecoratorEditor(
                     checkBox(Bundle("array.ui.separator.option"))
                         .withName("arraySeparatorEnabled")
                         .bindSelected(scheme::separatorEnabled)
+                        .bindValidation(scheme::separatorEnabled)
                         .also { separatorEnabledCheckBox = it.component }
 
                     comboBox(PRESET_SEPARATORS)
@@ -90,6 +94,7 @@ class ArrayDecoratorEditor(
                         .isEditable(true)
                         .withName("arraySeparator")
                         .bindCurrentText(scheme::separator)
+                        .bindValidation(scheme::separator)
                 }
 
                 row {
@@ -105,7 +110,7 @@ class ArrayDecoratorEditor(
                 }
             }.enabledIf(isEnabled)
         }
-    }
+    }.finalize(this)
 
 
     init {

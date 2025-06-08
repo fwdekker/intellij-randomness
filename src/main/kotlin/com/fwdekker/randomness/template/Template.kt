@@ -11,9 +11,9 @@ import com.fwdekker.randomness.datetime.DateTimeScheme
 import com.fwdekker.randomness.decimal.DecimalScheme
 import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.fwdekker.randomness.uuid.UuidScheme
 import com.fwdekker.randomness.word.WordScheme
-import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.Gray
 import com.intellij.util.xmlb.annotations.OptionTag
 import com.intellij.util.xmlb.annotations.XCollection
@@ -45,6 +45,11 @@ data class Template(
 ) : Scheme() {
     override val typeIcon get() = TypeIcon.combine(schemes.mapNotNull { it.typeIcon }) ?: DEFAULT_ICON
     override val decorators get() = listOf(arrayDecorator)
+    override val validators = validators {
+        of(::name).check({ it.isNotBlank() }, { Bundle("template.error.no_name", Bundle("template.name.empty")) })
+        of(::schemes).check { it.firstNotNullOfOrNull { scheme -> scheme.doValidate()?.prepend(scheme.name) } }
+        include(::arrayDecorator)
+    }
 
     /**
      * The identifier of the action that inserts this [Template].
@@ -86,16 +91,6 @@ data class Template(
             .let { data -> (0 until count).map { i -> data.joinToString("") { it[i] } } }
     }
 
-
-    override fun doValidate() =
-        if (name.isBlank()) Bundle("template.error.no_name", Bundle("template.name.empty"))
-        else schemes.firstNotNullOfOrNull { scheme -> scheme.doValidate()?.let { "${scheme.name} > $it" } }
-            ?: arrayDecorator.doValidate()
-
-    override fun doValidate2() =
-        if (name.isBlank()) ValidationInfo(Bundle("template.error.no_name", Bundle("template.name.empty")))
-        else schemes.firstNotNullOfOrNull { scheme -> scheme.doValidate2()?.let { ValidationInfo("${scheme.name} > $it", it.component) } }
-            ?: arrayDecorator.doValidate2()
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(

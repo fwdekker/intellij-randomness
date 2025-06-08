@@ -48,6 +48,7 @@ class IntegerSchemeEditor(scheme: IntegerScheme = IntegerScheme()) : SchemeEdito
                     .withFixedWidth(UIConstants.SIZE_LARGE)
                     .withName("minValue")
                     .bindLongValue(scheme::minValue)
+                    .bindValidation(scheme::minValue)
                     .also { minValue = it.component }
             }
 
@@ -56,6 +57,7 @@ class IntegerSchemeEditor(scheme: IntegerScheme = IntegerScheme()) : SchemeEdito
                     .withFixedWidth(UIConstants.SIZE_LARGE)
                     .withName("maxValue")
                     .bindLongValue(scheme::maxValue)
+                    .bindValidation(scheme::maxValue)
                     .also { maxValue = it.component }
             }
 
@@ -71,6 +73,7 @@ class IntegerSchemeEditor(scheme: IntegerScheme = IntegerScheme()) : SchemeEdito
                     .withFixedWidth(UIConstants.SIZE_SMALL)
                     .withName("base")
                     .bindIntValue(scheme::base)
+                    .bindValidation(scheme::base)
                     .also { base = it.component }
             }
 
@@ -80,6 +83,7 @@ class IntegerSchemeEditor(scheme: IntegerScheme = IntegerScheme()) : SchemeEdito
                     .loadMnemonic()
                     .withName("isUppercase")
                     .bindSelected(scheme::isUppercase)
+                    .bindValidation(scheme::isUppercase)
             }
 
             row {
@@ -87,6 +91,7 @@ class IntegerSchemeEditor(scheme: IntegerScheme = IntegerScheme()) : SchemeEdito
                     .loadMnemonic()
                     .withName("groupingSeparatorEnabled")
                     .bindSelected(scheme::groupingSeparatorEnabled)
+                    .bindValidation(scheme::groupingSeparatorEnabled)
                     .also { groupingSeparatorEnabled = it.component }
 
                 comboBox(PRESET_GROUPING_SEPARATORS)
@@ -95,6 +100,7 @@ class IntegerSchemeEditor(scheme: IntegerScheme = IntegerScheme()) : SchemeEdito
                     .isEditable(true)
                     .withFilter(MinMaxLengthDocumentFilter(1, 1))
                     .bindCurrentText(scheme::groupingSeparator)
+                    .bindValidation(scheme::groupingSeparator)
             }.enabledIf(base.hasValue { it == DECIMAL_BASE })
 
             row {
@@ -115,7 +121,7 @@ class IntegerSchemeEditor(scheme: IntegerScheme = IntegerScheme()) : SchemeEdito
                 .also { decoratorEditors += it }
                 .let { cell(it.rootComponent).align(AlignX.FILL) }
         }
-    }
+    }.finalize(this)
 
 
     init {

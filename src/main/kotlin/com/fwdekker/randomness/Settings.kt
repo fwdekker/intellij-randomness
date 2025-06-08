@@ -1,8 +1,10 @@
 package com.fwdekker.randomness
 
 import com.fwdekker.randomness.PersistentSettings.Companion.CURRENT_VERSION
+import com.fwdekker.randomness.PersistentSettings.Companion.UPGRADES
 import com.fwdekker.randomness.template.Template
 import com.fwdekker.randomness.template.TemplateList
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.SettingsCategory
 import com.intellij.openapi.components.Storage
@@ -27,6 +29,8 @@ data class Settings(
     @OptionTag
     val templateList: TemplateList = TemplateList(),
 ) : State() {
+    override val validators = validators { include(::templateList) }
+
     /**
      * @see TemplateList.templates
      */
@@ -43,8 +47,6 @@ data class Settings(
         templateList.applyContext(context)
     }
 
-
-    override fun doValidate() = templateList.doValidate()
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(templateList = templateList.deepCopy(retainUuid = retainUuid))

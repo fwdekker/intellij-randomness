@@ -66,9 +66,15 @@ infix fun <S : String?> S.shouldMatchBundle(key: String): S {
 fun validateAsBundle(key: String?): Matcher<State> =
     Matcher { scheme ->
         when (key) {
-            null -> withClue("Should be valid") { beNull().test(scheme.doValidate()) }
-            "" -> withClue("Should be invalid with any message") { beNull().invert().test(scheme.doValidate()) }
-            else -> withClue("Should be invalid with specific message") { matchBundle(key).test(scheme.doValidate()) }
+            null -> withClue("Should be valid") { beNull().test(scheme.doValidate()?.message) }
+
+            "" -> withClue("Should be invalid with any message") {
+                beNull().invert().test(scheme.doValidate()?.message)
+            }
+
+            else -> withClue("Should be invalid with specific message") {
+                matchBundle(key).test(scheme.doValidate()?.message)
+            }
         }
     }
 

@@ -46,6 +46,7 @@ class DecimalSchemeEditor(scheme: DecimalScheme = DecimalScheme()) : SchemeEdito
                     .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
                     .withName("minValue")
                     .bindValue(scheme::minValue)
+                    .bindValidation(scheme::minValue)
                     .also { minValue = it.component }
             }
 
@@ -54,6 +55,7 @@ class DecimalSchemeEditor(scheme: DecimalScheme = DecimalScheme()) : SchemeEdito
                     .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
                     .withName("maxValue")
                     .bindValue(scheme::maxValue)
+                    .bindValidation(scheme::maxValue)
                     .also { maxValue = it.component }
             }
 
@@ -68,6 +70,7 @@ class DecimalSchemeEditor(scheme: DecimalScheme = DecimalScheme()) : SchemeEdito
                     .withFixedWidth(UIConstants.SIZE_SMALL)
                     .withName("decimalCount")
                     .bindIntValue(scheme::decimalCount)
+                    .bindValidation(scheme::decimalCount)
                     .also { decimalCount = it.component }
 
                 checkBox(Bundle("decimal.ui.format.show_trailing_zeroes"))
@@ -75,6 +78,7 @@ class DecimalSchemeEditor(scheme: DecimalScheme = DecimalScheme()) : SchemeEdito
                     .enabledIf(decimalCount.hasValue { it > 0 })
                     .withName("showTrailingZeroes")
                     .bindSelected(scheme::showTrailingZeroes)
+                    .bindValidation(scheme::showTrailingZeroes)
             }
 
             row(Bundle("decimal.ui.format.decimal_separator_option")) {
@@ -83,6 +87,7 @@ class DecimalSchemeEditor(scheme: DecimalScheme = DecimalScheme()) : SchemeEdito
                     .withFilter(MinMaxLengthDocumentFilter(1, 1))
                     .withName("decimalSeparator")
                     .bindCurrentText(scheme::decimalSeparator)
+                    .bindValidation(scheme::decimalSeparator)
             }
 
             row {
@@ -92,6 +97,7 @@ class DecimalSchemeEditor(scheme: DecimalScheme = DecimalScheme()) : SchemeEdito
                     .loadMnemonic()
                     .withName("groupingSeparatorEnabled")
                     .bindSelected(scheme::groupingSeparatorEnabled)
+                    .bindValidation(scheme::groupingSeparatorEnabled)
                     .also { groupingSeparatorEnabled = it }
 
                 comboBox(PRESET_GROUPING_SEPARATORS)
@@ -100,6 +106,7 @@ class DecimalSchemeEditor(scheme: DecimalScheme = DecimalScheme()) : SchemeEdito
                     .withFilter(MinMaxLengthDocumentFilter(1, 1))
                     .withName("groupingSeparator")
                     .bindCurrentText(scheme::groupingSeparator)
+                    .bindValidation(scheme::groupingSeparator)
             }
 
             row {
@@ -114,7 +121,7 @@ class DecimalSchemeEditor(scheme: DecimalScheme = DecimalScheme()) : SchemeEdito
                 .also { decoratorEditors += it }
                 .let { cell(it.rootComponent).align(AlignX.FILL) }
         }
-    }
+    }.finalize(this)
 
 
     init {

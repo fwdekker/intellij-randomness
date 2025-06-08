@@ -55,7 +55,8 @@ object StateReflectionTest : FunSpec({
                     row(ParametersAndFieldsSub(), listOf("foo", "bar", "baz", "qux")),
             )
         ) { (state, parameters) ->
-            state.properties().callableNames() shouldContainExactlyInAnyOrder parameters + listOf("context", "uuid")
+            val defaults = listOf("context", "uuid", "validators")
+            state.properties().callableNames() shouldContainExactlyInAnyOrder defaults + parameters
         }
     }
 

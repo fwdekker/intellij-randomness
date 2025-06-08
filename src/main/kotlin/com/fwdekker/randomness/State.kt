@@ -1,7 +1,9 @@
 package com.fwdekker.randomness
 
 import com.fasterxml.uuid.Generators
-import com.intellij.openapi.ui.ValidationInfo
+import com.fwdekker.randomness.ui.ValidationInfo
+import com.fwdekker.randomness.ui.Validator
+import com.fwdekker.randomness.ui.validate
 import com.intellij.util.xmlb.annotations.Transient
 import kotlin.random.Random
 import kotlin.random.asJavaRandom
@@ -58,6 +60,13 @@ abstract class State {
     var context: Box<Settings> = Box({ Settings.DEFAULT })
         protected set
 
+    /**
+     * Lists the [Validator]s relevant to this [State].
+     *
+     * @see doValidate
+     */
+    open val validators: List<Validator<*>> = emptyList()
+
 
     /**
      * Sets the [State.context] of this [State] to be a reference to [context].
@@ -76,10 +85,9 @@ abstract class State {
      * Validates the state, and indicates whether and why it is invalid.
      *
      * @return `null` if the state is valid, or a string explaining why the state is invalid
+     * @see validators
      */
-    open fun doValidate(): String? = null
-
-    open fun doValidate2(): ValidationInfo? = doValidate()?.let { ValidationInfo(it) }
+    fun doValidate(): ValidationInfo? = validators.validate()
 
     /**
      * Returns a deep copy, retaining the [uuid] if and only if [retainUuid] is `true`.

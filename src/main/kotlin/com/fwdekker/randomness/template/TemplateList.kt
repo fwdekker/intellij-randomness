@@ -11,10 +11,10 @@ import com.fwdekker.randomness.datetime.DateTimeScheme
 import com.fwdekker.randomness.decimal.DecimalScheme
 import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.fwdekker.randomness.uuid.UuidScheme
 import com.fwdekker.randomness.word.DefaultWordList
 import com.fwdekker.randomness.word.WordScheme
-import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.util.xmlb.annotations.OptionTag
 
 
@@ -27,6 +27,21 @@ data class TemplateList(
     @OptionTag
     val templates: MutableList<Template> = DEFAULT_TEMPLATES,
 ) : State() {
+    override val validators = validators {
+        of(::templates).check { templates ->
+            val templateNames = templates.map { it.name }
+            val duplicate = templateNames.firstOrNull { templateNames.indexOf(it) != templateNames.lastIndexOf(it) }
+            val invalid = templates.firstNotNullOfOrNull { it.doValidate()?.prepend(it.name) }
+
+            when {
+                duplicate != null -> info(Bundle("template_list.error.duplicate_name", duplicate))
+                invalid != null -> invalid
+                else -> null
+            }
+        }
+    }
+
+
     override fun applyContext(context: Box<Settings>) {
         super.applyContext(context)
         templates.forEach { it.applyContext(context) }
@@ -44,32 +59,6 @@ data class TemplateList(
      */
     fun getSchemeByUuid(uuid: String) = templates.flatMap { listOf(it) + it.schemes }.singleOrNull { it.uuid == uuid }
 
-
-    override fun doValidate(): String? {
-        val templateNames = templates.map { it.name }
-        val duplicate = templateNames.firstOrNull { templateNames.indexOf(it) != templateNames.lastIndexOf(it) }
-        val invalid =
-            templates.firstNotNullOfOrNull { template -> template.doValidate()?.let { "${template.name} > $it" } }
-
-        return when {
-            duplicate != null -> Bundle("template_list.error.duplicate_name", duplicate)
-            invalid != null -> invalid
-            else -> null
-        }
-    }
-
-    override fun doValidate2(): ValidationInfo? {
-        val templateNames = templates.map { it.name }
-        val duplicate = templateNames.firstOrNull { templateNames.indexOf(it) != templateNames.lastIndexOf(it) }
-        val invalid =
-            templates.firstNotNullOfOrNull { template -> template.doValidate2()?.let { ValidationInfo("${template.name} > $it", it.component) } }
-
-        return when {
-            duplicate != null -> ValidationInfo(Bundle("template_list.error.duplicate_name", duplicate))
-            invalid != null -> invalid
-            else -> null
-        }
-    }
 
     /**
      * Note that the [context] must be updated manually.

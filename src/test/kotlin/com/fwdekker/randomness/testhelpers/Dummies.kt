@@ -8,6 +8,7 @@ import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.SchemeEditor
 import com.fwdekker.randomness.State
 import com.fwdekker.randomness.TypeIcon
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.fwdekker.randomness.ui.withName
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.dsl.builder.bindText
@@ -36,11 +37,10 @@ data class DummyScheme(
     override val decorators: List<DecoratorScheme> = emptyList(),
 ) : Scheme() {
     override var typeIcon: TypeIcon? = TypeIcon(Icons.SCHEME, "dum", listOf(Color.GRAY))
+    override val validators = validators { of(::valid).check({ it }, { "DummyScheme is invalid" }) }
 
 
     override fun generateUndecoratedStrings(count: Int) = generator(count)
-
-    override fun doValidate() = if (valid) null else "DummyScheme is invalid"
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(decorators = decorators.map { it.deepCopy(retainUuid) }).deepCopyTransient(retainUuid)
@@ -59,12 +59,11 @@ data class DummyDecoratorScheme(
     override val name = "DummyDecoratorScheme"
     override var overlayIcon: OverlayIcon? = null
     override val isEnabled get() = enabled
+    override val validators = validators { of(::valid).check({ valid }, { "DummyDecoratorScheme is invalid" }) }
 
 
     override fun generateUndecoratedStrings(count: Int) =
         generator(count).map { "$it$append" }
-
-    override fun doValidate() = if (valid) null else "DummyDecoratorScheme is invalid"
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(decorators = decorators.map { it.deepCopy(retainUuid) }).deepCopyTransient(retainUuid)
@@ -92,7 +91,20 @@ class DummySchemeEditor(
 class DummyDecoratorSchemeEditor(
     scheme: DummyDecoratorScheme = DummyDecoratorScheme(),
 ) : SchemeEditor<DummyDecoratorScheme>(scheme) {
-    override val rootComponent = panel { row { textField().withName("decoratorText").bindText(scheme::append) } }
+    override val rootComponent: DialogPanel =
+        panel {
+            row {
+                textField()
+                    .withName("decoratorText")
+                    .bindText(scheme::append)
+                    .bindValidation(scheme::append)
+            }
+        }.finalize(this)
+
+
+    init {
+        reset()
+    }
 }
 
 /**

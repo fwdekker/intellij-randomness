@@ -6,6 +6,8 @@ import com.fwdekker.randomness.Icons
 import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.array.ArrayDecorator
+import com.fwdekker.randomness.string.StringScheme.Companion.LOOK_ALIKE_CHARACTERS
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.github.curiousoddman.rgxgen.RgxGen
 import com.github.curiousoddman.rgxgen.parsing.dflt.RgxGenParseException
 import com.intellij.ui.JBColor
@@ -35,6 +37,37 @@ data class StringScheme(
     override val name = Bundle("string.title")
     override val typeIcon get() = BASE_ICON
     override val decorators get() = listOf(arrayDecorator)
+    override val validators = validators {
+        of(::pattern)
+            .check(
+                { !isRegex || it.takeLastWhile { c -> c == '\\' }.length.mod(2) == 0 },
+                { Bundle("string.error.trailing_backslash") }
+            )
+            .check(
+                { !isRegex || it != "{}" && !it.contains(Regex("""[^\\]\{}""")) },
+                { Bundle("string.error.empty_curly") }
+            )
+            .check(
+                { !isRegex || it != "[]" && !it.contains(Regex("""[^\\]\[]""")) },
+                { Bundle("string.error.empty_square") }
+            )
+            .check {
+                @Suppress("detekt:TooGenericExceptionCaught") // Consequence of incomplete validation in RgxGen
+                try {
+                    if (isRegex) {
+                        if (isNonMatching) RgxGen.parse(it).generateNotMatching()
+                        else RgxGen.parse(it).generate()
+                    }
+
+                    null
+                } catch (exception: RgxGenParseException) {
+                    info(exception.message)
+                } catch (exception: Exception) {
+                    info("Uncaught RgxGen exception: ${exception.message}")
+                }
+            }
+        include(::arrayDecorator)
+    }
 
 
     /**
@@ -68,26 +101,6 @@ data class StringScheme(
         }
     }
 
-
-    override fun doValidate() =
-        when {
-            !isRegex -> arrayDecorator.doValidate()
-            pattern.takeLastWhile { it == '\\' }.length.mod(2) != 0 -> Bundle("string.error.trailing_backslash")
-            pattern == "{}" || pattern.contains(Regex("""[^\\]\{}""")) -> Bundle("string.error.empty_curly")
-            pattern == "[]" || pattern.contains(Regex("""[^\\]\[]""")) -> Bundle("string.error.empty_square")
-            else ->
-                @Suppress("detekt:TooGenericExceptionCaught") // Consequence of incomplete validation in RgxGen
-                try {
-                    if (this.isNonMatching) RgxGen.parse(pattern).generateNotMatching()
-                    else RgxGen.parse(pattern).generate()
-
-                    arrayDecorator.doValidate()
-                } catch (exception: RgxGenParseException) {
-                    exception.message
-                } catch (exception: Exception) {
-                    "Uncaught RgxGen exception: ${exception.message}"
-                }
-        }
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(arrayDecorator = arrayDecorator.deepCopy(retainUuid)).deepCopyTransient(retainUuid)
