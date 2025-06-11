@@ -5,6 +5,7 @@ import com.fwdekker.randomness.SchemeEditor
 import com.fwdekker.randomness.affix.AffixDecoratorEditor
 import com.fwdekker.randomness.array.ArrayDecorator.Companion.MIN_MIN_COUNT
 import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_AFFIX_DECORATOR_DESCRIPTORS
+import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_INDICES_FORMATS
 import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_SEPARATORS
 import com.fwdekker.randomness.ui.JIntSpinner
 import com.fwdekker.randomness.ui.UIConstants
@@ -91,6 +92,32 @@ class ArrayDecoratorEditor(
                         .withName("arraySeparator")
                         .bindCurrentText(scheme::separator)
                 }
+                
+                row {
+                    lateinit var showIndicesCheckBox: JCheckBox
+                    
+                    checkBox(Bundle("array.ui.show_indices.option"))
+                        .withName("arrayShowIndices")
+                        .bindSelected(scheme::showIndices)
+                        .also { showIndicesCheckBox = it.component }
+                        
+                    comboBox(PRESET_INDICES_FORMATS)
+                        .enabledIf(isEnabled.and(showIndicesCheckBox.selected))
+                        .isEditable(true)
+                        .withName("arrayIndicesFormat") 
+                        .bindCurrentText(scheme::indicesFormat)
+                }
+                
+                row {
+                    checkBox(Bundle("array.ui.use_tuple_indices.option"))
+                        .withName("arrayUseTupleIndices")
+                        .bindSelected(scheme::useTupleIndices)
+                        .enabledIf(isEnabled.and(frame.checkBox("arrayShowIndices").selected))
+                }.enabledIf(isEnabled)
+                
+                row {
+                    comment(Bundle("array.ui.show_indices.comment"))
+                }.enabledIf(isEnabled)
 
                 row {
                     AffixDecoratorEditor(
