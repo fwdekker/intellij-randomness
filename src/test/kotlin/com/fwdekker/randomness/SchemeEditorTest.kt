@@ -6,12 +6,17 @@ import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.DummySchemeEditor
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
+import com.fwdekker.randomness.testhelpers.find
 import com.fwdekker.randomness.testhelpers.ideaRunEdt
+import com.fwdekker.randomness.testhelpers.matcher
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
+import com.fwdekker.randomness.ui.Validator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.fwdekker.randomness.ui.withName
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.popup.AbstractPopup
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.ints.shouldBeGreaterThanOrEqual
@@ -19,10 +24,12 @@ import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
+import org.assertj.swing.exception.ComponentLookupException
 import org.assertj.swing.fixture.Containers
 import org.assertj.swing.fixture.FrameFixture
 import java.awt.Component
 import javax.swing.JCheckBox
+import javax.swing.JEditorPane
 
 
 /**
@@ -181,6 +188,103 @@ object SchemeEditorTest : FunSpec({
             scheme.decorators[0] shouldBeSameInstanceAs decorator
             (scheme.decorators[0] as DummyDecoratorScheme).append shouldBe "new"
         }
+    }
+
+    context("f:doValidate") {
+        data class ExampleScheme(
+            var foo: String = "foo",
+            var bar: String = "bar",
+        ) : Scheme() {
+            override val name: String = "ExampleScheme"
+            override val decorators: List<DecoratorScheme> = emptyList()
+            override val validators: List<Validator<*>> = validators {
+                of(::foo).check({ it.lowercase() == "foo" }, { "Foo field is invalid." })
+                of(::bar).check({ it.lowercase() == "bar" }, { "Bar field is invalid." })
+            }
+
+
+            override fun generateUndecoratedStrings(count: Int): List<String> = List(count) { "String" }
+
+            override fun deepCopy(retainUuid: Boolean): Scheme = copy().deepCopyTransient(retainUuid)
+        }
+
+        suspend fun getErrorPopupText(): String? =
+            ideaRunEdt {
+                try {
+                    val panel = frame.find(matcher(AbstractPopup.MyContentPanel::class.java))
+                    val pane = panel.components.filterIsInstance<JEditorPane>().single()
+                    val text = pane.text.replace(Regex("""<[^>]+>"""), "").replace("\n", "").trim()
+
+                    text
+                } catch(_: ComponentLookupException) {
+                    null
+                }
+            }
+
+
+        test("TODO: Insert description") {
+            val scheme = ExampleScheme()
+            val editor = ideaRunEdt {
+                object : SchemeEditor<ExampleScheme>(scheme) {
+                    override val rootComponent = panel {
+                        row {
+                            textField()
+                                .withName("foo")
+                                .bindText(scheme::foo)
+                                .bindValidation(scheme::foo)
+
+                            textField()
+                                .withName("bar")
+                                .bindText(scheme::bar)
+                                .bindValidation(scheme::bar)
+                        }
+                    }.finalize(this)
+
+
+                    init {
+                        reset()
+                    }
+                }
+            }
+            frame = Containers.showInFrame(editor.rootComponent)
+
+            frame.textBox("foo").setText("wrong")
+            ideaRunEdt {
+                editor.apply()
+                editor.doValidate()
+                editor.apply()
+                editor.doValidate()
+                editor.apply()
+                editor.doValidate()
+            }
+            getErrorPopupText() shouldBe "Foo field is invalid."
+
+            frame.textBox("foo").setText("Foo")
+            frame.textBox("bar").setText("wrong")
+            ideaRunEdt {
+                editor.apply()
+                editor.doValidate()
+                editor.apply()
+                editor.doValidate()
+                editor.apply()
+                editor.doValidate()
+            }
+            getErrorPopupText() shouldBe "Bar field is invalid."
+
+            frame.textBox("foo").target().text = "wrong"
+            frame.textBox("bar").target().text = "wrong"
+            ideaRunEdt {
+                editor.apply()
+                editor.doValidate()
+                editor.apply()
+                editor.doValidate()
+                editor.apply()
+                editor.doValidate()
+            }
+            getErrorPopupText() shouldBe "Foo field is invalid."
+        }
+
+        // TODO: Add more tests
     }
 
 

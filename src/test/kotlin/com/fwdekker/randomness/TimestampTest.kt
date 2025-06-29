@@ -1,6 +1,7 @@
 package com.fwdekker.randomness
 
 import com.fwdekker.randomness.Timestamp.Companion.FORMATTER
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
 import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
@@ -16,6 +17,9 @@ import kotlin.random.Random
  * Unit tests for [Timestamp].
  */
 object TimestampTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("epochMilli") {
         withData(
             mapOf(
@@ -165,6 +169,9 @@ object TimestampTest : FunSpec({
  * Unit tests for extension functions in `TimestampKt`.
  */
 object TimestampKtTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("nextTimestampInclusive") {
         test("generates the only possible value when min equals max") {
             val timestamp = Timestamp("9181-07-18 10:59:33.663")

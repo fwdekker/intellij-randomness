@@ -73,12 +73,8 @@ abstract class SchemeEditor<S : Scheme>(val scheme: S) : Disposable {
      */
     private fun implementBindValidations() {
         cellToProperty.forEach { (cell, validation) ->
-            val validate = {
-                scheme.validators
-                    .filter { it.property == validation }
-                    .validate()
-                    ?.let { JBValidationInfo(it.message, cell.component) }
-            }
+            val validators = scheme.validators.filter { it.property == validation }
+            val validate = { validators.validate()?.let { JBValidationInfo(it.message, cell.component) } }
 
             cell
                 .validationRequestor { callback -> addChangeListenerTo(cell.component, listener = callback) }
@@ -127,10 +123,14 @@ abstract class SchemeEditor<S : Scheme>(val scheme: S) : Disposable {
      * first field that is erroneous.
      */
     fun doValidate() {
-        // Uses `toList` to ensure this does not stop prematurely at first invalid field
+        // Uses `toList` to ensure this does not stop prematurely at the first invalid field
         (listOf(rootComponent) + decoratorEditors.map { it.rootComponent })
             .toList()
             .firstNotNullOfOrNull { it.validateAll().toList().firstOrNull() }
+            .also {
+                if (it == null) println("Nope, completely valid.")
+                else println("Yes, something was invalid!")
+            }
             ?.component
             ?.focusLater()
     }

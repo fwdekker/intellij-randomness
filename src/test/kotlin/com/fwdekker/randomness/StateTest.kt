@@ -13,7 +13,7 @@ import io.kotest.matchers.types.shouldBeSameInstanceAs
  * Unit tests for [State].
  */
 object StateTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("uuid") {

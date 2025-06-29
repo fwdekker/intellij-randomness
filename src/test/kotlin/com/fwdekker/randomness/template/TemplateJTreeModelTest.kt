@@ -2,6 +2,7 @@ package com.fwdekker.randomness.template
 
 import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.testhelpers.DummyScheme
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beEmptyIntArray
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.shouldContainExactly
@@ -29,6 +30,9 @@ import javax.swing.event.TreeModelListener
  * Unit tests for [TemplateJTreeModel].
  */
 object TemplateJTreeModelTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     lateinit var list: TemplateList
     lateinit var model: TemplateJTreeModel
 
@@ -727,6 +731,9 @@ object TemplateJTreeModelTest : FunSpec({
  * Unit tests for [StateNode].
  */
 object StateNodeTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("canHaveChildren") {
         withData(
             mapOf(

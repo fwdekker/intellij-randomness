@@ -14,7 +14,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [FixedLengthDecorator].
  */
 object FixedLengthDecoratorTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {

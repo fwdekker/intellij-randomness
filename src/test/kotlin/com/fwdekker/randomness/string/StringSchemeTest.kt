@@ -16,7 +16,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [StringScheme].
  */
 object StringSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("isSimple") {

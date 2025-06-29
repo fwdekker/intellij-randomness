@@ -4,6 +4,7 @@ import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.template.Template
 import com.fwdekker.randomness.template.TemplateList
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.shouldMatchXml
 import com.fwdekker.randomness.uuid.UuidScheme
@@ -24,6 +25,9 @@ import org.jdom.Element
  * Unit tests for extension functions in `XmlHelpersKt`.
  */
 object XmlHelpersTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("addProperty") {
         test("adds the property with the given name") {
             val element = JDOMUtil.load("<tag></tag>")

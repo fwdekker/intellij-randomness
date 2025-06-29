@@ -1,5 +1,6 @@
 package com.fwdekker.randomness.word
 
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.shouldMatchBundle
 import io.kotest.assertions.throwables.shouldThrow
@@ -16,6 +17,9 @@ import kotlin.system.measureNanoTime
  * Unit tests for [DefaultWordList].
  */
 object DefaultWordListTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     beforeNonContainer {
         DefaultWordList.clearCache()
     }

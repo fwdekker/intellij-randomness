@@ -1,5 +1,6 @@
 package com.fwdekker.randomness
 
+import com.fwdekker.randomness.testhelpers.Tags
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -9,6 +10,9 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [Box].
  */
 object BoxTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("unaryPlus") {
         test("returns the generator's value when de-referenced") {
             val box = Box({ "contents" })

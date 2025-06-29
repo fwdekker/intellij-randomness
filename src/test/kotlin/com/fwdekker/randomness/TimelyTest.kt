@@ -2,6 +2,7 @@ package com.fwdekker.randomness
 
 import com.fwdekker.randomness.Timely.GENERATOR_TIMEOUT
 import com.fwdekker.randomness.Timely.generateTimely
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldMatchBundle
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
@@ -12,6 +13,9 @@ import io.kotest.matchers.shouldBe
  * Unit tests for the extension functions in `TimelyKt`.
  */
 object TimelyTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     test("returns output if generator finished within time") {
         generateTimely { "output" } shouldBe "output"
     }

@@ -14,7 +14,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [AffixDecorator].
  */
 object AffixDecoratorTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {

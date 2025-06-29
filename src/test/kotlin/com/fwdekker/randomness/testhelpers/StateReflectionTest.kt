@@ -21,6 +21,9 @@ import io.kotest.matchers.shouldBe
  * Unit tests for extension functions in `StateReflection`.
  */
 object StateReflectionTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("parameters") {
         withData(
             mapOf(

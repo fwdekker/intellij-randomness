@@ -46,10 +46,10 @@ fun List<Validator<*>>.validate(): ValidationInfo? = firstNotNullOfOrNull { it.v
 /**
  * A domain-specific language (DSL) for creating [Validator]s on a [State] object.
  *
- * @property state The [State] that this DSL creates [Validator]s for. This [State] is not modified by the DSL itself.
+ * @param state the [State] that this DSL creates [Validator]s for. This [State] is not modified by the DSL itself
  * @see Companion.validators to construct this DSL
  */
-class ValidatorDsl private constructor(val state: State) {
+class ValidatorDsl private constructor(private val state: State) {
     /**
      * The list of [Validator]s that has been created inside the DSL thus far.
      */
@@ -65,7 +65,7 @@ class ValidatorDsl private constructor(val state: State) {
     /**
      * Enters a DSL for constructing [Validator]s for the given [property].
      */
-    fun <T> of(property: KProperty<T>): ValidatorOfDsl<T> = ValidatorOfDsl(property)
+    fun <T> of(property: KProperty<T>): OfDsl<T> = OfDsl(property)
 
     /**
      * Includes all [Validator]s of the given [property], but skips them during validation when [condition] is `false`.
@@ -79,10 +79,10 @@ class ValidatorDsl private constructor(val state: State) {
      * A domain-specific language (DSL) for creating [Validator]s for a specific [property].
      *
      * @param T the type of [property]
-     * @property property The property for which this DSL should create [Validator]s.
+     * @param property the property for which this DSL should create [Validator]s
      * @see ValidatorDsl.of to construct this DSL
      */
-    inner class ValidatorOfDsl<T : Any?>(val property: KProperty<T>) {
+    inner class OfDsl<T : Any?>(private val property: KProperty<T>) {
         /**
          * Constructs [ValidationInfo] from the given [message] using parameters inferred from the DSL context.
          *
@@ -98,7 +98,7 @@ class ValidatorDsl private constructor(val state: State) {
         /**
          * Adds a [Validator] to the outer [ValidatorDsl] that checks [property]'s value with [validate].
          */
-        fun check(validate: ValidatorOfDsl<T>.(T) -> ValidationInfo?): ValidatorOfDsl<T> {
+        fun check(validate: OfDsl<T>.(T) -> ValidationInfo?): OfDsl<T> {
             validator(property) { validate(it) }
             return this
         }
@@ -110,9 +110,9 @@ class ValidatorDsl private constructor(val state: State) {
          * [property]'s value otherwise.
          */
         fun check(
-            isValid: ValidatorOfDsl<T>.(T) -> Boolean,
-            message: ValidatorOfDsl<T>.(T) -> String,
-        ): ValidatorOfDsl<T> {
+            isValid: OfDsl<T>.(T) -> Boolean,
+            message: OfDsl<T>.(T) -> String,
+        ): OfDsl<T> {
             validator(property) { if (isValid(it)) null else info(message(it)) }
             return this
         }

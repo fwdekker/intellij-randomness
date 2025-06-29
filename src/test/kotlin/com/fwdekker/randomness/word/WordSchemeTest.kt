@@ -17,7 +17,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [WordScheme].
  */
 object WordSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {

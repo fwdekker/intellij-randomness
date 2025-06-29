@@ -16,7 +16,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [DecimalScheme].
  */
 object DecimalSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {

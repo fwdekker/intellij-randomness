@@ -3,6 +3,7 @@ package com.fwdekker.randomness
 import com.fwdekker.randomness.template.Template
 import com.fwdekker.randomness.template.TemplateList
 import com.fwdekker.randomness.template.TemplateReference
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
@@ -14,6 +15,9 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [Settings].
  */
 object SettingsTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("doValidate") {
         withData(
             mapOf(

@@ -37,7 +37,7 @@ data class DummyScheme(
     override val decorators: List<DecoratorScheme> = emptyList(),
 ) : Scheme() {
     override var typeIcon: TypeIcon? = TypeIcon(Icons.SCHEME, "dum", listOf(Color.GRAY))
-    override val validators = validators { of(::valid).check({ it }, { "DummyScheme is invalid" }) }
+    override val validators = validators { of(::valid).check({ valid }, { "DummyScheme is invalid" }) }
 
 
     override fun generateUndecoratedStrings(count: Int) = generator(count)
@@ -73,7 +73,7 @@ data class DummyDecoratorScheme(
  * A simple [SchemeEditor] that edits [scheme] using the panel constructed by [panel] (instead of having to create a new
  * subclass à la `object : SchemeEditor` each time) and exposes a few methods that are normally protected.
  */
-class DummySchemeEditor(
+open class DummySchemeEditor(
     scheme: DummyScheme = DummyScheme(),
     panel: DummySchemeEditor.() -> DialogPanel = { panel {} },
 ) : SchemeEditor<DummyScheme>(scheme) {

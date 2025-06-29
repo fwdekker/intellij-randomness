@@ -1,5 +1,6 @@
 package com.fwdekker.randomness
 
+import com.fwdekker.randomness.testhelpers.Tags
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
@@ -10,6 +11,9 @@ import io.kotest.matchers.shouldBe
  * Unit tests for extension functions in `ListHelpersKt`.
  */
 object ListHelpersTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("getMod") {
         withData(
             mapOf(

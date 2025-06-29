@@ -1,5 +1,6 @@
 package com.fwdekker.randomness
 
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldMatchBundle
 import io.kotest.assertions.retry
 import io.kotest.core.spec.style.FunSpec
@@ -16,6 +17,9 @@ import kotlin.time.Duration.Companion.minutes
  * Unit tests for [CapitalizationMode].
  */
 object CapitalizationModeTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     val random = Random.Default
 
 

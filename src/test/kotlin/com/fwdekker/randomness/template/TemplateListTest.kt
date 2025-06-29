@@ -2,6 +2,7 @@ package com.fwdekker.randomness.template
 
 import com.fwdekker.randomness.Settings
 import com.fwdekker.randomness.testhelpers.DummyScheme
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
 import io.kotest.core.spec.style.FunSpec
@@ -15,6 +16,9 @@ import io.kotest.matchers.types.shouldBeSameInstanceAs
  * Unit tests for [TemplateList].
  */
 object TemplateListTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("applyContext") {
         test("applies the context to itself") {
             val newContext = Settings()

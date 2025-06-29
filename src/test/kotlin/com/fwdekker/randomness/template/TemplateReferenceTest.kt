@@ -25,7 +25,7 @@ import io.kotest.matchers.shouldNotBe
  * Unit tests for [TemplateReference].
  */
 object TemplateReferenceTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     lateinit var list: TemplateList

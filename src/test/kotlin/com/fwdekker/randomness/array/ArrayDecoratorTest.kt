@@ -17,7 +17,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [ArrayDecorator].
  */
 object ArrayDecoratorTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {

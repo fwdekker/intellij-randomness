@@ -1,5 +1,6 @@
 package com.fwdekker.randomness.testhelpers
 
+import com.fwdekker.randomness.testhelpers.Tags.SCHEME
 import io.kotest.core.NamedTag
 
 
@@ -18,6 +19,13 @@ object Tags {
      * Tests that rely on setting up an IDE fixture.
      */
     val IDEA_FIXTURE = NamedTag("IdeaFixture")
+
+    /**
+     * Tests that do require neither UI access nor complicated fixtures.
+     *
+     * Super-category of [SCHEME].
+     */
+    val PLAIN = NamedTag("Plain")
 
     /**
      * Tests for [com.fwdekker.randomness.Scheme]s.
