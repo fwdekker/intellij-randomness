@@ -163,7 +163,7 @@ object ArrayDecoratorEditorTest : FunSpec({
                 }
             }
         }
-        
+
         context("indices") {
             context("embedded") {
                 beforeNonContainer {
@@ -184,7 +184,7 @@ object ArrayDecoratorEditorTest : FunSpec({
 
                     frame.comboBox("arrayIndicesFormat").requireEnabled()
                 }
-                
+
                 test("disables tuple indices checkbox if show indices checkbox is disabled") {
                     runEdt { frame.checkBox("arrayShowIndices").target().isSelected = false }
 
@@ -225,7 +225,7 @@ object ArrayDecoratorEditorTest : FunSpec({
 
                     frame.comboBox("arrayIndicesFormat").requireEnabled()
                 }
-                
+
                 test("disables tuple indices checkbox if panel and show indices are both disabled") {
                     runEdt { frame.checkBox("arrayEnabled").target().isSelected = false }
                     runEdt { frame.checkBox("arrayShowIndices").target().isSelected = false }

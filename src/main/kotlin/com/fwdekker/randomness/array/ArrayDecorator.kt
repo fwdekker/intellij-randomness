@@ -42,10 +42,15 @@ data class ArrayDecorator(
         val parts = generator(partsPerString.sum())
 
         return partsPerString
-            .foldIndexed(Pair(parts, emptyList<String>())) { arrayIndex, (remainingParts, createdStrings), nextPartCount ->
+            .foldIndexed(
+                Pair(
+                    parts,
+                    emptyList<String>()
+                )
+            ) { arrayIndex, (remainingParts, createdStrings), nextPartCount ->
                 val nextParts = remainingParts.take(nextPartCount)
                 val formattedParts = if (showIndices) {
-                    nextParts.mapIndexed { elementIndex, value -> 
+                    nextParts.mapIndexed { elementIndex, value ->
                         val indexStr = if (useTupleIndices) {
                             // Format as tuple for multi-dimensional arrays
                             "($arrayIndex,$elementIndex)"
@@ -57,8 +62,9 @@ data class ArrayDecorator(
                 } else {
                     nextParts
                 }
-                
-                val nextString = formattedParts.joinToString(if (separatorEnabled) separator.replace("\\n", "\n") else "")
+
+                val nextString =
+                    formattedParts.joinToString(if (separatorEnabled) separator.replace("\\n", "\n") else "")
 
                 Pair(remainingParts.drop(nextPartCount), createdStrings + nextString)
             }
@@ -112,17 +118,17 @@ data class ArrayDecorator(
          * The default value of the [separator] field.
          */
         const val DEFAULT_SEPARATOR = ", "
-        
+
         /**
          * The default value of the [showIndices] field.
          */
         const val DEFAULT_SHOW_INDICES = false
-        
+
         /**
          * The preset values for the [indicesFormat] field.
          */
         val PRESET_INDICES_FORMATS = listOf("{index}: {value}", "{index}={value}", "\"{index}\": {value}")
-        
+
         /**
          * The default value of the [indicesFormat] field.
          */

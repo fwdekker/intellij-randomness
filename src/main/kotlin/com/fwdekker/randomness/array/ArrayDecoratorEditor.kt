@@ -59,6 +59,7 @@ class ArrayDecoratorEditor(
             decoratedRowRange(indent = !embedded) {
                 lateinit var minCountSpinner: JIntSpinner
                 lateinit var maxCountSpinner: JIntSpinner
+                lateinit var showIndicesCheckBox: JCheckBox
 
                 row(Bundle("array.ui.min_count_option")) {
                     cell(JIntSpinner(value = MIN_MIN_COUNT, minValue = MIN_MIN_COUNT))
@@ -92,29 +93,27 @@ class ArrayDecoratorEditor(
                         .withName("arraySeparator")
                         .bindCurrentText(scheme::separator)
                 }
-                
+
                 row {
-                    lateinit var showIndicesCheckBox: JCheckBox
-                    
                     checkBox(Bundle("array.ui.show_indices.option"))
                         .withName("arrayShowIndices")
                         .bindSelected(scheme::showIndices)
                         .also { showIndicesCheckBox = it.component }
-                        
+
                     comboBox(PRESET_INDICES_FORMATS)
                         .enabledIf(isEnabled.and(showIndicesCheckBox.selected))
                         .isEditable(true)
-                        .withName("arrayIndicesFormat") 
+                        .withName("arrayIndicesFormat")
                         .bindCurrentText(scheme::indicesFormat)
                 }
-                
+
                 row {
                     checkBox(Bundle("array.ui.use_tuple_indices.option"))
                         .withName("arrayUseTupleIndices")
                         .bindSelected(scheme::useTupleIndices)
-                        .enabledIf(isEnabled.and(frame.checkBox("arrayShowIndices").selected))
+                        .enabledIf(isEnabled.and(showIndicesCheckBox.selected))
                 }.enabledIf(isEnabled)
-                
+
                 row {
                     comment(Bundle("array.ui.show_indices.comment"))
                 }.enabledIf(isEnabled)

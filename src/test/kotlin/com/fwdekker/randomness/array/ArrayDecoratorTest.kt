@@ -58,6 +58,11 @@ object ArrayDecoratorTest : FunSpec({
                         ArrayDecorator(enabled = true, affixDecorator = AffixDecorator(enabled = true, "(@)")),
                         "({i0}, {i1}, {i2})",
                     ),
+                "doesn't show indices when disabled" to
+                    row(
+                        ArrayDecorator(enabled = true, showIndices = false),
+                        "[{i0}, {i1}, {i2}]",
+                    ),
                 "shows indices with default format" to
                     row(
                         ArrayDecorator(enabled = true, showIndices = true, indicesFormat = "{index}: {value}"),
@@ -73,14 +78,14 @@ object ArrayDecoratorTest : FunSpec({
                         ArrayDecorator(enabled = true, showIndices = true, indicesFormat = "\"{index}\": {value}"),
                         "[\"0\": {i0}, \"1\": {i1}, \"2\": {i2}]",
                     ),
-                "doesn't show indices when disabled" to
-                    row(
-                        ArrayDecorator(enabled = true, showIndices = false, indicesFormat = "{index}: {value}"),
-                        "[{i0}, {i1}, {i2}]",
-                    ),
                 "shows tuple indices when enabled" to
                     row(
-                        ArrayDecorator(enabled = true, showIndices = true, useTupleIndices = true, indicesFormat = "{index}: {value}"),
+                        ArrayDecorator(
+                            enabled = true,
+                            showIndices = true,
+                            useTupleIndices = true,
+                            indicesFormat = "{index}: {value}",
+                        ),
                         "[(0,0): {i0}, (0,1): {i1}, (0,2): {i2}]",
                     ),
             )
@@ -115,21 +120,32 @@ object ArrayDecoratorTest : FunSpec({
 
             scheme.generateStrings(count = 2) shouldBe listOf("[{i0}, {i1}, {i2}]", "[{i3}, {i4}, {i5}]")
         }
-        
+
         test("correctly applies indices to multiple array outputs") {
             val scheme = ArrayDecorator(enabled = true, showIndices = true, indicesFormat = "{index}: {value}")
             var partIdx = 0
             scheme.generator = { count -> List(count) { "{i${partIdx++}}" } }
 
-            scheme.generateStrings(count = 2) shouldBe listOf("[0: {i0}, 1: {i1}, 2: {i2}]", "[0: {i3}, 1: {i4}, 2: {i5}]")
+            scheme.generateStrings(count = 2) shouldBe listOf(
+                "[0: {i0}, 1: {i1}, 2: {i2}]",
+                "[0: {i3}, 1: {i4}, 2: {i5}]"
+            )
         }
-        
+
         test("correctly applies tuple indices to multiple array outputs") {
-            val scheme = ArrayDecorator(enabled = true, showIndices = true, useTupleIndices = true, indicesFormat = "{index}: {value}")
+            val scheme = ArrayDecorator(
+                enabled = true,
+                showIndices = true,
+                useTupleIndices = true,
+                indicesFormat = "{index}: {value}"
+            )
             var partIdx = 0
             scheme.generator = { count -> List(count) { "{i${partIdx++}}" } }
 
-            scheme.generateStrings(count = 2) shouldBe listOf("[(0,0): {i0}, (0,1): {i1}, (0,2): {i2}]", "[(1,0): {i3}, (1,1): {i4}, (1,2): {i5}]")
+            scheme.generateStrings(count = 2) shouldBe listOf(
+                "[(0,0): {i0}, (0,1): {i1}, (0,2): {i2}]",
+                "[(1,0): {i3}, (1,1): {i4}, (1,2): {i5}]"
+            )
         }
     }
 
