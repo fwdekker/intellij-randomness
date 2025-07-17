@@ -5,7 +5,7 @@ import com.fwdekker.randomness.SchemeEditor
 import com.fwdekker.randomness.affix.AffixDecoratorEditor
 import com.fwdekker.randomness.array.ArrayDecorator.Companion.MIN_MIN_COUNT
 import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_AFFIX_DECORATOR_DESCRIPTORS
-import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_INDICES_FORMATS
+import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_ELEMENT_FORMATS
 import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_SEPARATORS
 import com.fwdekker.randomness.ui.JIntSpinner
 import com.fwdekker.randomness.ui.UIConstants
@@ -19,7 +19,6 @@ import com.fwdekker.randomness.ui.ofConstant
 import com.fwdekker.randomness.ui.withFixedWidth
 import com.fwdekker.randomness.ui.withName
 import com.intellij.ui.dsl.builder.BottomGap
-import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.selected
@@ -44,7 +43,6 @@ class ArrayDecoratorEditor(
 ) : SchemeEditor<ArrayDecorator>(scheme) {
     override val rootComponent = panel {
         decoratedRowRange(title = if (!embedded) Bundle("array.title") else null, indent = !embedded) {
-            lateinit var enabledCheckBox: Cell<JCheckBox>
             lateinit var isEnabled: ComponentPredicate
 
             row {
@@ -52,14 +50,12 @@ class ArrayDecoratorEditor(
                     .loadMnemonic()
                     .withName("arrayEnabled")
                     .bindSelected(scheme::enabled)
-                    .also { enabledCheckBox = it }
-                    .also { isEnabled = enabledCheckBox.selected.or(ComponentPredicate.ofConstant(embedded)) }
+                    .also { isEnabled = it.selected.or(ComponentPredicate.ofConstant(embedded)) }
             }.visible(!embedded)
 
             decoratedRowRange(indent = !embedded) {
                 lateinit var minCountSpinner: JIntSpinner
                 lateinit var maxCountSpinner: JIntSpinner
-                lateinit var showIndicesCheckBox: JCheckBox
 
                 row(Bundle("array.ui.min_count_option")) {
                     cell(JIntSpinner(value = MIN_MIN_COUNT, minValue = MIN_MIN_COUNT))
@@ -94,29 +90,13 @@ class ArrayDecoratorEditor(
                         .bindCurrentText(scheme::separator)
                 }
 
-                row {
-                    checkBox(Bundle("array.ui.show_indices.option"))
-                        .withName("arrayShowIndices")
-                        .bindSelected(scheme::showIndices)
-                        .also { showIndicesCheckBox = it.component }
-
-                    comboBox(PRESET_INDICES_FORMATS)
-                        .enabledIf(isEnabled.and(showIndicesCheckBox.selected))
+                row(Bundle("array.ui.element_format.option")) {
+                    comboBox(PRESET_ELEMENT_FORMATS)
                         .isEditable(true)
-                        .withName("arrayIndicesFormat")
-                        .bindCurrentText(scheme::indicesFormat)
+                        .withName("arrayElementFormat")
+                        .bindCurrentText(scheme::elementFormat)
+                    contextHelp(Bundle("array.ui.element_format.comment"))
                 }
-
-                row {
-                    checkBox(Bundle("array.ui.use_tuple_indices.option"))
-                        .withName("arrayUseTupleIndices")
-                        .bindSelected(scheme::useTupleIndices)
-                        .enabledIf(isEnabled.and(showIndicesCheckBox.selected))
-                }.enabledIf(isEnabled)
-
-                row {
-                    comment(Bundle("array.ui.show_indices.comment"))
-                }.enabledIf(isEnabled)
 
                 row {
                     AffixDecoratorEditor(

@@ -163,98 +163,6 @@ object ArrayDecoratorEditorTest : FunSpec({
                 }
             }
         }
-
-        context("indices") {
-            context("embedded") {
-                beforeNonContainer {
-                    frame.cleanUp()
-                    editor = runEdt { ArrayDecoratorEditor(scheme, embedded = true) }
-                    frame = showInFrame(editor.rootComponent)
-                }
-
-
-                test("disables indices format if checkbox is disabled") {
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = false }
-
-                    frame.comboBox("arrayIndicesFormat").requireDisabled()
-                }
-
-                test("enables indices format if checkbox is enabled") {
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = true }
-
-                    frame.comboBox("arrayIndicesFormat").requireEnabled()
-                }
-
-                test("disables tuple indices checkbox if show indices checkbox is disabled") {
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = false }
-
-                    frame.checkBox("arrayUseTupleIndices").requireDisabled()
-                }
-
-                test("enables tuple indices checkbox if show indices checkbox is enabled") {
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = true }
-
-                    frame.checkBox("arrayUseTupleIndices").requireEnabled()
-                }
-            }
-
-            context("not embedded") {
-                test("disables indices format if panel is disabled and checkbox is disabled") {
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = false }
-
-                    frame.comboBox("arrayIndicesFormat").requireDisabled()
-                }
-
-                test("disables indices format if panel is disabled and checkbox is enabled") {
-                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = false }
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = true }
-
-                    frame.comboBox("arrayIndicesFormat").requireDisabled()
-                }
-
-                test("disables indices format if panel is enabled and checkbox is disabled") {
-                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = true }
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = false }
-
-                    frame.comboBox("arrayIndicesFormat").requireDisabled()
-                }
-
-                test("enables indices format if panel is enabled and checkbox is enabled") {
-                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = true }
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = true }
-
-                    frame.comboBox("arrayIndicesFormat").requireEnabled()
-                }
-
-                test("disables tuple indices checkbox if panel and show indices are both disabled") {
-                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = false }
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = false }
-
-                    frame.checkBox("arrayUseTupleIndices").requireDisabled()
-                }
-
-                test("disables tuple indices checkbox if panel is disabled but show indices is enabled") {
-                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = false }
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = true }
-
-                    frame.checkBox("arrayUseTupleIndices").requireDisabled()
-                }
-
-                test("disables tuple indices checkbox if panel is enabled but show indices is disabled") {
-                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = true }
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = false }
-
-                    frame.checkBox("arrayUseTupleIndices").requireDisabled()
-                }
-
-                test("enables tuple indices checkbox if panel and show indices are both enabled") {
-                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = true }
-                    runEdt { frame.checkBox("arrayShowIndices").target().isSelected = true }
-
-                    frame.checkBox("arrayUseTupleIndices").requireEnabled()
-                }
-            }
-        }
     }
 
 
@@ -299,25 +207,11 @@ object ArrayDecoratorEditorTest : FunSpec({
                         " - ",
                     )
                 },
-                "showIndices" to {
+                "elementFormat" to {
                     row(
-                        frame.checkBox("arrayShowIndices").isSelectedProp(),
-                        editor.scheme::showIndices.prop(),
-                        true,
-                    )
-                },
-                "indicesFormat" to {
-                    row(
-                        frame.comboBox("arrayIndicesFormat").textProp(),
-                        editor.scheme::indicesFormat.prop(),
-                        "\"{index}\": {value}",
-                    )
-                },
-                "useTupleIndices" to {
-                    row(
-                        frame.checkBox("arrayUseTupleIndices").isSelectedProp(),
-                        editor.scheme::useTupleIndices.prop(),
-                        true,
+                        frame.comboBox("arrayElementFormat").textProp(),
+                        editor.scheme::elementFormat.prop(),
+                        "{val}=foo",
                     )
                 },
                 "affixDecorator" to {

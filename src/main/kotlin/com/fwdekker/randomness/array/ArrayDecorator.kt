@@ -15,9 +15,7 @@ import com.intellij.util.xmlb.annotations.OptionTag
  * @property maxCount The maximum number of elements to generate, inclusive.
  * @property separatorEnabled Whether to separate elements using [separator].
  * @property separator The string to place between generated elements.
- * @property showIndices `true` if and only if array indices should be shown with each element.
- * @property indicesFormat The format string for displaying array indices with elements.
- * @property useTupleIndices `true` if and only if indices should be formatted as tuples for multi-dimensional arrays.
+ * @property elementFormat The format according to which each element of the array should be formatted.
  * @property affixDecorator The affixation to apply to the generated values.
  */
 data class ArrayDecorator(
@@ -26,9 +24,7 @@ data class ArrayDecorator(
     var maxCount: Int = DEFAULT_MAX_COUNT,
     var separatorEnabled: Boolean = DEFAULT_SEPARATOR_ENABLED,
     var separator: String = DEFAULT_SEPARATOR,
-    var showIndices: Boolean = DEFAULT_SHOW_INDICES,
-    var indicesFormat: String = DEFAULT_INDICES_FORMAT,
-    var useTupleIndices: Boolean = DEFAULT_USE_TUPLE_INDICES,
+    var elementFormat: String = DEFAULT_ELEMENT_FORMAT,
     @OptionTag val affixDecorator: AffixDecorator = DEFAULT_AFFIX_DECORATOR,
 ) : DecoratorScheme() {
     override val name = Bundle("array.title")
@@ -38,35 +34,24 @@ data class ArrayDecorator(
 
 
     override fun generateUndecoratedStrings(count: Int): List<String> {
-        val partsPerString = List(count) { random.nextInt(minCount, maxCount + 1) }
-        val parts = generator(partsPerString.sum())
+        // Generates `count` arrays, with each array containing some number of elements.
 
-        return partsPerString
-            .foldIndexed(
-                Pair(
-                    parts,
-                    emptyList<String>()
-                )
-            ) { arrayIndex, (remainingParts, createdStrings), nextPartCount ->
-                val nextParts = remainingParts.take(nextPartCount)
-                val formattedParts = if (showIndices) {
-                    nextParts.mapIndexed { elementIndex, value ->
-                        val indexStr = if (useTupleIndices) {
-                            // Format as tuple for multi-dimensional arrays
-                            "($arrayIndex,$elementIndex)"
-                        } else {
-                            elementIndex.toString()
-                        }
-                        indicesFormat.replace("{index}", indexStr).replace("{value}", value)
+        val elementsPerArray = List(count) { random.nextInt(minCount, maxCount + 1) }
+        val elements = generator(elementsPerArray.sum())
+
+        return elementsPerArray
+            .foldIndexed(Pair(elements, emptyList<String>())) { aId, (remainingElements, createdArrays), elementCount ->
+                val newArray = remainingElements
+                    .take(elementCount)
+                    .mapIndexed { eId, element ->
+                        elementFormat
+                            .replace("{aid}", aId.toString())
+                            .replace("{eid}", eId.toString())
+                            .replace("{val}", element) // Must be last, to avoid recursive replacement
                     }
-                } else {
-                    nextParts
-                }
+                    .joinToString(separator = if (separatorEnabled) separator.replace("\\n", "\n") else "")
 
-                val nextString =
-                    formattedParts.joinToString(if (separatorEnabled) separator.replace("\\n", "\n") else "")
-
-                Pair(remainingParts.drop(nextPartCount), createdStrings + nextString)
+                Pair(remainingElements.drop(elementCount), createdArrays + newArray)
             }
             .second
     }
@@ -120,24 +105,20 @@ data class ArrayDecorator(
         const val DEFAULT_SEPARATOR = ", "
 
         /**
-         * The default value of the [showIndices] field.
+         * The preset values for the [format] field.
          */
-        const val DEFAULT_SHOW_INDICES = false
+        val PRESET_ELEMENT_FORMATS = listOf(
+            "{val}",
+            "{eid}: {val}",
+            "{eid}={val}",
+            "({aid}, {eid}): {val}",
+            "({aid}, {eid})={val}",
+        )
 
         /**
-         * The preset values for the [indicesFormat] field.
+         * The default value of the [format] field.
          */
-        val PRESET_INDICES_FORMATS = listOf("{index}: {value}", "{index}={value}", "\"{index}\": {value}")
-
-        /**
-         * The default value of the [indicesFormat] field.
-         */
-        const val DEFAULT_INDICES_FORMAT = "{index}: {value}"
-
-        /**
-         * The default value of the [useTupleIndices] field.
-         */
-        const val DEFAULT_USE_TUPLE_INDICES = false
+        const val DEFAULT_ELEMENT_FORMAT = "{val}"
 
         /**
          * The preset values for the [affixDecorator] descriptor.
