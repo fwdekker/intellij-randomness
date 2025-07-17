@@ -49,8 +49,8 @@ object TypeIconTest : FunSpec({
 
 
     context("get").config(tags = emptySet()) {
-        useEdtViolationDetection()
-        useBareIdeaFixture()
+        useEdtViolationDetection(addTags = false)
+        useBareIdeaFixture(addTags = false)
 
 
         test("returns a non-empty icon") {
@@ -191,8 +191,8 @@ object OverlayedIconTest : FunSpec({
 
 
     context("get").config(tags = emptySet()) {
-        useEdtViolationDetection()
-        useBareIdeaFixture()
+        useEdtViolationDetection(addTags = false)
+        useBareIdeaFixture(addTags = false)
 
 
         test("returns the base icon if no overlays are specified") {

@@ -6,7 +6,6 @@ import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.DummySchemeEditor
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
-import com.fwdekker.randomness.testhelpers.find
 import com.fwdekker.randomness.testhelpers.ideaRunEdt
 import com.fwdekker.randomness.testhelpers.matcher
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
@@ -18,13 +17,14 @@ import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.popup.AbstractPopup
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldContainOnly
 import io.kotest.matchers.ints.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
-import org.assertj.swing.exception.ComponentLookupException
 import org.assertj.swing.fixture.Containers
 import org.assertj.swing.fixture.FrameFixture
 import java.awt.Component
@@ -40,7 +40,7 @@ object SchemeEditorTest : FunSpec({
 
 
     lateinit var frame: FrameFixture
-    lateinit var editor: DummySchemeEditor
+    lateinit var editor: SchemeEditor<*>
 
 
     useEdtViolationDetection()
@@ -51,7 +51,7 @@ object SchemeEditorTest : FunSpec({
     }
 
 
-    suspend fun registerTestEditor(createEditor: () -> DummySchemeEditor) {
+    suspend fun registerTestEditor(createEditor: () -> SchemeEditor<*>) {
         editor = ideaRunEdt(createEditor)
         frame = Containers.showInFrame(editor.rootComponent)
     }
@@ -190,7 +190,7 @@ object SchemeEditorTest : FunSpec({
         }
     }
 
-    context("f:doValidate") {
+    context("doValidate") {
         data class ExampleScheme(
             var foo: String = "foo",
             var bar: String = "bar",
@@ -208,83 +208,103 @@ object SchemeEditorTest : FunSpec({
             override fun deepCopy(retainUuid: Boolean): Scheme = copy().deepCopyTransient(retainUuid)
         }
 
-        suspend fun getErrorPopupText(): String? =
-            ideaRunEdt {
-                try {
-                    val panel = frame.find(matcher(AbstractPopup.MyContentPanel::class.java))
-                    val pane = panel.components.filterIsInstance<JEditorPane>().single()
-                    val text = pane.text.replace(Regex("""<[^>]+>"""), "").replace("\n", "").trim()
+        class ExampleSchemeEditor(scheme: ExampleScheme) : SchemeEditor<ExampleScheme>(scheme) {
+            override val rootComponent = panel {
+                row {
+                    textField()
+                        .withName("foo")
+                        .bindText(scheme::foo)
+                        .bindValidation(scheme::foo)
 
-                    text
-                } catch(_: ComponentLookupException) {
-                    null
+                    textField()
+                        .withName("bar")
+                        .bindText(scheme::bar)
+                        .bindValidation(scheme::bar)
                 }
+            }.finalize(this)
+
+
+            init {
+                reset()
             }
-
-
-        test("TODO: Insert description") {
-            val scheme = ExampleScheme()
-            val editor = ideaRunEdt {
-                object : SchemeEditor<ExampleScheme>(scheme) {
-                    override val rootComponent = panel {
-                        row {
-                            textField()
-                                .withName("foo")
-                                .bindText(scheme::foo)
-                                .bindValidation(scheme::foo)
-
-                            textField()
-                                .withName("bar")
-                                .bindText(scheme::bar)
-                                .bindValidation(scheme::bar)
-                        }
-                    }.finalize(this)
-
-
-                    init {
-                        reset()
-                    }
-                }
-            }
-            frame = Containers.showInFrame(editor.rootComponent)
-
-            frame.textBox("foo").setText("wrong")
-            ideaRunEdt {
-                editor.apply()
-                editor.doValidate()
-                editor.apply()
-                editor.doValidate()
-                editor.apply()
-                editor.doValidate()
-            }
-            getErrorPopupText() shouldBe "Foo field is invalid."
-
-            frame.textBox("foo").setText("Foo")
-            frame.textBox("bar").setText("wrong")
-            ideaRunEdt {
-                editor.apply()
-                editor.doValidate()
-                editor.apply()
-                editor.doValidate()
-                editor.apply()
-                editor.doValidate()
-            }
-            getErrorPopupText() shouldBe "Bar field is invalid."
-
-            frame.textBox("foo").target().text = "wrong"
-            frame.textBox("bar").target().text = "wrong"
-            ideaRunEdt {
-                editor.apply()
-                editor.doValidate()
-                editor.apply()
-                editor.doValidate()
-                editor.apply()
-                editor.doValidate()
-            }
-            getErrorPopupText() shouldBe "Foo field is invalid."
         }
 
-        // TODO: Add more tests
+        suspend fun getErrorPopupTexts(): List<String> =
+            ideaRunEdt {
+                frame.robot().finder().findAll(matcher(AbstractPopup.MyContentPanel::class.java))
+                    .map { popup ->
+                        popup.components
+                            .filterIsInstance<JEditorPane>()
+                            .single()
+                            .text
+                            .replace(Regex("""<[^>]+>"""), "") // Remove HTML tags
+                            .trim(' ', '\n')
+                    }
+            }
+
+        fun applyAndValidate() {
+            editor.apply()
+            editor.doValidate()
+        }
+
+
+        test("shows no error popups if all fields are valid") {
+            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
+
+            frame.textBox("foo").setText("foo")
+            frame.textBox("bar").setText("bar")
+            ideaRunEdt { applyAndValidate() }
+
+            getErrorPopupTexts() should beEmpty()
+        }
+
+        test("shows an error popup for an invalid field") {
+            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
+
+            frame.textBox("foo").setText("wrong")
+            frame.textBox("bar").setText("bar")
+            ideaRunEdt { applyAndValidate() }
+
+            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
+        }
+
+        test("shows an error popup for each invalid field") {
+            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
+
+            frame.textBox("foo").setText("wrong")
+            frame.textBox("bar").setText("wrong")
+            ideaRunEdt { applyAndValidate() }
+
+            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.", "Bar field is invalid.")
+        }
+
+        xtest("hides error popups once fields are valid again") {
+            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
+
+            frame.textBox("foo").setText("wrong")
+            frame.textBox("bar").setText("bar")
+            ideaRunEdt { applyAndValidate() }
+            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
+
+            frame.textBox("foo").setText("foo")
+            frame.textBox("bar").setText("bar")
+            ideaRunEdt { applyAndValidate() }
+            getErrorPopupTexts() should beEmpty()
+        }
+
+        xtest("shows and hides error popups once fields become invalid and valid, respectively") {
+            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
+
+            frame.textBox("foo").setText("wrong")
+            frame.textBox("bar").setText("bar")
+            ideaRunEdt { applyAndValidate() }
+            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
+
+            frame.textBox("foo").setText("foo")
+            frame.textBox("bar").setText("wrong")
+            ideaRunEdt { applyAndValidate() }
+            getErrorPopupTexts() shouldContainOnly listOf("Bar field is invalid.")
+        }
     }
 
 

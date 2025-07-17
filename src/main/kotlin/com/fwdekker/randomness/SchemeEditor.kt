@@ -123,14 +123,9 @@ abstract class SchemeEditor<S : Scheme>(val scheme: S) : Disposable {
      * first field that is erroneous.
      */
     fun doValidate() {
-        // Uses `toList` to ensure this does not stop prematurely at the first invalid field
         (listOf(rootComponent) + decoratorEditors.map { it.rootComponent })
-            .toList()
+            .toList() // Use `List`, not `Sequence`, to make sure we have no premature stoppage
             .firstNotNullOfOrNull { it.validateAll().toList().firstOrNull() }
-            .also {
-                if (it == null) println("Nope, completely valid.")
-                else println("Yes, something was invalid!")
-            }
             ?.component
             ?.focusLater()
     }
