@@ -10,17 +10,13 @@ import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.ideaRunEdt
-import com.fwdekker.randomness.testhelpers.matcher
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.ui.withName
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.popup.AbstractPopup
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.shouldContainExactly
-import io.kotest.matchers.collections.shouldContainOnly
 import io.kotest.matchers.ints.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
@@ -30,7 +26,7 @@ import org.assertj.swing.fixture.Containers
 import org.assertj.swing.fixture.FrameFixture
 import java.awt.Component
 import javax.swing.JCheckBox
-import javax.swing.JEditorPane
+import javax.swing.text.JTextComponent
 
 
 /**
@@ -192,75 +188,113 @@ object SchemeEditorTest : FunSpec({
     }
 
     context("doValidate") {
-        suspend fun getErrorPopupTexts(revalidate: Boolean = true): List<String> {
-            if (revalidate) {
-                ideaRunEdt { editor.apply() }
-                frame.label("label").click() // Click outside fields to close existing popups
-                ideaRunEdt { editor.doValidate() }
-            }
-
-            return ideaRunEdt {
-                frame.robot().finder().findAll(matcher(AbstractPopup.MyContentPanel::class.java))
-                    .map { popup ->
-                        popup.components
-                            .filterIsInstance<JEditorPane>()
-                            .single()
-                            .text
-                            .replace(Regex("""<[^>]+>"""), "") // Remove HTML tags
-                            .trim(' ', '\n')
-                    }
-            }
-        }
+        lateinit var foo: JTextComponent
+        lateinit var bar: JTextComponent
 
 
         beforeNonContainer {
             registerTestEditor { DummyValidatableSchemeEditor(DummyValidatableScheme()) }
+
+            foo = ideaRunEdt { frame.textBox("foo").target() }
+            bar = ideaRunEdt { frame.textBox("bar").target() }
         }
 
+        suspend fun revalidate() =
+            ideaRunEdt {
+                editor.apply()
+                editor.doValidate()
+            }
 
-        test("shows no error popups if all fields are valid") {
-            frame.textBox("foo").setText("foo")
-            frame.textBox("bar").setText("bar")
+        suspend fun JTextComponent.hasError(): Boolean =
+            ideaRunEdt { this.getClientProperty("JComponent.outline") } != null
 
-            getErrorPopupTexts() should beEmpty()
+
+        test("shows no errors if all fields are valid") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "foo"
+                frame.textBox("bar").target().text = "bar"
+            }
+
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe false
         }
 
-        test("shows an error popup for an invalid field") {
-            frame.textBox("foo").setText("wrong")
+        test("shows an error for the invalid field") {
+            ideaRunEdt { frame.textBox("foo").target().text = "wrong" }
 
-            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe false
         }
 
-        test("shows an error popup for each invalid field") {
-            frame.textBox("foo").setText("wrong")
-            frame.textBox("bar").setText("wrong")
+        test("shows an error for each invalid field") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "wrong"
+                frame.textBox("bar").target().text = "wrong"
+            }
 
-            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.", "Bar field is invalid.")
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe true
         }
 
-        test("hides error popups after clicking outside the invalid fields") {
-            frame.textBox("foo").setText("wrong")
-            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
+        test("stops showing an error once the field is valid again") {
+            ideaRunEdt { frame.textBox("foo").target().text = "wrong" }
+            revalidate()
+            foo.hasError() shouldBe true
 
-            frame.label("label").click()
-            getErrorPopupTexts(revalidate = false) should beEmpty()
+            ideaRunEdt { frame.textBox("foo").target().text = "foo" }
+            revalidate()
+            foo.hasError() shouldBe false
         }
 
-        test("hides error popups once fields are valid again") {
-            frame.textBox("foo").setText("wrong")
-            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
+        test("stops showing an error once a field is valid again, even if other fields are still invalid") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "wrong"
+                frame.textBox("bar").target().text = "wrong"
+            }
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe true
 
-            frame.textBox("foo").setText("foo")
-            getErrorPopupTexts() should beEmpty()
+            ideaRunEdt { frame.textBox("foo").target().text = "foo" }
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe true
+        }
+
+        test("stops showing errors for all fields if they are all valid again") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "wrong"
+                frame.textBox("bar").target().text = "wrong"
+            }
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe true
+
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "foo"
+                frame.textBox("bar").target().text = "bar"
+            }
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe false
         }
 
         test("shows and hides error popups once fields become invalid and valid, respectively") {
-            frame.textBox("foo").setText("wrong")
-            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
+            ideaRunEdt { frame.textBox("foo").target().text = "wrong" }
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe false
 
-            frame.textBox("foo").setText("foo")
-            frame.textBox("bar").setText("wrong")
-            getErrorPopupTexts() shouldContainOnly listOf("Bar field is invalid.")
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "foo"
+                frame.textBox("bar").target().text = "wrong"
+            }
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe true
         }
     }
 

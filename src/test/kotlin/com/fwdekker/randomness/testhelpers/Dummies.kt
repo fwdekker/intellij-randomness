@@ -145,8 +145,6 @@ data class DummyValidatableScheme(
 class DummyValidatableSchemeEditor(scheme: DummyValidatableScheme) : SchemeEditor<DummyValidatableScheme>(scheme) {
     override val rootComponent = panel {
         row {
-            label("Label").withName("label")
-
             textField()
                 .withName("foo")
                 .bindText(scheme::foo)
