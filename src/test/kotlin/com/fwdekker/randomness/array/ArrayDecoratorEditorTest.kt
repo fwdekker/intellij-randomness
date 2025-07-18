@@ -207,6 +207,13 @@ object ArrayDecoratorEditorTest : FunSpec({
                         " - ",
                     )
                 },
+                "elementFormat" to {
+                    row(
+                        frame.comboBox("arrayElementFormat").textProp(),
+                        editor.scheme::elementFormat.prop(),
+                        "{val}=foo",
+                    )
+                },
                 "affixDecorator" to {
                     row(
                         frame.comboBox("arrayAffixDescriptor").textProp(),

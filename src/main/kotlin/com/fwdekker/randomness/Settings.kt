@@ -5,10 +5,13 @@ import com.fwdekker.randomness.PersistentSettings.Companion.UPGRADES
 import com.fwdekker.randomness.template.Template
 import com.fwdekker.randomness.template.TemplateList
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
+import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.SettingsCategory
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.service
+import com.intellij.openapi.diagnostic.Attachment
+import com.intellij.openapi.diagnostic.ExceptionWithAttachments
 import com.intellij.util.addOptionTag
 import com.intellij.util.xmlb.XmlSerializer.deserialize
 import com.intellij.util.xmlb.XmlSerializer.serialize
@@ -96,8 +99,13 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
     /**
      * Deserializes [element] into a [Settings] instance, which is then stored in [settings].
      */
+    @Suppress("detekt:TooGenericExceptionCaught") // All exceptions should be wrapped
     override fun loadState(element: Element) {
-        settings = deserialize(upgrade(element), Settings::class.java)
+        try {
+            settings = deserialize(upgrade(element), Settings::class.java)
+        } catch (exception: Exception) {
+            throw SettingsException("Failed to parse or upgrade settings file.", exception)
+        }
     }
 
 
@@ -166,5 +174,22 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
                             }
                     },
             )
+    }
+}
+
+
+/**
+ * Indicates that settings could not be parsed correctly.
+ */
+class SettingsException(message: String? = null, cause: Throwable? = null) :
+    IllegalArgumentException(message, cause), ExceptionWithAttachments {
+    /**
+     * Returns the user's Randomness settings file as an attachment, if it can be read.
+     */
+    override fun getAttachments(): Array<out Attachment?> {
+        val path = PathManager.getOptionsFile("randomness3")
+        val contents = if (path.canRead()) path.readText() else "Settings file could not be read."
+
+        return arrayOf(Attachment("randomness3.xml", contents))
     }
 }

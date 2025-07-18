@@ -15,14 +15,14 @@ import com.intellij.openapi.ui.MessageDialogBuilder
 /**
  * Displays notifications when a project is opened.
  */
-internal class Notifier : ProjectActivity {
+internal class StartupNotifier : ProjectActivity {
     /**
-     * Shows startup notifications.
+     * Displays notifications when a project is opened.
      */
     override suspend fun execute(project: Project) = showWelcomeToV3(project)
 
     /**
-     * Shows a notification introducing the user to version 3 of Randomness.
+     * Shows a notification introducing the user to version 3 of Randomness if the user previously used Randomness 2.
      */
     private fun showWelcomeToV3(project: Project) {
         val key = "notifications.welcome_to_v3"

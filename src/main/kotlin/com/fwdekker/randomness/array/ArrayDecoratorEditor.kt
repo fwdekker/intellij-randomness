@@ -5,6 +5,7 @@ import com.fwdekker.randomness.SchemeEditor
 import com.fwdekker.randomness.affix.AffixDecoratorEditor
 import com.fwdekker.randomness.array.ArrayDecorator.Companion.MIN_MIN_COUNT
 import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_AFFIX_DECORATOR_DESCRIPTORS
+import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_ELEMENT_FORMATS
 import com.fwdekker.randomness.array.ArrayDecorator.Companion.PRESET_SEPARATORS
 import com.fwdekker.randomness.ui.JIntSpinner
 import com.fwdekker.randomness.ui.UIConstants
@@ -18,7 +19,6 @@ import com.fwdekker.randomness.ui.ofConstant
 import com.fwdekker.randomness.ui.withFixedWidth
 import com.fwdekker.randomness.ui.withName
 import com.intellij.ui.dsl.builder.BottomGap
-import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.selected
@@ -43,7 +43,6 @@ class ArrayDecoratorEditor(
 ) : SchemeEditor<ArrayDecorator>(scheme) {
     override val rootComponent = panel {
         decoratedRowRange(title = if (!embedded) Bundle("array.title") else null, indent = !embedded) {
-            lateinit var enabledCheckBox: Cell<JCheckBox>
             lateinit var isEnabled: ComponentPredicate
 
             row {
@@ -52,8 +51,7 @@ class ArrayDecoratorEditor(
                     .withName("arrayEnabled")
                     .bindSelected(scheme::enabled)
                     .bindValidation(scheme::enabled)
-                    .also { enabledCheckBox = it }
-                    .also { isEnabled = enabledCheckBox.selected.or(ComponentPredicate.ofConstant(embedded)) }
+                    .also { isEnabled = it.selected.or(ComponentPredicate.ofConstant(embedded)) }
             }.visible(!embedded)
 
             decoratedRowRange(indent = !embedded) {
@@ -95,6 +93,15 @@ class ArrayDecoratorEditor(
                         .withName("arraySeparator")
                         .bindCurrentText(scheme::separator)
                         .bindValidation(scheme::separator)
+                }
+
+                row(Bundle("array.ui.element_format.option")) {
+                    comboBox(PRESET_ELEMENT_FORMATS)
+                        .isEditable(true)
+                        .withName("arrayElementFormat")
+                        .bindCurrentText(scheme::elementFormat)
+                        .bindValidation(scheme::elementFormat)
+                    contextHelp(Bundle("array.ui.element_format.comment"))
                 }
 
                 row {
