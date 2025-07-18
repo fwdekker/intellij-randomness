@@ -3,16 +3,14 @@
 package com.fwdekker.randomness
 
 import com.fwdekker.randomness.testhelpers.Tags
-import com.fwdekker.randomness.testhelpers.afterNonContainer
-import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.colorIcon
 import com.fwdekker.randomness.testhelpers.getEastColor
 import com.fwdekker.randomness.testhelpers.getWestColor
 import com.fwdekker.randomness.testhelpers.render
 import com.fwdekker.randomness.testhelpers.shouldBeSameIconAs
 import com.fwdekker.randomness.testhelpers.typeIcon
-import com.intellij.testFramework.fixtures.IdeaTestFixture
-import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory
+import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
+import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.EmptyIcon
 import io.kotest.assertions.throwables.shouldThrow
@@ -25,7 +23,6 @@ import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
 import io.kotest.matchers.types.shouldBeSameInstanceAs
-import org.assertj.swing.edt.FailOnThreadViolationRepaintManager
 import java.awt.Color
 
 
@@ -33,6 +30,9 @@ import java.awt.Color
  * Unit tests for [TypeIcon].
  */
 object TypeIconTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("constructor") {
         test("fails if the base is not square") {
             val base = ColorIcon(32, 30, 32, 30, Color.BLACK, false)
@@ -48,26 +48,9 @@ object TypeIconTest : FunSpec({
     }
 
 
-    context("get").config(tags = setOf(Tags.IDEA_FIXTURE, Tags.SWING)) {
-        lateinit var ideaFixture: IdeaTestFixture
-
-
-        beforeSpec {
-            FailOnThreadViolationRepaintManager.install()
-        }
-
-        afterSpec {
-            FailOnThreadViolationRepaintManager.uninstall()
-        }
-
-        beforeNonContainer {
-            ideaFixture = IdeaTestFixtureFactory.getFixtureFactory().createBareFixture()
-            ideaFixture.setUp()
-        }
-
-        afterNonContainer {
-            ideaFixture.tearDown()
-        }
+    context("get").config(tags = emptySet()) {
+        useEdtViolationDetection(addTags = false)
+        useBareIdeaFixture(addTags = false)
 
 
         test("returns a non-empty icon") {
@@ -151,6 +134,9 @@ object TypeIconTest : FunSpec({
  * Unit tests for [OverlayIcon].
  */
 object OverlayIconTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("get") {
         test("returns the base icon") {
             val base = ColorIcon(32, Color.YELLOW)
@@ -166,6 +152,9 @@ object OverlayIconTest : FunSpec({
  * Unit tests for [OverlayedIcon].
  */
 object OverlayedIconTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("validation") {
         test("fails if there are more overlays than supported") {
             val overlays = listOf(OverlayIcon.ARRAY, OverlayIcon.REFERENCE, OverlayIcon.REPEAT)
@@ -201,26 +190,9 @@ object OverlayedIconTest : FunSpec({
     }
 
 
-    context("get").config(tags = setOf(Tags.IDEA_FIXTURE, Tags.SWING)) {
-        lateinit var ideaFixture: IdeaTestFixture
-
-
-        beforeSpec {
-            FailOnThreadViolationRepaintManager.install()
-        }
-
-        afterSpec {
-            FailOnThreadViolationRepaintManager.uninstall()
-        }
-
-        beforeNonContainer {
-            ideaFixture = IdeaTestFixtureFactory.getFixtureFactory().createBareFixture()
-            ideaFixture.setUp()
-        }
-
-        afterNonContainer {
-            ideaFixture.tearDown()
-        }
+    context("get").config(tags = emptySet()) {
+        useEdtViolationDetection(addTags = false)
+        useBareIdeaFixture(addTags = false)
 
 
         test("returns the base icon if no overlays are specified") {
@@ -268,6 +240,9 @@ object OverlayedIconTest : FunSpec({
  * Unit tests for [RadialColorReplacementFilter].
  */
 object RadialColorReplacementFilterTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("constructor") {
         test("fails if no colors are given") {
             shouldThrow<IllegalArgumentException> { RadialColorReplacementFilter(emptyList(), Pair(0, 0)) }
@@ -333,6 +308,9 @@ object RadialColorReplacementFilterTest : FunSpec({
  * Unit tests for [SubtractionFilter].
  */
 object SubtractionFilterTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("filterRGB") {
         test("returns the original color if the mask is a zero-size image") {
             val filter = SubtractionFilter(ColorIcon(0, Color.BLACK))

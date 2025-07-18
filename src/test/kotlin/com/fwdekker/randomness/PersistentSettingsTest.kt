@@ -1,5 +1,6 @@
 package com.fwdekker.randomness
 
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.shouldMatchXml
 import com.intellij.openapi.util.JDOMUtil
@@ -21,6 +22,9 @@ import java.net.URL
  * Unit tests for [PersistentSettings].
  */
 object PersistentSettingsTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     lateinit var settings: PersistentSettings
 
     fun getTestConfig(path: String): URL =

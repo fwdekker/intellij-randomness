@@ -69,7 +69,7 @@ abstract class Scheme : State() {
      */
     @Throws(DataGenerationException::class)
     open fun generateStrings(count: Int = 1): List<String> {
-        doValidate()?.also { throw DataGenerationException(it) }
+        doValidate()?.also { throw DataGenerationException(it.message) }
 
         return decorators
             .fold(this::generateUndecoratedStrings) { previousGenerator, currentScheme ->
@@ -123,7 +123,7 @@ abstract class DecoratorScheme : Scheme() {
 
 
     override fun generateStrings(count: Int): List<String> {
-        doValidate()?.also { throw DataGenerationException(it) }
+        doValidate()?.also { throw DataGenerationException(it.message) }
 
         return if (isEnabled) super.generateStrings(count)
         else generator(count)

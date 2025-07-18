@@ -7,6 +7,7 @@ import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.array.ArrayDecorator
 import com.fwdekker.randomness.nextTimestampInclusive
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.ui.JBColor
 import com.intellij.util.xmlb.annotations.OptionTag
 import java.awt.Color
@@ -30,6 +31,12 @@ data class DateTimeScheme(
     override val name = Bundle("datetime.title")
     override val typeIcon get() = BASE_ICON
     override val decorators get() = listOf(arrayDecorator)
+    override val validators = validators {
+        include(::minDateTime)
+        include(::maxDateTime)
+        of(::maxDateTime).check({ !it.isBefore(minDateTime) }, { Bundle("datetime.error.min_datetime_above_max") })
+        of(::pattern).checkNoException { DateTimeFormatter.ofPattern(it) }
+    }
 
 
     override fun generateUndecoratedStrings(count: Int): List<String> {
@@ -37,12 +44,6 @@ data class DateTimeScheme(
         return List(count) { random.nextTimestampInclusive(minDateTime, maxDateTime).format(formatter) }
     }
 
-
-    override fun doValidate(): String? =
-        minDateTime.doValidate()
-            ?: maxDateTime.doValidate()
-            ?: (if (maxDateTime.isBefore(minDateTime)) Bundle("datetime.error.min_datetime_above_max") else null)
-            ?: pattern.doValidateDateTimePattern()
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(arrayDecorator = arrayDecorator.deepCopy(retainUuid)).deepCopyTransient(retainUuid)
@@ -74,17 +75,3 @@ data class DateTimeScheme(
         const val DEFAULT_PATTERN: String = "yyyy-MM-dd HH:mm:ss.SSS"
     }
 }
-
-
-/**
- * Returns `null` if this [String] is a valid date-time pattern, or a string describing why it is invalid otherwise.
- *
- * @see DateTimeFormatter
- */
-private fun String.doValidateDateTimePattern(): String? =
-    try {
-        DateTimeFormatter.ofPattern(this)
-        null
-    } catch (exception: IllegalArgumentException) {
-        exception.message
-    }

@@ -19,7 +19,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [IntegerScheme].
  */
 object IntegerSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {

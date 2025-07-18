@@ -368,7 +368,10 @@ class RadialColorReplacementFilter(
 /**
  * Interprets the given [icon] as a mask in which non-empty pixels indicate which pixels should be removed.
  */
-class SubtractionFilter(private val icon: Icon) : RGBImageFilter() {
+class SubtractionFilter(icon: Icon) : RGBImageFilter() {
+    /**
+     * A buffered copy of the [icon].
+     */
     private val mask: BufferedImage?
 
 
@@ -386,6 +389,9 @@ class SubtractionFilter(private val icon: Icon) : RGBImageFilter() {
     }
 
 
+    /**
+     * Filters the given [rgb] color through the [icon] at the point ([x], [y]).
+     */
     override fun filterRGB(x: Int, y: Int, rgb: Int): Int {
         if (mask == null || x !in 0..<mask.width || y !in 0..<mask.height) return rgb
 

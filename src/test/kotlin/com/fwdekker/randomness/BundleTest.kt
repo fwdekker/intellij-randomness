@@ -1,5 +1,6 @@
 package com.fwdekker.randomness
 
+import com.fwdekker.randomness.testhelpers.Tags
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
@@ -14,6 +15,9 @@ import java.util.regex.PatternSyntaxException
  * Unit tests for [Bundle].
  */
 object BundleTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("get (no arguments)") {
         test("throws an exception if the key could not be found") {
             shouldThrow<MissingResourceException> { Bundle("this_key_does_not_exist") }

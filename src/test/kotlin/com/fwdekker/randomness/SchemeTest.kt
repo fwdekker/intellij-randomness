@@ -16,7 +16,7 @@ import io.kotest.matchers.types.shouldBeSameInstanceAs
  * Unit tests for [Scheme].
  */
 object SchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("icon") {
@@ -144,7 +144,7 @@ object SchemeTest : FunSpec({
  * Unit tests for [DecoratorScheme].
  */
 object DecoratorSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {

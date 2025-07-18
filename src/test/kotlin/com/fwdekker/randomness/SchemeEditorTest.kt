@@ -4,8 +4,11 @@ import com.fwdekker.randomness.testhelpers.DummyDecoratorScheme
 import com.fwdekker.randomness.testhelpers.DummyDecoratorSchemeEditor
 import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.DummySchemeEditor
+import com.fwdekker.randomness.testhelpers.DummyValidatableScheme
+import com.fwdekker.randomness.testhelpers.DummyValidatableSchemeEditor
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
+import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.ideaRunEdt
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
@@ -23,6 +26,7 @@ import org.assertj.swing.fixture.Containers
 import org.assertj.swing.fixture.FrameFixture
 import java.awt.Component
 import javax.swing.JCheckBox
+import javax.swing.text.JTextComponent
 
 
 /**
@@ -33,7 +37,7 @@ object SchemeEditorTest : FunSpec({
 
 
     lateinit var frame: FrameFixture
-    lateinit var editor: DummySchemeEditor
+    lateinit var editor: SchemeEditor<*>
 
 
     useEdtViolationDetection()
@@ -44,7 +48,7 @@ object SchemeEditorTest : FunSpec({
     }
 
 
-    suspend fun registerTestEditor(createEditor: () -> DummySchemeEditor) {
+    suspend fun registerTestEditor(createEditor: () -> SchemeEditor<*>) {
         editor = ideaRunEdt(createEditor)
         frame = Containers.showInFrame(editor.rootComponent)
     }
@@ -180,6 +184,117 @@ object SchemeEditorTest : FunSpec({
 
             scheme.decorators[0] shouldBeSameInstanceAs decorator
             (scheme.decorators[0] as DummyDecoratorScheme).append shouldBe "new"
+        }
+    }
+
+    context("doValidate") {
+        lateinit var foo: JTextComponent
+        lateinit var bar: JTextComponent
+
+
+        beforeNonContainer {
+            registerTestEditor { DummyValidatableSchemeEditor(DummyValidatableScheme()) }
+
+            foo = ideaRunEdt { frame.textBox("foo").target() }
+            bar = ideaRunEdt { frame.textBox("bar").target() }
+        }
+
+        suspend fun revalidate() =
+            ideaRunEdt {
+                editor.apply()
+                editor.doValidate()
+            }
+
+        suspend fun JTextComponent.hasError(): Boolean =
+            ideaRunEdt { this.getClientProperty("JComponent.outline") } != null
+
+
+        test("shows no errors if all fields are valid") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "foo"
+                frame.textBox("bar").target().text = "bar"
+            }
+
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe false
+        }
+
+        test("shows an error for the invalid field") {
+            ideaRunEdt { frame.textBox("foo").target().text = "wrong" }
+
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe false
+        }
+
+        test("shows an error for each invalid field") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "wrong"
+                frame.textBox("bar").target().text = "wrong"
+            }
+
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe true
+        }
+
+        test("stops showing an error once the field is valid again") {
+            ideaRunEdt { frame.textBox("foo").target().text = "wrong" }
+            revalidate()
+            foo.hasError() shouldBe true
+
+            ideaRunEdt { frame.textBox("foo").target().text = "foo" }
+            revalidate()
+            foo.hasError() shouldBe false
+        }
+
+        test("stops showing an error once a field is valid again, even if other fields are still invalid") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "wrong"
+                frame.textBox("bar").target().text = "wrong"
+            }
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe true
+
+            ideaRunEdt { frame.textBox("foo").target().text = "foo" }
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe true
+        }
+
+        test("stops showing errors for all fields if they are all valid again") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "wrong"
+                frame.textBox("bar").target().text = "wrong"
+            }
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe true
+
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "foo"
+                frame.textBox("bar").target().text = "bar"
+            }
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe false
+        }
+
+        test("shows and hides error popups once fields become invalid and valid, respectively") {
+            ideaRunEdt { frame.textBox("foo").target().text = "wrong" }
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe false
+
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "foo"
+                frame.textBox("bar").target().text = "wrong"
+            }
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe true
         }
     }
 

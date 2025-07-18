@@ -4,6 +4,7 @@ import com.fwdekker.randomness.Bundle
 import com.fwdekker.randomness.DecoratorScheme
 import com.fwdekker.randomness.OverlayIcon
 import com.fwdekker.randomness.affix.AffixDecorator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.util.xmlb.annotations.OptionTag
 
 
@@ -31,6 +32,11 @@ data class ArrayDecorator(
     override val overlayIcon get() = if (enabled) OverlayIcon.ARRAY else null
     override val decorators = listOf(affixDecorator)
     override val isEnabled get() = enabled
+    override val validators = validators {
+        of(::minCount).check({ it >= MIN_MIN_COUNT }, { Bundle("array.error.min_count_too_low", MIN_MIN_COUNT) })
+        of(::maxCount).check({ it >= minCount }, { Bundle("array.error.min_count_above_max") })
+        include(::affixDecorator)
+    }
 
 
     override fun generateUndecoratedStrings(count: Int): List<String> {
@@ -56,11 +62,6 @@ data class ArrayDecorator(
             .second
     }
 
-
-    override fun doValidate() =
-        if (minCount < MIN_MIN_COUNT) Bundle("array.error.min_count_too_low", MIN_MIN_COUNT)
-        else if (maxCount < minCount) Bundle("array.error.min_count_above_max")
-        else affixDecorator.doValidate()
 
     override fun deepCopy(retainUuid: Boolean) = copy().deepCopyTransient(retainUuid)
 

@@ -32,6 +32,7 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                         .isEditable(false)
                         .withName("version")
                         .bindItem(scheme::version.toNullableProperty())
+                        .bindValidation(scheme::version)
                 }
 
                 row {
@@ -39,6 +40,7 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                         .loadMnemonic()
                         .withName("isUppercase")
                         .bindSelected(scheme::isUppercase)
+                        .bindValidation(scheme::isUppercase)
                 }
 
                 row {
@@ -46,6 +48,7 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                         .loadMnemonic()
                         .withName("addDashes")
                         .bindSelected(scheme::addDashes)
+                        .bindValidation(scheme::addDashes)
                 }
 
                 row {
@@ -61,7 +64,7 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                 .also { decoratorEditors += it }
                 .let { cell(it.rootComponent).align(AlignX.FILL) }
         }
-    }
+    }.finalize(this)
 
 
     init {

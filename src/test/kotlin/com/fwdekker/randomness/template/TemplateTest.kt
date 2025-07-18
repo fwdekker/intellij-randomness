@@ -28,7 +28,7 @@ import kotlin.random.Random
  * Unit tests for [Template].
  */
 object TemplateTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("typeIcon") {

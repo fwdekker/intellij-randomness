@@ -1,6 +1,8 @@
 package com.fwdekker.randomness
 
 import com.fwdekker.randomness.Timestamp.Companion.FORMAT
+import com.fwdekker.randomness.ui.Validator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.github.sisyphsu.dateparser.DateParserUtils
 import java.time.Instant
 import java.time.LocalDateTime
@@ -35,6 +37,8 @@ data class Timestamp(var value: String = "1970-01-01 00:00:00.000") : State() {
      */
     val epochMilli: Long?
 
+    override val validators: List<Validator<*>>
+
 
     init {
         var value = value
@@ -54,6 +58,10 @@ data class Timestamp(var value: String = "1970-01-01 00:00:00.000") : State() {
 
         this.value = value
         this.epochMilli = epochMilli
+        this.validators = validators {
+            // Recall that a [value] is valid if [DateParserUtils] can interpret [value] as a date-time timestamp
+            of(this@Timestamp::epochMilli).check({ it != null }, { Bundle("timestamp.error.parse") })
+        }
     }
 
 
@@ -74,15 +82,6 @@ data class Timestamp(var value: String = "1970-01-01 00:00:00.000") : State() {
         return thisEpoch < thatEpoch
     }
 
-
-    /**
-     * Returns `null` if [value] is valid, or returns a string describing why it is not.
-     *
-     * Recall that a [value] is valid if [DateParserUtils] can interpret [value] as a date-time timestamp.
-     */
-    override fun doValidate(): String? =
-        if (epochMilli == null) Bundle("timestamp.error.parse")
-        else null
 
     override fun deepCopy(retainUuid: Boolean): Timestamp = Timestamp(value).deepCopyTransient(retainUuid)
 

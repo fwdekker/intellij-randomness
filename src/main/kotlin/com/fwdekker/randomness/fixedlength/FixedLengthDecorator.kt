@@ -2,6 +2,7 @@ package com.fwdekker.randomness.fixedlength
 
 import com.fwdekker.randomness.Bundle
 import com.fwdekker.randomness.DecoratorScheme
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 
 
 /**
@@ -19,15 +20,14 @@ data class FixedLengthDecorator(
     override val name = Bundle("fixed_length.title")
     override val decorators = emptyList<DecoratorScheme>()
     override val isEnabled get() = enabled
+    override val validators = validators {
+        of(::length).check({ it >= MIN_LENGTH }, { Bundle("fixed_length.error.length_too_low", MIN_LENGTH) })
+        of(::filler).check({ it.length == 1 }, { Bundle("fixed_length.error.filler_length") })
+    }
 
 
     override fun generateUndecoratedStrings(count: Int): List<String> =
         generator(count).map { it.take(length).padStart(length, filler[0]) }
-
-    override fun doValidate() =
-        if (length < MIN_LENGTH) Bundle("fixed_length.error.length_too_low", MIN_LENGTH)
-        else if (filler.length != 1) Bundle("fixed_length.error.filler_length")
-        else null
 
     override fun deepCopy(retainUuid: Boolean) = copy().deepCopyTransient(retainUuid)
 

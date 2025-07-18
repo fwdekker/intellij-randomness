@@ -18,7 +18,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [DateTimeScheme].
  */
 object DateTimeSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {

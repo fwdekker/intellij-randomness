@@ -80,6 +80,7 @@ class WordSchemeEditor(scheme: WordScheme = WordScheme()) : SchemeEditor<WordSch
                         { _, list: List<String> -> document.setWordList(list) },
                         scheme::words.toMutableProperty()
                     )
+                    .bindValidation(scheme::words)
             }
         }
 
@@ -88,6 +89,7 @@ class WordSchemeEditor(scheme: WordScheme = WordScheme()) : SchemeEditor<WordSch
                 comboBox(PRESET_CAPITALIZATION, textListCellRenderer { it?.toLocalizedString() })
                     .withName("capitalization")
                     .bindItem(scheme::capitalization.toNullableProperty())
+                    .bindValidation(scheme::capitalization)
             }
 
             row {
@@ -102,7 +104,7 @@ class WordSchemeEditor(scheme: WordScheme = WordScheme()) : SchemeEditor<WordSch
                 .also { decoratorEditors += it }
                 .let { cell(it.rootComponent).align(AlignX.FILL) }
         }
-    }
+    }.finalize(this)
 
 
     init {

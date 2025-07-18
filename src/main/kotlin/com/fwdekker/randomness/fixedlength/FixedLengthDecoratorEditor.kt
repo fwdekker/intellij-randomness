@@ -35,6 +35,7 @@ class FixedLengthDecoratorEditor(scheme: FixedLengthDecorator) : SchemeEditor<Fi
                     .loadMnemonic()
                     .withName("fixedLengthEnabled")
                     .bindSelected(scheme::enabled)
+                    .bindValidation(scheme::enabled)
                     .also { enabledCheckBox = it }
             }
 
@@ -44,6 +45,7 @@ class FixedLengthDecoratorEditor(scheme: FixedLengthDecorator) : SchemeEditor<Fi
                         .withFixedWidth(UIConstants.SIZE_SMALL)
                         .withName("fixedLengthLength")
                         .bindIntValue(scheme::length)
+                        .bindValidation(scheme::length)
                 }
 
                 row(Bundle("fixed_length.ui.filler_option")) {
@@ -52,10 +54,11 @@ class FixedLengthDecoratorEditor(scheme: FixedLengthDecorator) : SchemeEditor<Fi
                         .withDocument(PlainDocument().also { it.documentFilter = MaxLengthDocumentFilter(1) })
                         .withName("fixedLengthFiller")
                         .bindText(scheme::filler)
+                        .bindValidation(scheme::filler)
                 }
             }.enabledIf(enabledCheckBox.selected)
         }
-    }
+    }.finalize(this)
 
 
     init {

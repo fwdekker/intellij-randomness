@@ -50,6 +50,7 @@ class ArrayDecoratorEditor(
                     .loadMnemonic()
                     .withName("arrayEnabled")
                     .bindSelected(scheme::enabled)
+                    .bindValidation(scheme::enabled)
                     .also { isEnabled = it.selected.or(ComponentPredicate.ofConstant(embedded)) }
             }.visible(!embedded)
 
@@ -62,6 +63,7 @@ class ArrayDecoratorEditor(
                         .withFixedWidth(UIConstants.SIZE_SMALL)
                         .withName("arrayMinCount")
                         .bindIntValue(scheme::minCount)
+                        .bindValidation(scheme::minCount)
                         .also { minCountSpinner = it.component }
                 }
 
@@ -70,6 +72,7 @@ class ArrayDecoratorEditor(
                         .withFixedWidth(UIConstants.SIZE_SMALL)
                         .withName("arrayMaxCount")
                         .bindIntValue(scheme::maxCount)
+                        .bindValidation(scheme::maxCount)
                         .also { maxCountSpinner = it.component }
                 }.bottomGap(BottomGap.SMALL)
 
@@ -81,6 +84,7 @@ class ArrayDecoratorEditor(
                     checkBox(Bundle("array.ui.separator.option"))
                         .withName("arraySeparatorEnabled")
                         .bindSelected(scheme::separatorEnabled)
+                        .bindValidation(scheme::separatorEnabled)
                         .also { separatorEnabledCheckBox = it.component }
 
                     comboBox(PRESET_SEPARATORS)
@@ -88,6 +92,7 @@ class ArrayDecoratorEditor(
                         .isEditable(true)
                         .withName("arraySeparator")
                         .bindCurrentText(scheme::separator)
+                        .bindValidation(scheme::separator)
                 }
 
                 row(Bundle("array.ui.element_format.option")) {
@@ -95,6 +100,7 @@ class ArrayDecoratorEditor(
                         .isEditable(true)
                         .withName("arrayElementFormat")
                         .bindCurrentText(scheme::elementFormat)
+                        .bindValidation(scheme::elementFormat)
                     contextHelp(Bundle("array.ui.element_format.comment"))
                 }
 
@@ -111,7 +117,7 @@ class ArrayDecoratorEditor(
                 }
             }.enabledIf(isEnabled)
         }
-    }
+    }.finalize(this)
 
 
     init {

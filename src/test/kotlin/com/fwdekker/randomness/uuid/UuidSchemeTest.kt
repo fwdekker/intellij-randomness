@@ -22,7 +22,7 @@ import java.util.UUID
  * Unit tests for [UuidScheme].
  */
 object UuidSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {
