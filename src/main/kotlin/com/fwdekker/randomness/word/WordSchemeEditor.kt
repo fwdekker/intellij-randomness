@@ -21,11 +21,13 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.util.Disposer
+import com.intellij.ui.SimpleTextAttributes.REGULAR_ITALIC_ATTRIBUTES
 import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.toMutableProperty
 import com.intellij.ui.dsl.builder.toNullableProperty
+import com.intellij.ui.dsl.listCellRenderer.listCellRenderer
 import com.intellij.ui.dsl.listCellRenderer.textListCellRenderer
 import java.awt.event.ItemEvent
 
@@ -42,7 +44,7 @@ class WordSchemeEditor(scheme: WordScheme = WordScheme()) : SchemeEditor<WordSch
             lateinit var document: Document
 
             row(Bundle("word.ui.words.insert_option")) {
-                comboBox(listOf(PRESET_ITEM) + DefaultWordList.WORD_LISTS, textListCellRenderer { it?.name })
+                comboBox(listOf(PRESET_ITEM) + DefaultWordList.WORD_LISTS, wordListRenderer)
                     .withName("presets")
                     .also {
                         it.component.addItemListener { event ->
@@ -105,6 +107,17 @@ class WordSchemeEditor(scheme: WordScheme = WordScheme()) : SchemeEditor<WordSch
                 .let { cell(it.rootComponent).align(AlignX.FILL) }
         }
     }.finalize(this)
+
+    @Suppress("UnstableApiUsage") // Cannot be circumvented
+    private val wordListRenderer = listCellRenderer<DefaultWordList?> {
+        val index = index
+        val name = value?.name
+
+        text(name ?: Bundle("word_list.ui.nameless")) {
+            if (index == 0 || name == null)
+                attributes = REGULAR_ITALIC_ATTRIBUTES
+        }
+    }
 
 
     init {
