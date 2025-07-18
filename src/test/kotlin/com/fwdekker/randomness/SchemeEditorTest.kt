@@ -4,14 +4,15 @@ import com.fwdekker.randomness.testhelpers.DummyDecoratorScheme
 import com.fwdekker.randomness.testhelpers.DummyDecoratorSchemeEditor
 import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.DummySchemeEditor
+import com.fwdekker.randomness.testhelpers.DummyValidatableScheme
+import com.fwdekker.randomness.testhelpers.DummyValidatableSchemeEditor
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
+import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.ideaRunEdt
 import com.fwdekker.randomness.testhelpers.matcher
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
-import com.fwdekker.randomness.ui.Validator
-import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.fwdekker.randomness.ui.withName
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
@@ -191,46 +192,14 @@ object SchemeEditorTest : FunSpec({
     }
 
     context("doValidate") {
-        data class ExampleScheme(
-            var foo: String = "foo",
-            var bar: String = "bar",
-        ) : Scheme() {
-            override val name: String = "ExampleScheme"
-            override val decorators: List<DecoratorScheme> = emptyList()
-            override val validators: List<Validator<*>> = validators {
-                of(::foo).check({ it.lowercase() == "foo" }, { "Foo field is invalid." })
-                of(::bar).check({ it.lowercase() == "bar" }, { "Bar field is invalid." })
+        suspend fun getErrorPopupTexts(revalidate: Boolean = true): List<String> {
+            if (revalidate) {
+                ideaRunEdt { editor.apply() }
+                frame.label("label").click() // Click outside fields to close existing popups
+                ideaRunEdt { editor.doValidate() }
             }
 
-
-            override fun generateUndecoratedStrings(count: Int): List<String> = List(count) { "String" }
-
-            override fun deepCopy(retainUuid: Boolean): Scheme = copy().deepCopyTransient(retainUuid)
-        }
-
-        class ExampleSchemeEditor(scheme: ExampleScheme) : SchemeEditor<ExampleScheme>(scheme) {
-            override val rootComponent = panel {
-                row {
-                    textField()
-                        .withName("foo")
-                        .bindText(scheme::foo)
-                        .bindValidation(scheme::foo)
-
-                    textField()
-                        .withName("bar")
-                        .bindText(scheme::bar)
-                        .bindValidation(scheme::bar)
-                }
-            }.finalize(this)
-
-
-            init {
-                reset()
-            }
-        }
-
-        suspend fun getErrorPopupTexts(): List<String> =
-            ideaRunEdt {
+            return ideaRunEdt {
                 frame.robot().finder().findAll(matcher(AbstractPopup.MyContentPanel::class.java))
                     .map { popup ->
                         popup.components
@@ -241,68 +210,56 @@ object SchemeEditorTest : FunSpec({
                             .trim(' ', '\n')
                     }
             }
+        }
 
-        fun applyAndValidate() {
-            editor.apply()
-            editor.doValidate()
+
+        beforeNonContainer {
+            registerTestEditor { DummyValidatableSchemeEditor(DummyValidatableScheme()) }
         }
 
 
         test("shows no error popups if all fields are valid") {
-            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
-
             frame.textBox("foo").setText("foo")
             frame.textBox("bar").setText("bar")
-            ideaRunEdt { applyAndValidate() }
 
             getErrorPopupTexts() should beEmpty()
         }
 
         test("shows an error popup for an invalid field") {
-            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
-
             frame.textBox("foo").setText("wrong")
-            frame.textBox("bar").setText("bar")
-            ideaRunEdt { applyAndValidate() }
 
             getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
         }
 
         test("shows an error popup for each invalid field") {
-            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
-
             frame.textBox("foo").setText("wrong")
             frame.textBox("bar").setText("wrong")
-            ideaRunEdt { applyAndValidate() }
 
             getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.", "Bar field is invalid.")
         }
 
-        xtest("hides error popups once fields are valid again") {
-            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
-
+        test("hides error popups after clicking outside the invalid fields") {
             frame.textBox("foo").setText("wrong")
-            frame.textBox("bar").setText("bar")
-            ideaRunEdt { applyAndValidate() }
+            getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
+
+            frame.label("label").click()
+            getErrorPopupTexts(revalidate = false) should beEmpty()
+        }
+
+        test("hides error popups once fields are valid again") {
+            frame.textBox("foo").setText("wrong")
             getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
 
             frame.textBox("foo").setText("foo")
-            frame.textBox("bar").setText("bar")
-            ideaRunEdt { applyAndValidate() }
             getErrorPopupTexts() should beEmpty()
         }
 
-        xtest("shows and hides error popups once fields become invalid and valid, respectively") {
-            registerTestEditor { ExampleSchemeEditor(ExampleScheme()) }
-
+        test("shows and hides error popups once fields become invalid and valid, respectively") {
             frame.textBox("foo").setText("wrong")
-            frame.textBox("bar").setText("bar")
-            ideaRunEdt { applyAndValidate() }
             getErrorPopupTexts() shouldContainOnly listOf("Foo field is invalid.")
 
             frame.textBox("foo").setText("foo")
             frame.textBox("bar").setText("wrong")
-            ideaRunEdt { applyAndValidate() }
             getErrorPopupTexts() shouldContainOnly listOf("Bar field is invalid.")
         }
     }

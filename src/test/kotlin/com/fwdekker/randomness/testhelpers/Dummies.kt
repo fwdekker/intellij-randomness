@@ -8,6 +8,7 @@ import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.SchemeEditor
 import com.fwdekker.randomness.State
 import com.fwdekker.randomness.TypeIcon
+import com.fwdekker.randomness.ui.Validator
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.fwdekker.randomness.ui.withName
 import com.intellij.openapi.ui.DialogPanel
@@ -115,4 +116,51 @@ class DummyInsertAction(
     private val generator: (Random) -> String,
 ) : InsertAction(repeat, "Dummy", null, null) {
     override fun generateStrings(count: Int) = List(count) { generator(Random.Default) }
+}
+
+
+/**
+ * A simple [Scheme] that is not very customisable, but is useful for testing validation.
+ */
+data class DummyValidatableScheme(
+    var foo: String = "foo",
+    var bar: String = "bar",
+) : Scheme() {
+    override val name: String = "ExampleScheme"
+    override val decorators: List<DecoratorScheme> = emptyList()
+    override val validators: List<Validator<*>> = validators {
+        of(::foo).check({ it.lowercase() == "foo" }, { "Foo field is invalid." })
+        of(::bar).check({ it.lowercase() == "bar" }, { "Bar field is invalid." })
+    }
+
+
+    override fun generateUndecoratedStrings(count: Int): List<String> = List(count) { "String" }
+
+    override fun deepCopy(retainUuid: Boolean): Scheme = copy().deepCopyTransient(retainUuid)
+}
+
+/**
+ * A simple [SchemeEditor] for [DummyValidatableScheme]s.
+ */
+class DummyValidatableSchemeEditor(scheme: DummyValidatableScheme) : SchemeEditor<DummyValidatableScheme>(scheme) {
+    override val rootComponent = panel {
+        row {
+            label("Label").withName("label")
+
+            textField()
+                .withName("foo")
+                .bindText(scheme::foo)
+                .bindValidation(scheme::foo)
+
+            textField()
+                .withName("bar")
+                .bindText(scheme::bar)
+                .bindValidation(scheme::bar)
+        }
+    }.finalize(this).also { it.name = "myRoot" }
+
+
+    init {
+        reset()
+    }
 }
