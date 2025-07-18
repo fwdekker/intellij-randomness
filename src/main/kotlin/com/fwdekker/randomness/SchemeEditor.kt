@@ -124,8 +124,8 @@ abstract class SchemeEditor<S : Scheme>(val scheme: S) : Disposable {
      */
     fun doValidate() {
         (listOf(rootComponent) + decoratorEditors.map { it.rootComponent })
-            .toList() // Use `List`, not `Sequence`, to make sure we have no premature stoppage
-            .firstNotNullOfOrNull { it.validateAll().toList().firstOrNull() }
+            .flatMap { it.validateAll() }
+            .firstOrNull()
             ?.component
             ?.focusLater()
     }
