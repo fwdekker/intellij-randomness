@@ -177,6 +177,26 @@ object ValidatorDslTest : FunSpec({
                 validators.single().validate() shouldBe null
             }
         }
+
+        context("checkNoException") {
+            test("creates a `Validator` with the DSL's configured `property`") {
+                val validators = scheme.validators { of(scheme::name).checkNoException { true } }
+
+                validators.single().property shouldBe scheme::name
+            }
+
+            test("creates a validator that fails when an exception is thrown and uses the exception's message") {
+                val validators = scheme.validators { of(scheme::name).checkNoException { error("expected") } }
+
+                validators.single().validate()?.message shouldBe "expected"
+            }
+
+            test("creates a validator that succeeds when no exception is thrown") {
+                val validators = scheme.validators { of(scheme::name).checkNoException { } }
+
+                validators.single().validate() shouldBe null
+            }
+        }
     }
 
     context("include") {

@@ -116,6 +116,24 @@ class ValidatorDsl private constructor(private val state: State) {
             validator(property) { if (isValid(it)) null else info(message(it)) }
             return this
         }
+
+        /**
+         * Adds a [Validator] to the outer [ValidatorDsl] that checks that no [Exception] is thrown inside [validate].
+         *
+         * The [Exception]'s message is used as the [ValidationInfo] message. The exception is completely swallowed.
+         */
+        @Suppress("detekt:TooGenericExceptionCaught") // Cannot catch generic exceptions
+        fun checkNoException(validate: OfDsl<T>.(T) -> Any?): OfDsl<T> {
+            validator(property) {
+                try {
+                    validate(it)
+                    null
+                } catch (exception: Exception) {
+                    info(exception.message)
+                }
+            }
+            return this
+        }
     }
 
 

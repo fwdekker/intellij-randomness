@@ -35,7 +35,7 @@ data class DateTimeScheme(
         include(::minDateTime)
         include(::maxDateTime)
         of(::maxDateTime).check({ !it.isBefore(minDateTime) }, { Bundle("datetime.error.min_datetime_above_max") })
-        of(::pattern).check { info(it.doValidateDateTimePattern()) }
+        of(::pattern).checkNoException { DateTimeFormatter.ofPattern(it) }
     }
 
 
@@ -75,17 +75,3 @@ data class DateTimeScheme(
         const val DEFAULT_PATTERN: String = "yyyy-MM-dd HH:mm:ss.SSS"
     }
 }
-
-
-/**
- * Returns `null` if this [String] is a valid date-time pattern, or a string describing why it is invalid otherwise.
- *
- * @see DateTimeFormatter
- */
-private fun String.doValidateDateTimePattern(): String? =
-    try {
-        DateTimeFormatter.ofPattern(this)
-        null
-    } catch (exception: IllegalArgumentException) {
-        exception.message
-    }
