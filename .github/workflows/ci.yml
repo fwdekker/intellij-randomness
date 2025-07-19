@@ -29,6 +29,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           add-job-summary: on-failure
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Run tests
         run: xvfb-run --auto-servernum ./gradlew check
       - name: Store coverage report
@@ -51,6 +52,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           add-job-summary: on-failure
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Run tests
         run: ./gradlew check
 
@@ -68,6 +70,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           add-job-summary: on-failure
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Run tests
         run: ./gradlew check
 
