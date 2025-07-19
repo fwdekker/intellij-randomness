@@ -3,8 +3,11 @@ package com.fwdekker.randomness.testhelpers
 import com.fwdekker.randomness.CapitalizationMode
 import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.State
+import com.fwdekker.randomness.Timestamp
+import com.fwdekker.randomness.Timestamp.Companion.FORMATTER
 import com.fwdekker.randomness.getMod
 import com.fwdekker.randomness.integer.IntegerScheme
+import com.github.sisyphsu.dateparser.DateParserUtils
 import com.intellij.util.xmlb.annotations.OptionTag
 import com.intellij.util.xmlb.annotations.Transient
 import com.intellij.util.xmlb.annotations.XCollection
@@ -107,6 +110,9 @@ fun Any?.mutated(): Any {
         is Double -> inc()
         is String -> "foo_$this"
         is CapitalizationMode -> CapitalizationMode.entries.getMod(ordinal + 1)
+        is Timestamp ->
+            if (epochMilli == null) Timestamp("foo_$value")
+            else Timestamp(DateParserUtils.parseDateTime(value).plusSeconds(1).format(FORMATTER))
 
         is State ->
             properties()

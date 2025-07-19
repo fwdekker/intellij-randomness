@@ -40,6 +40,7 @@ class TemplateReferenceEditor(scheme: TemplateReference) : SchemeEditor<Template
                     }
                     .withName("template")
                     .bindItem(scheme::template.toNullableProperty())
+                    .bindValidation(scheme::template)
                     .also { templates = it.component }
 
                 link(Bundle("reference.ui.value.visit")) { selectSchemeInSettings(templates, scheme.template) }
@@ -50,6 +51,7 @@ class TemplateReferenceEditor(scheme: TemplateReference) : SchemeEditor<Template
                 comboBox(PRESET_CAPITALIZATION, textListCellRenderer { it?.toLocalizedString() })
                     .withName("capitalization")
                     .bindItem(scheme::capitalization.toNullableProperty())
+                    .bindValidation(scheme::capitalization)
             }
 
             row {
@@ -64,7 +66,7 @@ class TemplateReferenceEditor(scheme: TemplateReference) : SchemeEditor<Template
                 .also { decoratorEditors += it }
                 .let { cell(it.rootComponent).align(AlignX.FILL) }
         }
-    }
+    }.finalize(this)
 
 
     init {

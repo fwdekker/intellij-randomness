@@ -8,6 +8,7 @@ import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
 import com.fwdekker.randomness.fixedlength.FixedLengthDecorator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.ui.JBColor
 import com.intellij.util.xmlb.annotations.OptionTag
 import java.awt.Color
@@ -41,6 +42,14 @@ data class IntegerScheme(
     override val name = Bundle("integer.title")
     override val typeIcon get() = BASE_ICON
     override val decorators get() = listOf(fixedLengthDecorator, affixDecorator, arrayDecorator)
+    override val validators = validators {
+        of(::maxValue).check({ it >= minValue }, { Bundle("integer.error.min_value_above_max") })
+        of(::base).check({ it in MIN_BASE..MAX_BASE }, { Bundle("integer.error.base_range", "$MIN_BASE..$MAX_BASE") })
+        of(::groupingSeparator).check({ it.length == 1 }, { Bundle("integer.error.grouping_separator_length") })
+        include(::fixedLengthDecorator)
+        include(::affixDecorator)
+        include(::arrayDecorator)
+    }
 
 
     /**
@@ -78,14 +87,6 @@ data class IntegerScheme(
         return format.format(value)
     }
 
-
-    override fun doValidate() =
-        when {
-            minValue > maxValue -> Bundle("integer.error.min_value_above_max")
-            base !in MIN_BASE..MAX_BASE -> Bundle("integer.error.base_range", "$MIN_BASE..$MAX_BASE")
-            groupingSeparator.length != 1 -> Bundle("integer.error.grouping_separator_length")
-            else -> fixedLengthDecorator.doValidate() ?: affixDecorator.doValidate() ?: arrayDecorator.doValidate()
-        }
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(

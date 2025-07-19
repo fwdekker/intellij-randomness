@@ -7,11 +7,10 @@ import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorApplyTests
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
 import com.fwdekker.randomness.testhelpers.find
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
 import com.fwdekker.randomness.testhelpers.itemProp
 import com.fwdekker.randomness.testhelpers.matcher
 import com.fwdekker.randomness.testhelpers.prop
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.testhelpers.valueProp
@@ -44,7 +43,7 @@ object WordSchemeEditorTest : FunSpec({
 
     beforeNonContainer {
         scheme = WordScheme()
-        editor = guiGet { WordSchemeEditor(scheme) }
+        editor = runEdt { WordSchemeEditor(scheme) }
         frame = showInFrame(editor.rootComponent)
 
         wordsEditor = frame.find(matcher(EditorComponentImpl::class.java))
@@ -52,7 +51,7 @@ object WordSchemeEditorTest : FunSpec({
 
     afterNonContainer {
         frame.cleanUp()
-        guiRun { Disposer.dispose(editor) }
+        runEdt { Disposer.dispose(editor) }
     }
 
 
@@ -71,32 +70,32 @@ object WordSchemeEditorTest : FunSpec({
             context("pre-selection") {
                 test("selects the placeholder if the initial words do no match any word list") {
                     scheme.words = listOf("word1", "word2")
-                    guiRun { editor.reset() }
+                    runEdt { editor.reset() }
 
                     frame.comboBox("presets").target().selectedIndex shouldBe 0
                 }
 
                 test("selects the corresponding word list if the contents match that list") {
                     scheme.words = firstList.words
-                    guiRun { editor.reset() }
+                    runEdt { editor.reset() }
 
                     frame.comboBox("presets").target().selectedIndex shouldBe 1
                 }
 
                 test("selects the placeholder if a word is changed") {
                     scheme.words = firstList.words
-                    guiRun { editor.reset() }
+                    runEdt { editor.reset() }
 
-                    guiRun { runWriteAction { wordsEditor.editor.document.setText("${firstListAsString}jealous") } }
+                    runEdt { runWriteAction { wordsEditor.editor.document.setText("${firstListAsString}jealous") } }
 
                     frame.comboBox("presets").target().selectedIndex shouldBe 0
                 }
 
                 test("retains the non-placeholder selection if a newline is appended") {
                     scheme.words = firstList.words
-                    guiRun { editor.reset() }
+                    runEdt { editor.reset() }
 
-                    guiRun { runWriteAction { wordsEditor.editor.document.setText("$firstListAsString\n \n") } }
+                    runEdt { runWriteAction { wordsEditor.editor.document.setText("$firstListAsString\n \n") } }
 
                     frame.comboBox("presets").target().selectedIndex shouldBe 1
                 }
@@ -105,26 +104,26 @@ object WordSchemeEditorTest : FunSpec({
             context("insertion") {
                 test("does nothing if the placeholder is selected") {
                     scheme.words = listOf("word1", "word2")
-                    guiRun { editor.reset() }
+                    runEdt { editor.reset() }
 
-                    guiRun { frame.comboBox("presets").target().selectedIndex = 0 }
+                    runEdt { frame.comboBox("presets").target().selectedIndex = 0 }
 
                     wordsEditor.text shouldBe "word1\nword2\n"
                 }
 
                 test("does nothing if another entry is selected and then the placeholder is selected") {
-                    guiRun { frame.comboBox("presets").target().selectedIndex = 1 }
+                    runEdt { frame.comboBox("presets").target().selectedIndex = 1 }
 
-                    guiRun { frame.comboBox("presets").target().selectedIndex = 0 }
+                    runEdt { frame.comboBox("presets").target().selectedIndex = 0 }
 
                     wordsEditor.text shouldBe firstListAsString
                 }
 
                 test("inserts the words of the selected entry") {
                     scheme.words = listOf("word1", "word2")
-                    guiRun { editor.reset() }
+                    runEdt { editor.reset() }
 
-                    guiRun { frame.comboBox("presets").target().selectedIndex = 1 }
+                    runEdt { frame.comboBox("presets").target().selectedIndex = 1 }
 
                     wordsEditor.text shouldBe firstListAsString
                 }
@@ -133,11 +132,11 @@ object WordSchemeEditorTest : FunSpec({
 
         context("words") {
             test("removes blank lines from the input field") {
-                guiRun { runWriteAction { wordsEditor.editor.document.setText("word1\n  \nword2\n") } }
+                runEdt { runWriteAction { wordsEditor.editor.document.setText("word1\n  \nword2\n") } }
 
                 editor.apply()
 
-                guiGet { editor.scheme.words } shouldContainExactly listOf("word1", "word2")
+                runEdt { editor.scheme.words } shouldContainExactly listOf("word1", "word2")
             }
         }
     }

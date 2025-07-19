@@ -2,10 +2,11 @@ package com.fwdekker.randomness.template
 
 import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.testhelpers.DummyScheme
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beEmptyIntArray
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
-import com.fwdekker.randomness.testhelpers.matchBundle
 import com.fwdekker.randomness.testhelpers.shouldContainExactly
+import com.fwdekker.randomness.testhelpers.shouldMatchBundle
 import com.fwdekker.randomness.ui.SimpleTreeModelListener
 import com.intellij.ui.RowsDnDSupport.RefinedDropSupport.Position
 import io.kotest.assertions.throwables.shouldThrow
@@ -18,7 +19,6 @@ import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.collections.shouldNotContain
-import io.kotest.matchers.nulls.beNull
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -30,6 +30,9 @@ import javax.swing.event.TreeModelListener
  * Unit tests for [TemplateJTreeModel].
  */
 object TemplateJTreeModelTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     lateinit var list: TemplateList
     lateinit var model: TemplateJTreeModel
 
@@ -79,7 +82,7 @@ object TemplateJTreeModelTest : FunSpec({
             val child = StateNode(DummyScheme())
 
             shouldThrow<IllegalArgumentException> { model.insertNode(parent, child) }
-                .message should matchBundle("template_list.error.node_not_in_tree")
+                .message shouldMatchBundle "template_list.error.node_not_in_tree"
         }
 
         test("throws an error if the child is not a valid child for the parent") {
@@ -87,7 +90,7 @@ object TemplateJTreeModelTest : FunSpec({
             val child = StateNode(DummyScheme())
 
             shouldThrow<IllegalArgumentException> { model.insertNode(parent, child) }
-                .message should matchBundle("template_list.error.wrong_child_type")
+                .message shouldMatchBundle "template_list.error.wrong_child_type"
         }
 
         test("throws an error when a node is inserted at a negative index") {
@@ -100,7 +103,7 @@ object TemplateJTreeModelTest : FunSpec({
 
         test("throws an error if a node with the same uuid already exists in the parent") {
             shouldThrow<IllegalArgumentException> { model.insertNode(model.root, model.root.children[0]) }
-                .message should matchBundle("template_list.error.duplicate_uuid")
+                .message shouldMatchBundle "template_list.error.duplicate_uuid"
         }
 
 
@@ -175,7 +178,7 @@ object TemplateJTreeModelTest : FunSpec({
 
             lastEvent!!.treePath.lastPathComponent shouldBe model.root
             lastEvent!!.childIndices should beEmptyIntArray()
-            lastEvent!!.children should beNull()
+            lastEvent!!.children shouldBe null
         }
     }
 
@@ -188,7 +191,7 @@ object TemplateJTreeModelTest : FunSpec({
             val child = StateNode(DummyScheme("Child"))
 
             shouldThrow<IllegalArgumentException> { model.insertNodeAfter(parent, after, child) }
-                .message should matchBundle("template_list.error.node_not_in_tree")
+                .message shouldMatchBundle "template_list.error.node_not_in_tree"
         }
 
         test("throws an error if the parent cannot have children") {
@@ -197,7 +200,7 @@ object TemplateJTreeModelTest : FunSpec({
             val child = StateNode(DummyScheme())
 
             shouldThrow<IllegalStateException> { model.insertNodeAfter(parent, after, child) }
-                .message should matchBundle("template_list.error.infertile_parent")
+                .message shouldMatchBundle "template_list.error.infertile_parent"
         }
 
         test("throws an error if the node to insert after is not in the parent") {
@@ -206,7 +209,7 @@ object TemplateJTreeModelTest : FunSpec({
             val child = StateNode(DummyScheme())
 
             shouldThrow<IllegalArgumentException> { model.insertNodeAfter(parent, after, child) }
-                .message should matchBundle("template_list.error.wrong_parent")
+                .message shouldMatchBundle "template_list.error.wrong_parent"
         }
 
 
@@ -224,12 +227,12 @@ object TemplateJTreeModelTest : FunSpec({
     context("removeNode") {
         test("throws an error if the given node is not contained in the model") {
             shouldThrow<IllegalArgumentException> { model.removeNode(StateNode(DummyScheme())) }
-                .message should matchBundle("template_list.error.node_not_in_tree")
+                .message shouldMatchBundle "template_list.error.node_not_in_tree"
         }
 
         test("throws an error if the given node is the root of the model") {
             shouldThrow<IllegalArgumentException> { model.removeNode(model.root) }
-                .message should matchBundle("template_list.error.cannot_remove_root")
+                .message shouldMatchBundle "template_list.error.cannot_remove_root"
         }
 
 
@@ -312,7 +315,7 @@ object TemplateJTreeModelTest : FunSpec({
     context("moveRow") {
         test("cannot swap out-of-bounds indices") {
             shouldThrow<IllegalArgumentException> { model.moveRow(3, 495, Position.BELOW) }
-                .message should matchBundle("template_list.error.cannot_move_row")
+                .message shouldMatchBundle "template_list.error.cannot_move_row"
         }
 
         context("templates") {
@@ -422,7 +425,7 @@ object TemplateJTreeModelTest : FunSpec({
     context("isLeaf") {
         test("throws an error if the given node is not a StateNode") {
             shouldThrow<IllegalArgumentException> { model.isLeaf("not a node") }
-                .message should matchBundle("template_list.error.unknown_node_type")
+                .message shouldMatchBundle "template_list.error.unknown_node_type"
         }
 
         withData(
@@ -438,17 +441,17 @@ object TemplateJTreeModelTest : FunSpec({
     context("getChild") {
         test("throws an error if the given node is not a StateNode") {
             shouldThrow<IllegalArgumentException> { model.getChild("not a node", index = 0) }
-                .message should matchBundle("template_list.error.unknown_node_type")
+                .message shouldMatchBundle "template_list.error.unknown_node_type"
         }
 
         test("throws an error if the given node is not contained in the model") {
             shouldThrow<IllegalArgumentException> { model.getChild(StateNode(DummyScheme()), 4) }
-                .message should matchBundle("template_list.error.node_not_in_tree")
+                .message shouldMatchBundle "template_list.error.node_not_in_tree"
         }
 
         test("throws an error if the given node cannot have children") {
             shouldThrow<IllegalStateException> { model.getChild(model.root.children[0].children[1], index = 0) }
-                .message should matchBundle("template_list.error.infertile_parent")
+                .message shouldMatchBundle "template_list.error.infertile_parent"
         }
 
         test("throws an error if there is no child at the given index") {
@@ -463,12 +466,12 @@ object TemplateJTreeModelTest : FunSpec({
     context("getChildCount") {
         test("throws an error if the given node is not a StateNode") {
             shouldThrow<IllegalArgumentException> { model.getChildCount("not a node") }
-                .message should matchBundle("template_list.error.unknown_node_type")
+                .message shouldMatchBundle "template_list.error.unknown_node_type"
         }
 
         test("throws an error if the given node is not contained in the model") {
             shouldThrow<IllegalArgumentException> { model.getChildCount(StateNode(DummyScheme())) }
-                .message should matchBundle("template_list.error.node_not_in_tree")
+                .message shouldMatchBundle "template_list.error.node_not_in_tree"
         }
 
         withData(
@@ -508,7 +511,7 @@ object TemplateJTreeModelTest : FunSpec({
     context("getParentOf") {
         test("throws an error if the node is not contained in this model") {
             shouldThrow<IllegalArgumentException> { model.getParentOf(StateNode(DummyScheme())) }
-                .message should matchBundle("template_list.error.node_not_in_tree")
+                .message shouldMatchBundle "template_list.error.node_not_in_tree"
         }
 
         withData(
@@ -523,7 +526,7 @@ object TemplateJTreeModelTest : FunSpec({
     context("getPathToRoot") {
         test("throws an error if the node is not contained in this model") {
             shouldThrow<IllegalArgumentException> { model.getPathToRoot(StateNode(DummyScheme())) }
-                .message should matchBundle("template_list.error.node_not_in_tree")
+                .message shouldMatchBundle "template_list.error.node_not_in_tree"
         }
 
         withData(
@@ -621,7 +624,7 @@ object TemplateJTreeModelTest : FunSpec({
                 val node = StateNode(DummyScheme())
 
                 shouldThrow<IllegalArgumentException> { model.fireNodeInserted(model.root, node, 688) }
-                    .message should matchBundle("template_list.error.cannot_insert_root")
+                    .message shouldMatchBundle "template_list.error.cannot_insert_root"
             }
 
             test("does nothing if the given node is null") {
@@ -655,7 +658,7 @@ object TemplateJTreeModelTest : FunSpec({
                 val node = StateNode(DummyScheme())
 
                 shouldThrow<IllegalArgumentException> { model.fireNodeRemoved(model.root, node, 888) }
-                    .message should matchBundle("template_list.error.cannot_remove_root")
+                    .message shouldMatchBundle "template_list.error.cannot_remove_root"
             }
 
             test("fires an event with the given parent, node, and index") {
@@ -682,7 +685,7 @@ object TemplateJTreeModelTest : FunSpec({
                 totalInvoked - structureChangedInvoked shouldBe 0
                 lastEvent!!.treePath.lastPathComponent shouldBe node
                 lastEvent!!.childIndices should beEmptyIntArray()
-                lastEvent!!.children should beNull()
+                lastEvent!!.children shouldBe null
             }
         }
     }
@@ -728,6 +731,9 @@ object TemplateJTreeModelTest : FunSpec({
  * Unit tests for [StateNode].
  */
 object StateNodeTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("canHaveChildren") {
         withData(
             mapOf(
@@ -758,7 +764,7 @@ object StateNodeTest : FunSpec({
 
             test("throws an error for a non-template scheme") {
                 shouldThrow<IllegalStateException> { StateNode(DummyScheme()).children }
-                    .message should matchBundle("template_list.error.infertile_parent")
+                    .message shouldMatchBundle "template_list.error.infertile_parent"
             }
         }
 
@@ -783,7 +789,7 @@ object StateNodeTest : FunSpec({
 
             test("throws an error for a non-template scheme") {
                 shouldThrow<IllegalStateException> { run { StateNode(DummyScheme()).children = emptyList() } }
-                    .message should matchBundle("template_list.error.infertile_parent")
+                    .message shouldMatchBundle "template_list.error.infertile_parent"
             }
         }
     }

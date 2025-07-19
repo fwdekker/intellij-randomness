@@ -5,10 +5,9 @@ import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorApplyTests
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
 import com.fwdekker.randomness.testhelpers.isSelectedProp
 import com.fwdekker.randomness.testhelpers.prop
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.testhelpers.valueProp
@@ -35,7 +34,7 @@ object DecimalSchemeEditorTest : FunSpec({
 
     beforeNonContainer {
         scheme = DecimalScheme()
-        editor = guiGet { DecimalSchemeEditor(scheme) }
+        editor = runEdt { DecimalSchemeEditor(scheme) }
         frame = showInFrame(editor.rootComponent)
     }
 
@@ -48,7 +47,7 @@ object DecimalSchemeEditorTest : FunSpec({
     context("input handling") {
         context("*Value") {
             test("binds the minimum and maximum values") {
-                guiRun { frame.spinner("minValue").target().value = 3670.0 }
+                runEdt { frame.spinner("minValue").target().value = 3670.0 }
 
                 frame.spinner("minValue").requireValue(3670.0)
                 frame.spinner("maxValue").requireValue(3670.0)
@@ -57,7 +56,7 @@ object DecimalSchemeEditorTest : FunSpec({
 
         context("decimalCount") {
             test("truncates decimals in the decimal count") {
-                guiRun { frame.spinner("decimalCount").target().value = 693.57f }
+                runEdt { frame.spinner("decimalCount").target().value = 693.57f }
 
                 frame.spinner("decimalCount").requireValue(693)
             }
@@ -66,18 +65,18 @@ object DecimalSchemeEditorTest : FunSpec({
         context("groupingSeparator") {
             context("enforces the length filter") {
                 beforeNonContainer {
-                    guiRun { frame.checkBox("groupingSeparatorEnabled").target().isSelected = true }
+                    runEdt { frame.checkBox("groupingSeparatorEnabled").target().isSelected = true }
                 }
 
 
                 test("enforces a minimum length of 1") {
-                    guiRun { frame.comboBox("groupingSeparator").target().editor.item = "" }
+                    runEdt { frame.comboBox("groupingSeparator").target().editor.item = "" }
 
                     frame.comboBox("groupingSeparator").requireSelection(",")
                 }
 
                 test("enforces a maximum length of 1") {
-                    guiRun { frame.comboBox("groupingSeparator").target().editor.item = "long" }
+                    runEdt { frame.comboBox("groupingSeparator").target().editor.item = "long" }
 
                     frame.comboBox("groupingSeparator").requireSelection(",")
                 }
@@ -85,13 +84,13 @@ object DecimalSchemeEditorTest : FunSpec({
 
             context("enabled state") {
                 test("enables the input if the checkbox is selected") {
-                    guiRun { frame.checkBox("groupingSeparatorEnabled").target().isSelected = true }
+                    runEdt { frame.checkBox("groupingSeparatorEnabled").target().isSelected = true }
 
                     frame.comboBox("groupingSeparator").requireEnabled()
                 }
 
                 test("disables the input if the checkbox is not selected") {
-                    guiRun { frame.checkBox("groupingSeparatorEnabled").target().isSelected = false }
+                    runEdt { frame.checkBox("groupingSeparatorEnabled").target().isSelected = false }
 
                     frame.comboBox("groupingSeparator").requireDisabled()
                 }

@@ -5,14 +5,20 @@ import org.jdom.Element
 
 /**
  * Adds a property with given [name] and [value].
+ *
+ * A property is a child element of type `option`, with an attribute `name` and optionally an attribute `value`. A
+ * property may have its own children, too.
+ *
+ * A property is added even if another property with the given [name] already exists.
  */
 fun Element.addProperty(name: String, value: String? = null) {
-    Element("option")
-        .also {
-            it.setAttribute("name", name)
-            if (value != null) it.setAttribute("value", value)
-        }
-        .also(::addContent)
+    addContent(
+        Element("option")
+            .apply {
+                setAttribute("name", name)
+                if (value != null) setAttribute("value", value)
+            }
+    )
 }
 
 /**
@@ -38,28 +44,43 @@ fun Element.getPropertyByPath(vararg names: String?): Element? =
     }
 
 /**
- * Returns the value of the `value` attribute of property [name], or `null` if the property does not exist or if the
- * property has no value.
+ * Returns the value of the `value` attribute of property [name], or `null` if the property does not exist, the property
+ * has no value, or there are multiple properties with the given [name].
  */
 fun Element.getPropertyValue(name: String): String? =
     getProperty(name)?.getAttribute("value")?.value
 
 /**
- * Sets the value of the `value` attribute of property [name], or adds the property if it does not exist.
+ * Returns the values of all properties with the given [name].
+ *
+ * Similar to [getPropertyValue], but works for multiple properties with the same name, and does not return `null`.
  */
-fun Element.setPropertyValue(name: String, value: String) {
+fun Element.getMultiPropertyValue(name: String): List<String> =
+    getMultiProperty(name).mapNotNull { it.getAttribute("value")?.value }
+
+/**
+ * Sets the value of the `value` attribute of property [name], or adds the property if it does not exist.
+ *
+ * If multiple properties have the same [name], their values are all set to [value].
+ *
+ * If [value] is `null`, then the `value` attribute will be removed from all properties with the given [name].
+ */
+fun Element.setPropertyValue(name: String, value: String?) {
     getMultiProperty(name)
-        .also {
-            if (it.isEmpty()) addProperty(name, value)
-            else if (it.size == 1) it[0].setAttribute("value", value)
+        .also { props ->
+            if (props.isEmpty()) addProperty(name, value)
+            else if (value == null) props.forEach { it.removeAttribute("value") }
+            else props.forEach { it.setAttribute("value", value) }
         }
 }
 
 /**
  * Renames the property from [oldName] to [newName].
  *
- * Requires that there is not already a property with [newName]. If there is no property with [oldName], nothing
- * happens. If there are multiple properties with [oldName], they are all renamed to [newName].
+ * If there is no property with [oldName], nothing happens. If multiple properties have the same [oldName], they are all
+ * renamed to [newName].
+ *
+ * Requires that there is not already a property with [newName].
  */
 fun Element.renameProperty(oldName: String, newName: String) {
     require(getMultiProperty(newName).isEmpty()) { "Attribute '$newName' is already in use." }
@@ -69,10 +90,11 @@ fun Element.renameProperty(oldName: String, newName: String) {
 
 /**
  * Removes the property with attribute `name="[name]"`.
+ *
+ * If multiple properties have the same [name], they are all removed.
  */
-fun Element.removeProperty(name: String) {
+fun Element.removeProperty(name: String) =
     getMultiProperty(name).forEach { children.remove(it) }
-}
 
 
 

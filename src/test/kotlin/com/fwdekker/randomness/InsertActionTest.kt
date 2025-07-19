@@ -4,8 +4,8 @@ import com.fwdekker.randomness.testhelpers.DummyInsertAction
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
-import com.fwdekker.randomness.testhelpers.edtTest
-import com.fwdekker.randomness.testhelpers.guiRun
+import com.fwdekker.randomness.testhelpers.ideaEdtTest
+import com.fwdekker.randomness.testhelpers.ideaRunEdt
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.Presentation
@@ -40,7 +40,7 @@ object InsertActionTest : FunSpec({
         myFixture.testDataPath = javaClass.classLoader.getResource("integration-project/")!!.path
         myFixture.setUp()
 
-        guiRun {
+        ideaRunEdt {
             val file = myFixture.copyFileToProject("emptyFile.txt")
             myFixture.openFileInEditor(file)
 
@@ -89,13 +89,13 @@ object InsertActionTest : FunSpec({
 
 
     context("actionPerformed") {
-        edtTest("inserts text into an empty document") {
+        ideaEdtTest("inserts text into an empty document") {
             myFixture.testAction(insertAction)
 
             document.text shouldBe "0"
         }
 
-        edtTest("inserts text in front of existing text") {
+        ideaEdtTest("inserts text in front of existing text") {
             runWriteCommandAction(myFixture.project) { document.setText("contents") }
 
             setCaret(0)
@@ -104,7 +104,7 @@ object InsertActionTest : FunSpec({
             document.text shouldBe "0contents"
         }
 
-        edtTest("inserts text behind existing text") {
+        ideaEdtTest("inserts text behind existing text") {
             runWriteCommandAction(myFixture.project) { document.setText("contents") }
 
             setCaret(8)
@@ -113,7 +113,7 @@ object InsertActionTest : FunSpec({
             document.text shouldBe "contents0"
         }
 
-        edtTest("inserts text in the middle of existing text") {
+        ideaEdtTest("inserts text in the middle of existing text") {
             runWriteCommandAction(myFixture.project) { document.setText("contents") }
 
             setCaret(3)
@@ -122,7 +122,7 @@ object InsertActionTest : FunSpec({
             document.text shouldBe "con0tents"
         }
 
-        edtTest("replaces the entire document if selected") {
+        ideaEdtTest("replaces the entire document if selected") {
             runWriteCommandAction(myFixture.project) { document.setText("contents") }
 
             setSelection(0, 8)
@@ -131,7 +131,7 @@ object InsertActionTest : FunSpec({
             document.text shouldBe "0"
         }
 
-        edtTest("replaces a partial selection of text") {
+        ideaEdtTest("replaces a partial selection of text") {
             runWriteCommandAction(myFixture.project) { document.setText("contents") }
 
             setSelection(2, 4)
@@ -140,7 +140,7 @@ object InsertActionTest : FunSpec({
             document.text shouldBe "co0ents"
         }
 
-        edtTest("inserts text at multiple carets") {
+        ideaEdtTest("inserts text at multiple carets") {
             runWriteCommandAction(myFixture.project) { document.setText("line1\nline2\nline3") }
 
             setCaret(2)
@@ -151,7 +151,7 @@ object InsertActionTest : FunSpec({
             document.text shouldBe "li0ne1\nl1ine2\nline23"
         }
 
-        edtTest("replaces text at multiple carets") {
+        ideaEdtTest("replaces text at multiple carets") {
             runWriteCommandAction(myFixture.project) { document.setText("line1\nline2\nline3") }
 
             setSelection(2, 7)
@@ -161,7 +161,7 @@ object InsertActionTest : FunSpec({
             document.text shouldBe "li0ine1e3"
         }
 
-        edtTest("simultaneously inserts at carets and replaces at selections") {
+        ideaEdtTest("simultaneously inserts at carets and replaces at selections") {
             runWriteCommandAction(myFixture.project) { document.setText("line1\nline2\nline3") }
 
             setCaret(2)
@@ -173,7 +173,7 @@ object InsertActionTest : FunSpec({
             document.text shouldBe "li0ne1li2ne2\n3e3"
         }
 
-        edtTest("inserts the same value at multiple carets") {
+        ideaEdtTest("inserts the same value at multiple carets") {
             runWriteCommandAction(myFixture.project) { document.setText("line1\nline2\nline3") }
 
             setCaret(5)
@@ -187,19 +187,19 @@ object InsertActionTest : FunSpec({
         }
 
 
-        edtTest("inserts nothing if the scheme is invalid") {
+        ideaEdtTest("inserts nothing if the scheme is invalid") {
             myFixture.testAction(DummyInsertAction { throw DataGenerationException("Invalid input!") })
 
             document.text shouldBe ""
         }
 
-        edtTest("inserts nothing if the scheme is invalid with an empty message") {
+        ideaEdtTest("inserts nothing if the scheme is invalid with an empty message") {
             myFixture.testAction(DummyInsertAction { throw DataGenerationException() })
 
             document.text shouldBe ""
         }
 
-        edtTest("inserts nothing if the project is null") {
+        ideaEdtTest("inserts nothing if the project is null") {
             val event = AnActionEvent.createFromDataContext("", null) {
                 if (it == CommonDataKeys.PROJECT.name) myFixture.project
                 else null
@@ -210,7 +210,7 @@ object InsertActionTest : FunSpec({
             document.text shouldBe ""
         }
 
-        edtTest("inserts nothing if the editor is null") {
+        ideaEdtTest("inserts nothing if the editor is null") {
             val event = AnActionEvent.createFromDataContext("", null) {
                 if (it == CommonDataKeys.EDITOR.name) myFixture.editor
                 else null
@@ -223,7 +223,7 @@ object InsertActionTest : FunSpec({
     }
 
     context("presentation") {
-        edtTest("disables the presentation if the editor is null") {
+        ideaEdtTest("disables the presentation if the editor is null") {
             val presentation = Presentation()
 
             insertAction.update(AnActionEvent.createFromDataContext("", presentation) { null })
@@ -231,7 +231,7 @@ object InsertActionTest : FunSpec({
             presentation.isEnabled shouldBe false
         }
 
-        edtTest("enables the presentation if the editor is not null") {
+        ideaEdtTest("enables the presentation if the editor is not null") {
             val presentation = Presentation()
 
             insertAction.update(AnActionEvent.createFromDataContext("", presentation) { myFixture.editor })
@@ -239,7 +239,7 @@ object InsertActionTest : FunSpec({
             presentation.isEnabled shouldBe true
         }
 
-        edtTest("disables the presentation if the editor is read-only") {
+        ideaEdtTest("disables the presentation if the editor is read-only") {
             val presentation = Presentation()
 
             myFixture.editor.document.setReadOnly(true)

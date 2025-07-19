@@ -1,5 +1,6 @@
 package com.fwdekker.randomness.ui
 
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
@@ -12,6 +13,9 @@ import javax.swing.text.PlainDocument
  * Unit tests for [MaxLengthDocumentFilter].
  */
 object MaxLengthDocumentFilterTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     lateinit var document: PlainDocument
     lateinit var filter: DocumentFilter
     val getText = { document.getText(0, document.length) }

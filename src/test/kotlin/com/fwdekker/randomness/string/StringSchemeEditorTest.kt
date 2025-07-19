@@ -6,10 +6,10 @@ import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorApplyTests
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
-import com.fwdekker.randomness.testhelpers.guiGet
 import com.fwdekker.randomness.testhelpers.isSelectedProp
 import com.fwdekker.randomness.testhelpers.itemProp
 import com.fwdekker.randomness.testhelpers.prop
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.testhelpers.valueProp
@@ -36,7 +36,7 @@ object StringSchemeEditorTest : FunSpec({
 
     beforeNonContainer {
         scheme = StringScheme()
-        editor = guiGet { StringSchemeEditor(scheme) }
+        editor = runEdt { StringSchemeEditor(scheme) }
         frame = showInFrame(editor.rootComponent)
     }
 

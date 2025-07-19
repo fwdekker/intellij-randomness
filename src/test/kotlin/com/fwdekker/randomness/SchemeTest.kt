@@ -7,7 +7,6 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.shouldContainExactly
-import io.kotest.matchers.nulls.beNull
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
@@ -17,7 +16,7 @@ import io.kotest.matchers.types.shouldBeSameInstanceAs
  * Unit tests for [Scheme].
  */
 object SchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("icon") {
@@ -26,7 +25,7 @@ object SchemeTest : FunSpec({
 
             scheme.typeIcon = null
 
-            scheme.icon should beNull()
+            scheme.icon shouldBe null
         }
 
         test("uses the type icon as a basis for the icon") {
@@ -145,7 +144,7 @@ object SchemeTest : FunSpec({
  * Unit tests for [DecoratorScheme].
  */
 object DecoratorSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {

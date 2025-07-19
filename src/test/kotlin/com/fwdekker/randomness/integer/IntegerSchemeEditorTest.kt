@@ -5,11 +5,10 @@ import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorApplyTests
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
 import com.fwdekker.randomness.testhelpers.isSelectedProp
 import com.fwdekker.randomness.testhelpers.prop
 import com.fwdekker.randomness.testhelpers.requireEnabledIs
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.testhelpers.valueProp
@@ -37,7 +36,7 @@ object IntegerSchemeEditorTest : FunSpec({
 
     beforeNonContainer {
         scheme = IntegerScheme()
-        editor = guiGet { IntegerSchemeEditor(scheme) }
+        editor = runEdt { IntegerSchemeEditor(scheme) }
         frame = showInFrame(editor.rootComponent)
     }
 
@@ -50,19 +49,19 @@ object IntegerSchemeEditorTest : FunSpec({
     context("input handling") {
         context("*Value") {
             test("truncates decimals in the minimum value") {
-                guiRun { frame.spinner("minValue").target().value = 285.21f }
+                runEdt { frame.spinner("minValue").target().value = 285.21f }
 
                 frame.spinner("minValue").requireValue(285L)
             }
 
             test("truncates decimals in the maximum value") {
-                guiRun { frame.spinner("maxValue").target().value = 490.34f }
+                runEdt { frame.spinner("maxValue").target().value = 490.34f }
 
                 frame.spinner("maxValue").requireValue(490L)
             }
 
             test("binds the minimum and maximum values") {
-                guiRun { frame.spinner("minValue").target().value = 6804L }
+                runEdt { frame.spinner("minValue").target().value = 6804L }
 
                 frame.spinner("minValue").requireValue(6804L)
                 frame.spinner("maxValue").requireValue(6804L)
@@ -71,7 +70,7 @@ object IntegerSchemeEditorTest : FunSpec({
 
         context("base") {
             test("truncates decimals in the base") {
-                guiRun { frame.spinner("base").target().value = 22.62f }
+                runEdt { frame.spinner("base").target().value = 22.62f }
 
                 frame.spinner("base").requireValue(22)
             }
@@ -80,18 +79,18 @@ object IntegerSchemeEditorTest : FunSpec({
         context("grouping separator") {
             context("enforces the length filter") {
                 beforeNonContainer {
-                    guiRun { frame.checkBox("groupingSeparatorEnabled").target().isSelected = true }
+                    runEdt { frame.checkBox("groupingSeparatorEnabled").target().isSelected = true }
                 }
 
 
                 test("enforces a minimum length of 1") {
-                    guiRun { frame.comboBox("groupingSeparator").target().editor.item = "" }
+                    runEdt { frame.comboBox("groupingSeparator").target().editor.item = "" }
 
                     frame.comboBox("groupingSeparator").requireSelection(",")
                 }
 
                 test("enforces a maximum length of 1") {
-                    guiRun { frame.comboBox("groupingSeparator").target().editor.item = "long" }
+                    runEdt { frame.comboBox("groupingSeparator").target().editor.item = "long" }
 
                     frame.comboBox("groupingSeparator").requireSelection(",")
                 }
@@ -108,7 +107,7 @@ object IntegerSchemeEditorTest : FunSpec({
                     row(12, false, false, false),
                     row(12, true, false, false),
                 ) { (base, checkBoxChecked, expectedCheckBoxEnabled, expectedInputEnabled) ->
-                    guiRun {
+                    runEdt {
                         frame.spinner("base").target().value = base
                         frame.checkBox("groupingSeparatorEnabled").target().isSelected = checkBoxChecked
                     }

@@ -3,9 +3,9 @@ package com.fwdekker.randomness.uuid
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
 import com.fwdekker.randomness.testhelpers.Tags
-import com.fwdekker.randomness.testhelpers.schemeSerializationTestFactory
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
+import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
@@ -22,7 +22,7 @@ import java.util.UUID
  * Unit tests for [UuidScheme].
  */
 object UuidSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {
@@ -73,5 +73,5 @@ object UuidSchemeTest : FunSpec({
 
     include(stateDeepCopyTestFactory { UuidScheme() })
 
-    include(schemeSerializationTestFactory { UuidScheme() })
+    include(stateSerializationTestFactory { UuidScheme() })
 })

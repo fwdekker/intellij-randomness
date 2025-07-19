@@ -3,18 +3,17 @@ package com.fwdekker.randomness
 import com.fwdekker.randomness.testhelpers.DummyState
 import com.fwdekker.randomness.testhelpers.Tags
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.collections.haveSize
-import io.kotest.matchers.should
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.types.beTheSameInstanceAs
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 
 
 /**
  * Unit tests for [State].
  */
 object StateTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("uuid") {
@@ -30,7 +29,7 @@ object StateTest : FunSpec({
 
             original.applyContext(context)
 
-            +original.context should beTheSameInstanceAs(context)
+            +original.context shouldBeSameInstanceAs context
         }
     }
 
@@ -59,7 +58,7 @@ object StateTest : FunSpec({
 
             val copy = original.deepCopy()
 
-            +copy.context should beTheSameInstanceAs(context)
+            +copy.context shouldBeSameInstanceAs context
         }
 
         test("deep-copies fields") {
@@ -68,8 +67,8 @@ object StateTest : FunSpec({
 
             copy.list.add(0)
 
-            original.list should haveSize(0)
-            copy.list should haveSize(1)
+            original.list shouldHaveSize 0
+            copy.list shouldHaveSize 1
         }
     }
 })

@@ -22,7 +22,7 @@ fun editorApplyTests(editor: () -> SchemeEditor<*>) =
             test("makes no changes by default") {
                 val before = editor().scheme.deepCopy(retainUuid = true)
 
-                guiRun { editor().apply() }
+                runEdt { editor().apply() }
 
                 before shouldBe editor().scheme
             }
@@ -49,8 +49,8 @@ fun <S : Scheme> editorFieldsTests(
 
                     withClue("Pre: Scheme value should not be set value") { schemeProperty.get() shouldNotBe value }
 
-                    guiRun { editorProperty.set(value) }
-                    guiRun { editor().apply() }
+                    runEdt { editorProperty.set(value) }
+                    runEdt { editor().apply() }
 
                     withClue("Post: Scheme value should be set value") { schemeProperty.get() shouldBe value }
                 }
@@ -63,7 +63,7 @@ fun <S : Scheme> editorFieldsTests(
                     withClue("Pre: Editor value should not be set value") { editorProperty.get() shouldNotBe value }
 
                     schemeProperty.set(value)
-                    guiRun { editor().reset() }
+                    runEdt { editor().reset() }
 
                     withClue("Post: Editor value should be set value") { editorProperty.get() shouldBe value }
                 }
@@ -76,7 +76,7 @@ fun <S : Scheme> editorFieldsTests(
                     var invoked = 0
                     editor().addChangeListener { invoked++ }
 
-                    guiRun { editorProperty.set(value) }
+                    runEdt { editorProperty.set(value) }
 
                     withClue("Listener should have been invoked") { invoked shouldBeGreaterThanOrEqual 1 }
                 }

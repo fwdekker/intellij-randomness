@@ -1,12 +1,18 @@
 package com.fwdekker.randomness
 
 import com.fwdekker.randomness.PersistentSettings.Companion.CURRENT_VERSION
+import com.fwdekker.randomness.PersistentSettings.Companion.UPGRADES
 import com.fwdekker.randomness.template.Template
 import com.fwdekker.randomness.template.TemplateList
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
+import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.SettingsCategory
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.service
+import com.intellij.openapi.diagnostic.Attachment
+import com.intellij.openapi.diagnostic.ExceptionWithAttachments
+import com.intellij.util.addOptionTag
 import com.intellij.util.xmlb.XmlSerializer.deserialize
 import com.intellij.util.xmlb.XmlSerializer.serialize
 import com.intellij.util.xmlb.annotations.OptionTag
@@ -26,6 +32,8 @@ data class Settings(
     @OptionTag
     val templateList: TemplateList = TemplateList(),
 ) : State() {
+    override val validators = validators { include(::templateList) }
+
     /**
      * @see TemplateList.templates
      */
@@ -42,8 +50,6 @@ data class Settings(
         templateList.applyContext(context)
     }
 
-
-    override fun doValidate() = templateList.doValidate()
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(templateList = templateList.deepCopy(retainUuid = retainUuid))
@@ -93,8 +99,13 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
     /**
      * Deserializes [element] into a [Settings] instance, which is then stored in [settings].
      */
+    @Suppress("detekt:TooGenericExceptionCaught") // All exceptions should be wrapped
     override fun loadState(element: Element) {
-        settings = deserialize(upgrade(element), Settings::class.java)
+        try {
+            settings = deserialize(upgrade(element), Settings::class.java)
+        } catch (exception: Exception) {
+            throw SettingsException("Failed to parse or upgrade settings file.", exception)
+        }
     }
 
 
@@ -128,21 +139,57 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
         /**
          * The currently-running version of Randomness.
          */
-        const val CURRENT_VERSION: String = "3.3.6" // Synchronize this with the version in `gradle.properties`
+        const val CURRENT_VERSION: String = "3.3.6-dev" // Synchronize this with the version in `gradle.properties`
 
         /**
          * The upgrade functions to apply to configuration [Element]s in the [upgrade] method.
+         *
+         * Each entry in this map consists of an upgrade function that mutates an [Element] so that it is upgrades to
+         * the [Version] specified in the entry's key. That is, the key denotes the [Version] number of that entry's
+         * output, not of its input.
          */
         private val UPGRADES: Map<Version, (Element) -> Unit> =
             mapOf(
                 Version.parse("3.2.0") to
-                    { e: Element ->
-                        e.getSchemes()
+                    { settings ->
+                        settings.getSchemes()
                             .filter { it.name == "UuidScheme" }
                             .forEach { it.renameProperty("type", "version") }
                     },
                 Version.parse("3.3.5") to
-                    { e: Element -> e.getDecorators().forEach { it.removeProperty("generator") } },
+                    { settings -> settings.getDecorators().forEach { it.removeProperty("generator") } },
+                Version.parse("3.4.0") to
+                    { settings ->
+                        settings.getSchemes()
+                            .filter { it.name == "DateTimeScheme" }
+                            .forEach { scheme ->
+                                (scheme.getMultiProperty("minDateTime") + scheme.getMultiProperty("maxDateTime"))
+                                    .forEach { prop ->
+                                        val oldValue = prop.getAttributeValue("value").toLong()
+                                        prop.removeAttribute("value")
+
+                                        val newValue = Timestamp.fromEpochMilli(oldValue).value
+                                        prop.addContent(Element("Timestamp").apply { addOptionTag("value", newValue) })
+                                    }
+                            }
+                    },
             )
+    }
+}
+
+
+/**
+ * Indicates that settings could not be parsed correctly.
+ */
+class SettingsException(message: String? = null, cause: Throwable? = null) :
+    IllegalArgumentException(message, cause), ExceptionWithAttachments {
+    /**
+     * Returns the user's Randomness settings file as an attachment, if it can be read.
+     */
+    override fun getAttachments(): Array<out Attachment?> {
+        val path = PathManager.getOptionsFile("randomness3")
+        val contents = if (path.canRead()) path.readText() else "Settings file could not be read."
+
+        return arrayOf(Attachment("randomness3.xml", contents))
     }
 }

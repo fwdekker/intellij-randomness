@@ -5,10 +5,9 @@ import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorApplyTests
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
 import com.fwdekker.randomness.testhelpers.isSelectedProp
 import com.fwdekker.randomness.testhelpers.prop
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.testhelpers.valueProp
@@ -35,7 +34,7 @@ object FixedLengthDecoratorEditorTest : FunSpec({
 
     beforeNonContainer {
         scheme = FixedLengthDecorator(enabled = true)
-        editor = guiGet { FixedLengthDecoratorEditor(scheme) }
+        editor = runEdt { FixedLengthDecoratorEditor(scheme) }
         frame = Containers.showInFrame(editor.rootComponent)
     }
 
@@ -47,15 +46,15 @@ object FixedLengthDecoratorEditorTest : FunSpec({
     context("input handling") {
         context("fixedLengthEnabled") {
             test("disables inputs if deselected") {
-                guiRun { frame.checkBox("fixedLengthEnabled").target().isSelected = false }
+                runEdt { frame.checkBox("fixedLengthEnabled").target().isSelected = false }
 
                 frame.spinner("fixedLengthLength").requireDisabled()
                 frame.textBox("fixedLengthFiller").requireDisabled()
             }
 
             test("enables inputs if (re)selected") {
-                guiRun { frame.checkBox("fixedLengthEnabled").target().isSelected = false }
-                guiRun { frame.checkBox("fixedLengthEnabled").target().isSelected = true }
+                runEdt { frame.checkBox("fixedLengthEnabled").target().isSelected = false }
+                runEdt { frame.checkBox("fixedLengthEnabled").target().isSelected = true }
 
                 frame.spinner("fixedLengthLength").requireEnabled()
                 frame.textBox("fixedLengthFiller").requireEnabled()
@@ -64,7 +63,7 @@ object FixedLengthDecoratorEditorTest : FunSpec({
 
         context("filler") {
             test("enforces the filler's length filter") {
-                guiRun { frame.textBox("fixedLengthFiller").target().text = "zAt" }
+                runEdt { frame.textBox("fixedLengthFiller").target().text = "zAt" }
 
                 frame.textBox("fixedLengthFiller").requireText("t")
             }

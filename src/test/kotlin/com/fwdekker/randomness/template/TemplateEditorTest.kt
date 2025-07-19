@@ -4,8 +4,8 @@ import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
-import com.fwdekker.randomness.testhelpers.guiGet
 import com.fwdekker.randomness.testhelpers.prop
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import io.kotest.core.spec.style.FunSpec
@@ -32,7 +32,7 @@ object TemplateEditorTest : FunSpec({
 
     beforeNonContainer {
         template = Template()
-        editor = guiGet { TemplateEditor(template) }
+        editor = runEdt { TemplateEditor(template) }
         frame = Containers.showInFrame(editor.rootComponent)
     }
 

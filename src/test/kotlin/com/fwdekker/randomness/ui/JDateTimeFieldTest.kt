@@ -1,18 +1,13 @@
 package com.fwdekker.randomness.ui
 
+import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
-import com.fwdekker.randomness.testhelpers.matchBundle
+import com.fwdekker.randomness.testhelpers.runEdt
+import com.fwdekker.randomness.testhelpers.shouldMatchBundle
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
-import com.github.sisyphsu.dateparser.DateParserUtils
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import java.text.ParseException
-import java.time.LocalDateTime
-import java.time.Month
 
 
 /**
@@ -25,15 +20,15 @@ object JDateTimeFieldTest : FunSpec({
     useEdtViolationDetection()
 
     beforeNonContainer {
-        field = guiGet { JDateTimeField(LocalDateTime.MIN) }
+        field = runEdt { JDateTimeField() }
     }
 
 
     context("value") {
         context("get") {
             test("returns the default if no value has been set") {
-                val default = LocalDateTime.now()
-                val myField = guiGet { JDateTimeField(default) }
+                val default = Timestamp("2034")
+                val myField = runEdt { JDateTimeField(default) }
 
                 myField.value shouldBe default
             }
@@ -41,83 +36,86 @@ object JDateTimeFieldTest : FunSpec({
 
         context("set") {
             test("throws an error if a non-date-time is set") {
-                shouldThrow<IllegalArgumentException> { guiRun { field.setValue("invalid") } }
-                    .message should matchBundle("datetime_field.error.invalid_type")
+                shouldThrow<IllegalArgumentException> { runEdt { field.setValue("invalid") } }
+                    .message shouldMatchBundle "datetime_field.error.invalid_type"
             }
         }
 
         test("returns the value that is set to it") {
-            val dateTime = LocalDateTime.now()
+            val dateTime = Timestamp("0006-08-17 23:50:51.974")
 
-            guiRun { field.value = dateTime }
+            runEdt { field.value = dateTime }
 
             field.value shouldBe dateTime
         }
     }
 
-    context("longValue") {
-        test("get") {
-            guiRun { field.value = LocalDateTime.of(1998, Month.SEPTEMBER, 24, 15, 5, 36) }
-
-            field.longValue shouldBe 906_649_536_000L
-        }
-
-        test("set") {
-            guiRun { field.longValue = 2_625_932_560L }
-
-            field.value shouldBe LocalDateTime.of(1970, 1, 31, 9, 25, 32, 560_000_000)
-        }
-    }
-
 
     context("formatter") {
-        test("formats the value as the intended date") {
-            val dateTime = LocalDateTime.now().withNano(0)
-
-            guiRun { field.value = dateTime }
-
-            DateParserUtils.parseDateTime(field.text) shouldBe dateTime
-        }
-
-        test("interprets input dates of other formats") {
-            guiRun {
-                field.text = "4494-09-23"
+        test("stores valid timestamps") {
+            runEdt {
+                field.text = "9017-07-12 05:22:05.767"
                 field.commitEdit()
             }
 
-            field.value shouldBe DateParserUtils.parseDateTime(field.text)
+            field.value.value shouldBe "9017-07-12 05:22:05.767"
         }
 
-        test("fails if the text is null") {
-            guiRun {
-                shouldThrow<ParseException> {
-                    field.text = null
-                    field.commitEdit()
-                }.message should matchBundle("datetime_field.error.empty_string")
-            }
-        }
-
-        test("fails if the text is empty") {
-            guiRun {
-                shouldThrow<ParseException> {
-                    field.text = ""
-                    field.commitEdit()
-                }.message should matchBundle("datetime_field.error.empty_string")
-            }
-        }
-
-        test("clears the old value if the set text is invalid") {
-            guiRun {
-                field.text = "3598-06-25"
+        test("stores liberally interpreted timestamps") {
+            runEdt {
+                field.text = "4494-09"
                 field.commitEdit()
-
-                shouldThrow<ParseException> {
-                    field.text = null
-                    field.commitEdit()
-                }
-
-                field.text shouldBe ""
             }
+
+            field.value.value shouldBe "4494-09-01 00:00:00.000"
+        }
+
+        test("stores values that cannot be interpreted as timestamps") {
+            runEdt {
+                field.text = "How are you?"
+                field.commitEdit()
+            }
+
+            field.value.value shouldBe "How are you?"
+        }
+
+        test("interprets `null` as an empty string") {
+            runEdt {
+                field.text = null
+                field.commitEdit()
+            }
+
+            field.value.value shouldBe ""
+        }
+    }
+})
+
+/**
+ * Unit tests for [bindDateTimes].
+ */
+object BindDateTimesTest : FunSpec({
+    useEdtViolationDetection()
+
+
+    context("updating") {
+        test("updates the minimum date-time if the maximum goes below its value") {
+            val min = runEdt { JDateTimeField(Timestamp("1970-01-01 00:00:00.000")) }
+            val max = runEdt { JDateTimeField(Timestamp("1970-01-01 00:00:00.000")) }
+            bindDateTimes(min, max)
+
+            runEdt { max.value = Timestamp("0760-06-24 09:38:00.747") }
+
+            min.value shouldBe Timestamp("0760-06-24 09:38:00.747")
+        }
+
+        test("updates the maximum date-time if the minimum goes above its value") {
+            val min = runEdt { JDateTimeField(Timestamp("1970-01-01 00:00:00.000")) }
+            val max = runEdt { JDateTimeField(Timestamp("1970-01-01 00:00:00.000")) }
+            bindDateTimes(min, max)
+
+            runEdt { min.value = Timestamp("8660-05-28 06:11:32.199") }
+
+            max.value shouldBe Timestamp("8660-05-28 06:11:32.199")
         }
     }
 })

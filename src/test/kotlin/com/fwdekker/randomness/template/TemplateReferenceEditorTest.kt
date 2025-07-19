@@ -7,18 +7,15 @@ import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
 import com.fwdekker.randomness.testhelpers.itemProp
 import com.fwdekker.randomness.testhelpers.prop
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.testhelpers.valueProp
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.matchers.collections.shouldNotContain
-import io.kotest.matchers.nulls.beNull
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import org.assertj.swing.fixture.Containers
 import org.assertj.swing.fixture.FrameFixture
@@ -55,7 +52,7 @@ object TemplateReferenceEditorTest : FunSpec({
         reference.applyContext(context)
         reference.templateUuid = context.templates[0].uuid
 
-        editor = guiGet { TemplateReferenceEditor(reference) }
+        editor = runEdt { TemplateReferenceEditor(reference) }
         frame = Containers.showInFrame(editor.rootComponent)
     }
 
@@ -67,9 +64,9 @@ object TemplateReferenceEditorTest : FunSpec({
     context("reset") {
         test("selects nothing if the reference refers to null") {
             reference.template = null
-            guiRun { editor.reset() }
+            runEdt { editor.reset() }
 
-            guiGet { frame.comboBox("template").itemProp().get() } should beNull()
+            runEdt { frame.comboBox("template").itemProp().get() } shouldBe null
         }
 
         test("does not load the reference's parent as a selectable option") {

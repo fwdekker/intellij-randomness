@@ -6,28 +6,26 @@ import com.fwdekker.randomness.Settings
 import com.fwdekker.randomness.setAll
 import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.Tags
-import com.fwdekker.randomness.testhelpers.beSameIconAs
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
-import com.fwdekker.randomness.testhelpers.matchBundle
-import com.fwdekker.randomness.testhelpers.schemeSerializationTestFactory
+import com.fwdekker.randomness.testhelpers.shouldBeSameIconAs
+import com.fwdekker.randomness.testhelpers.shouldMatchBundle
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
+import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
-import io.kotest.matchers.collections.haveSize
-import io.kotest.matchers.nulls.beNull
-import io.kotest.matchers.should
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNot
+import io.kotest.matchers.shouldNotBe
 
 
 /**
  * Unit tests for [TemplateReference].
  */
 object TemplateReferenceTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     lateinit var list: TemplateList
@@ -50,7 +48,7 @@ object TemplateReferenceTest : FunSpec({
         test("returns an alternative name if no template is set") {
             reference.template = null
 
-            reference.name should matchBundle("reference.title")
+            reference.name shouldMatchBundle "reference.title"
         }
 
         test("returns the referenced template's name with brackets") {
@@ -80,28 +78,28 @@ object TemplateReferenceTest : FunSpec({
         test("uses the default icon with a link overlay if the template is null") {
             reference.template = null
 
-            reference.icon.base should beSameIconAs(TemplateReference.DEFAULT_ICON)
-            reference.icon.overlays.single() should beSameIconAs(OverlayIcon.REFERENCE)
+            reference.icon.base shouldBeSameIconAs TemplateReference.DEFAULT_ICON
+            reference.icon.overlays.single() shouldBeSameIconAs OverlayIcon.REFERENCE
         }
 
         test("uses the default icon with a link overlay if the template is not in the context's template list") {
             reference.template = Template("new")
 
-            reference.icon.base should beSameIconAs(TemplateReference.DEFAULT_ICON)
-            reference.icon.overlays.single() should beSameIconAs(OverlayIcon.REFERENCE)
+            reference.icon.base shouldBeSameIconAs TemplateReference.DEFAULT_ICON
+            reference.icon.overlays.single() shouldBeSameIconAs OverlayIcon.REFERENCE
         }
 
         test("uses the referenced template's icon with a link overlay") {
-            reference.icon.base should beSameIconAs(referencedTemplate.typeIcon)
-            reference.icon.overlays.single() should beSameIconAs(OverlayIcon.REFERENCE)
+            reference.icon.base shouldBeSameIconAs referencedTemplate.typeIcon
+            reference.icon.overlays.single() shouldBeSameIconAs OverlayIcon.REFERENCE
         }
 
         test("appends the link overlay to its own list of overlays") {
             reference.arrayDecorator.enabled = true
 
-            reference.icon.overlays should haveSize(2)
-            reference.icon.overlays[0] should beSameIconAs(OverlayIcon.ARRAY)
-            reference.icon.overlays[1] should beSameIconAs(OverlayIcon.REFERENCE)
+            reference.icon.overlays shouldHaveSize 2
+            reference.icon.overlays[0] shouldBeSameIconAs OverlayIcon.ARRAY
+            reference.icon.overlays[1] shouldBeSameIconAs OverlayIcon.REFERENCE
         }
     }
 
@@ -128,13 +126,13 @@ object TemplateReferenceTest : FunSpec({
             test("returns null if the UUID is null") {
                 reference.templateUuid = null
 
-                reference.template should beNull()
+                reference.template shouldBe null
             }
 
             test("returns null if there is no template with the given UUID in the template list") {
                 reference.templateUuid = "7a9b9822-c99e-41dc-8e6a-220ca4dec181"
 
-                reference.template should beNull()
+                reference.template shouldBe null
             }
 
             test("returns the template with the given UUID if it is in the template list") {
@@ -161,7 +159,7 @@ object TemplateReferenceTest : FunSpec({
             test("sets the template UUID to null if the given template is null") {
                 reference.template = null
 
-                reference.templateUuid should beNull()
+                reference.templateUuid shouldBe null
             }
 
             test("sets the template UUID regardless of the set template's contents") {
@@ -180,11 +178,11 @@ object TemplateReferenceTest : FunSpec({
 
     context("applyContext") {
         test("changes the list of templates into which this reference refers") {
-            reference.template shouldNot beNull()
+            reference.template shouldNotBe null
 
             reference.applyContext(Settings(templateList = TemplateList(mutableListOf())))
 
-            reference.template should beNull()
+            reference.template shouldBe null
         }
     }
 
@@ -302,5 +300,5 @@ object TemplateReferenceTest : FunSpec({
 
     include(stateDeepCopyTestFactory { TemplateReference() })
 
-    include(schemeSerializationTestFactory { TemplateReference() })
+    include(stateSerializationTestFactory { TemplateReference() })
 })

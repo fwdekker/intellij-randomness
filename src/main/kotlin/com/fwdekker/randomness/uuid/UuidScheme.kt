@@ -13,14 +13,15 @@ import com.fwdekker.randomness.Bundle
 import com.fwdekker.randomness.CapitalizationMode
 import com.fwdekker.randomness.Icons
 import com.fwdekker.randomness.Scheme
+import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.ui.JBColor
 import com.intellij.util.xmlb.annotations.OptionTag
 import com.intellij.util.xmlb.annotations.Transient
 import java.awt.Color
-import java.time.Instant
 import java.util.UUID
 import kotlin.random.Random
 import kotlin.random.asJavaRandom
@@ -39,8 +40,8 @@ import kotlin.random.asJavaRandom
  */
 data class UuidScheme(
     var version: Int = DEFAULT_VERSION,
-    var minDateTime: Long = DEFAULT_MIN_DATE_TIME,
-    var maxDateTime: Long = DEFAULT_MAX_DATE_TIME,
+    @OptionTag var minDateTime: Timestamp = DEFAULT_MIN_DATE_TIME,
+    @OptionTag var maxDateTime: Timestamp = DEFAULT_MAX_DATE_TIME,
     var isUppercase: Boolean = DEFAULT_IS_UPPERCASE,
     var addDashes: Boolean = DEFAULT_ADD_DASHES,
     @OptionTag val affixDecorator: AffixDecorator = DEFAULT_AFFIX_DECORATOR,
@@ -50,6 +51,11 @@ data class UuidScheme(
     override val name = Bundle("uuid.title")
     override val typeIcon get() = BASE_ICON
     override val decorators get() = listOf(affixDecorator, arrayDecorator)
+    override val validators = validators {
+        of(::version).check({ it in SUPPORTED_VERSIONS }, { Bundle("uuid.error.unknown_version", it) })
+        include(::affixDecorator)
+        include(::arrayDecorator)
+    }
 
 
     /**
@@ -58,10 +64,10 @@ data class UuidScheme(
     @Suppress("detekt:MagicNumber") // UUID versions are well-defined
     override fun generateUndecoratedStrings(count: Int): List<String> {
         val generator = when (version) {
-            1 -> TimeBasedGenerator(random.nextAddress(), random.uuidTimer())
+            1 -> TimeBasedGenerator(random.nextAddress(), random.uuidTimer(minDateTime.epochMilli!!, maxDateTime.epochMilli!!))
             4 -> RandomBasedGenerator(random.asJavaRandom())
-            6 -> TimeBasedReorderedGenerator(random.nextAddress(), random.uuidTimer(minDateTime, maxDateTime))
-            7 -> TimeBasedEpochGenerator(random.asJavaRandom(), random.uuidClock(minDateTime, maxDateTime))
+            6 -> TimeBasedReorderedGenerator(random.nextAddress(), random.uuidTimer(minDateTime.epochMilli!!, maxDateTime.epochMilli!!))
+            7 -> TimeBasedEpochGenerator(random.asJavaRandom(), random.uuidClock(minDateTime.epochMilli!!, maxDateTime.epochMilli!!))
             8 -> FreeFormGenerator(random)
             else -> error(Bundle("uuid.error.unknown_version", version))
         }
@@ -77,10 +83,6 @@ data class UuidScheme(
             }
     }
 
-
-    override fun doValidate() =
-        if (version !in SUPPORTED_VERSIONS) Bundle("uuid.error.unknown_version", version)
-        else affixDecorator.doValidate() ?: arrayDecorator.doValidate()
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(
@@ -112,7 +114,7 @@ data class UuidScheme(
         /**
          * The list of supported [version]s that use the [minDateTime] and [maxDateTime] fields.
          */
-        val TIME_BASED_VERSIONS = listOf(6, 7)
+        val TIME_BASED_VERSIONS = listOf(1, 6, 7)
 
         /**
          * The default value of the [isUppercase] field.
@@ -127,12 +129,12 @@ data class UuidScheme(
         /**
          * The default value of the [minDateTime] field.
          */
-        val DEFAULT_MIN_DATE_TIME: Long = Instant.parse("0001-01-01T00:00:00.000Z").toEpochMilli()
+        val DEFAULT_MIN_DATE_TIME: Timestamp = Timestamp("0001-01-01 00:00:00.000")
 
         /**
          * The default value of the [maxDateTime] field.
          */
-        val DEFAULT_MAX_DATE_TIME: Long = Instant.parse("9999-12-31T23:59:59.999Z").toEpochMilli()
+        val DEFAULT_MAX_DATE_TIME: Timestamp = Timestamp("9999-12-31 23:59:59.999")
 
         /**
          * The preset values for the [affixDecorator] field.

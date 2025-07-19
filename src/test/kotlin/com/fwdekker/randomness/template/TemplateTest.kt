@@ -9,9 +9,9 @@ import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.Tags
-import com.fwdekker.randomness.testhelpers.schemeSerializationTestFactory
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
+import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
 import com.fwdekker.randomness.word.WordScheme
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
@@ -28,7 +28,7 @@ import kotlin.random.Random
  * Unit tests for [Template].
  */
 object TemplateTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("typeIcon") {
@@ -167,5 +167,5 @@ object TemplateTest : FunSpec({
 
     include(stateDeepCopyTestFactory { Template() })
 
-    include(schemeSerializationTestFactory { Template(schemes = mutableListOf(IntegerScheme())) })
+    include(stateSerializationTestFactory { Template(schemes = mutableListOf(IntegerScheme())) })
 })

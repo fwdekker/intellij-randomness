@@ -11,10 +11,9 @@ import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
-import com.fwdekker.randomness.testhelpers.matchBundle
+import com.fwdekker.randomness.testhelpers.ideaRunEdt
 import com.fwdekker.randomness.testhelpers.shouldContainExactly
+import com.fwdekker.randomness.testhelpers.shouldMatchBundle
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.uuid.UuidScheme
@@ -25,10 +24,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.Row2
 import io.kotest.data.row
 import io.kotest.datatest.withData
-import io.kotest.matchers.nulls.beNull
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNot
 import io.kotest.matchers.shouldNotBe
 import org.assertj.swing.fixture.AbstractComponentFixture
 import org.assertj.swing.fixture.Containers
@@ -69,13 +65,13 @@ object TemplateListEditorTest : FunSpec({
             )
         templateList.applyContext(Settings(templateList = templateList))
 
-        editor = guiGet { TemplateListEditor(templateList) }
+        editor = ideaRunEdt { TemplateListEditor(templateList) }
         frame = Containers.showInFrame(editor.rootComponent)
     }
 
     afterNonContainer {
         frame.cleanUp()
-        guiRun { Disposer.dispose(editor) }
+        ideaRunEdt { Disposer.dispose(editor) }
     }
 
 
@@ -93,12 +89,12 @@ object TemplateListEditorTest : FunSpec({
             )
         ) { (uuid, expectedSelection) ->
             frame.cleanUp()
-            guiRun { Disposer.dispose(editor) }
+            ideaRunEdt { Disposer.dispose(editor) }
 
-            editor = guiGet { TemplateListEditor(templateList, initialSelection = uuid()) }
+            editor = ideaRunEdt { TemplateListEditor(templateList, initialSelection = uuid()) }
             frame = Containers.showInFrame(editor.rootComponent)
 
-            guiGet { frame.tree().target().selectionRows!! } shouldContainExactly arrayOf(expectedSelection)
+            ideaRunEdt { frame.tree().target().selectionRows!! } shouldContainExactly arrayOf(expectedSelection)
         }
     }
 
@@ -118,7 +114,7 @@ object TemplateListEditorTest : FunSpec({
                 templateList.templates.setAll(listOf(Template(schemes = mutableListOf(scheme))))
                 templateList.applyContext(templateList.context)
 
-                guiRun {
+                ideaRunEdt {
                     editor.reset()
                     frame.tree().target().setSelectionRow(1)
                 }
@@ -131,7 +127,7 @@ object TemplateListEditorTest : FunSpec({
             templateList.templates.setAll(listOf(Template(schemes = mutableListOf())))
             templateList.applyContext(templateList.context)
 
-            guiRun { editor.reset() }
+            ideaRunEdt { editor.reset() }
 
             frame.textBox("templateName").requireVisible()
         }
@@ -140,81 +136,81 @@ object TemplateListEditorTest : FunSpec({
             templateList.templates.setAll(listOf(Template(schemes = mutableListOf(DummyScheme()))))
             templateList.applyContext(templateList.context)
 
-            guiRun { editor.reset() }
+            ideaRunEdt { editor.reset() }
 
-            shouldThrow<IllegalStateException> { guiRun { frame.tree().target().setSelectionRow(1) } }
-                .message should matchBundle("template_list.error.unknown_scheme_type")
+            shouldThrow<IllegalStateException> { ideaRunEdt { frame.tree().target().setSelectionRow(1) } }
+                .message shouldMatchBundle "template_list.error.unknown_scheme_type"
         }
     }
 
 
     context("doValidate") {
         test("returns `null` for the default list") {
-            guiGet { editor.doValidate() } should beNull()
+            ideaRunEdt { editor.doValidate() } shouldBe null
         }
 
         test("returns `null` if the template list is valid") {
             templateList.templates.setAll(listOf(Template(schemes = mutableListOf(DummyScheme()))))
             templateList.applyContext(templateList.context)
-            guiRun { editor.reset() }
+            ideaRunEdt { editor.reset() }
 
-            guiGet { editor.doValidate() } should beNull()
+            ideaRunEdt { editor.doValidate() } shouldBe null
         }
 
         test("returns a string if the template list is invalid") {
             templateList.templates.setAll(listOf(Template(schemes = mutableListOf(DummyScheme(valid = false)))))
             templateList.applyContext(templateList.context)
-            guiRun { editor.reset() }
+            ideaRunEdt { editor.reset() }
 
-            guiGet { editor.doValidate() } shouldNot beNull()
+            ideaRunEdt { editor.doValidate() } shouldNotBe null
         }
     }
 
     context("isModified") {
         test("returns `false` if no modifications have been made") {
-            guiGet { editor.isModified() } shouldBe false
+            ideaRunEdt { editor.isModified() } shouldBe false
         }
 
         test("returns `true` if modifications have been made") {
-            guiRun {
+            ideaRunEdt {
                 frame.tree().target().selectionRows = intArrayOf(1)
                 frame.spinner("minValue").target().value = 1
             }
 
-            guiGet { editor.isModified() } shouldBe true
+            ideaRunEdt { editor.isModified() } shouldBe true
         }
 
         test("returns `false` if modifications have been reset") {
-            guiRun {
+            ideaRunEdt {
                 frame.tree().target().selectionRows = intArrayOf(1)
                 frame.spinner("minValue").target().value = 1
             }
 
-            guiRun { editor.reset() }
+            ideaRunEdt { editor.reset() }
 
-            guiGet { editor.isModified() } shouldBe false
+            ideaRunEdt { editor.isModified() } shouldBe false
         }
     }
 
     context("apply") {
         test("applies changes to the original list") {
-            guiRun {
+            ideaRunEdt {
                 frame.tree().target().selectionRows = intArrayOf(1)
                 frame.spinner("minValue").target().value = 3
             }
 
             (templateList.templates[0].schemes[0] as IntegerScheme).minValue shouldNotBe 3
-            guiRun { editor.apply() }
+            ideaRunEdt { editor.apply() }
 
             (templateList.templates[0].schemes[0] as IntegerScheme).minValue shouldBe 3
         }
 
         test("does not couple the applied state to the editor's internal state") {
-            guiRun {
+            ideaRunEdt {
                 frame.tree().target().selectionRows = intArrayOf(2)
                 frame.textBox("pattern").target().text = "old"
 
-                guiRun { editor.apply() }
+                ideaRunEdt { editor.apply() }
 
                 frame.tree().target().selectionRows = intArrayOf(2)
                 frame.textBox("pattern").target().text = "new"
@@ -226,29 +222,29 @@ object TemplateListEditorTest : FunSpec({
 
     context("reset") {
         test("undoes changes to the current selection") {
-            guiRun {
+            ideaRunEdt {
                 frame.tree().target().setSelectionRow(1)
                 frame.spinner("minValue").target().value = 7L
             }
 
-            guiRun { editor.reset() }
+            ideaRunEdt { editor.reset() }
 
             frame.spinner("minValue").target().value shouldBe 0L
         }
 
         test("undoes changes to another selection") {
-            guiRun {
+            ideaRunEdt {
                 frame.tree().target().setSelectionRow(1)
                 frame.spinner("minValue").target().value = 7L
             }
 
-            guiRun {
+            ideaRunEdt {
                 frame.tree().target().setSelectionRow(3)
                 editor.reset()
             }
 
-            guiRun { frame.tree().target().setSelectionRow(1) }
-            guiGet { frame.spinner("minValue").target().value } shouldBe 0L
+            ideaRunEdt { frame.tree().target().setSelectionRow(1) }
+            ideaRunEdt { frame.spinner("minValue").target().value } shouldBe 0L
         }
     }
 })

@@ -13,9 +13,7 @@ import com.intellij.util.xmlb.annotations.XCollection
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
-import io.kotest.matchers.collections.containExactlyInAnyOrder
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 
 
@@ -23,6 +21,9 @@ import io.kotest.matchers.shouldBe
  * Unit tests for extension functions in `StateReflection`.
  */
 object StateReflectionTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("parameters") {
         withData(
             mapOf(
@@ -57,7 +58,8 @@ object StateReflectionTest : FunSpec({
                     row(ParametersAndFieldsSub(), listOf("foo", "bar", "baz", "qux")),
             )
         ) { (state, parameters) ->
-            state.properties().callableNames() should containExactlyInAnyOrder(parameters + listOf("context", "uuid"))
+            val defaults = listOf("context", "uuid", "validators")
+            state.properties().callableNames() shouldContainExactlyInAnyOrder defaults + parameters
         }
     }
 

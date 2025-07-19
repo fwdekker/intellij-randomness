@@ -6,20 +6,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.assertj.swing.core.GenericTypeMatcher
 import org.assertj.swing.driver.ComponentDriver
+import org.assertj.swing.edt.GuiActionRunner
 import org.assertj.swing.fixture.AbstractComponentFixture
 import org.assertj.swing.fixture.FrameFixture
 import java.awt.Component
 
 
 /**
- * Runs [lambda] in the GUI thread.
- */
-suspend fun guiRun(lambda: suspend () -> Unit) = withContext(Dispatchers.EDT) { lambda() }
-
-/**
  * Runs [lambda] in the GUI thread and returns the result.
  */
-suspend fun <T> guiGet(lambda: suspend () -> T): T = withContext(Dispatchers.EDT) { lambda() }
+fun <T> runEdt(lambda: () -> T): T = GuiActionRunner.execute(lambda)
+
+/**
+ * Runs [lambda] in the IDEA fixture's GUI coroutine and returns the result.
+ */
+suspend fun <T> ideaRunEdt(lambda: suspend () -> T): T = withContext(Dispatchers.EDT) { lambda() }
 
 
 /**

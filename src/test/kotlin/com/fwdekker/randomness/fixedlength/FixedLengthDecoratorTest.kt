@@ -1,9 +1,9 @@
 package com.fwdekker.randomness.fixedlength
 
 import com.fwdekker.randomness.testhelpers.Tags
-import com.fwdekker.randomness.testhelpers.schemeSerializationTestFactory
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
+import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
@@ -14,7 +14,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [FixedLengthDecorator].
  */
 object FixedLengthDecoratorTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {
@@ -61,5 +61,5 @@ object FixedLengthDecoratorTest : FunSpec({
 
     include(stateDeepCopyTestFactory { FixedLengthDecorator() })
 
-    include(schemeSerializationTestFactory { FixedLengthDecorator() })
+    include(stateSerializationTestFactory { FixedLengthDecorator() })
 })

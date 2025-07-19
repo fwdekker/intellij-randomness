@@ -4,17 +4,17 @@ import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.template.Template
 import com.fwdekker.randomness.template.TemplateList
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
+import com.fwdekker.randomness.testhelpers.shouldMatchXml
 import com.fwdekker.randomness.uuid.UuidScheme
 import com.intellij.openapi.util.JDOMUtil
 import com.intellij.util.xmlb.XmlSerializer.serialize
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.beEmpty
-import io.kotest.matchers.collections.haveSize
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
-import io.kotest.matchers.nulls.beNull
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
@@ -25,32 +25,32 @@ import org.jdom.Element
  * Unit tests for extension functions in `XmlHelpersKt`.
  */
 object XmlHelpersTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("addProperty") {
         test("adds the property with the given name") {
             val element = JDOMUtil.load("<tag></tag>")
-            element.getMultiProperty("needle") should beEmpty()
 
             element.addProperty("needle")
 
-            element.getMultiProperty("needle") should haveSize(1)
+            element shouldMatchXml "<tag><option name='needle' /></tag>"
         }
 
         test("adds the property with the given name even if it already exists") {
-            val element = JDOMUtil.load("""<tag><content name="needle" /></tag>""")
-            element.getMultiProperty("needle") should haveSize(1)
+            val element = JDOMUtil.load("<tag><option name='needle' /></tag>")
 
             element.addProperty("needle")
 
-            element.getMultiProperty("needle") should haveSize(2)
+            element shouldMatchXml "<tag><option name='needle' /><option name='needle' /></tag>"
         }
 
         test("adds the property with the given name and value") {
             val element = JDOMUtil.load("<tag></tag>")
-            element.getPropertyValue("needle") should beNull()
 
             element.addProperty("needle", "value")
 
-            element.getPropertyValue("needle") shouldBe "value"
+            element shouldMatchXml "<tag><option name='needle' value='value' /></tag>"
         }
     }
 
@@ -59,43 +59,43 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" />
-                    <content2 name="needle" />
-                    <content3 attribute="value" />
+                    <option1 name="wrong" />
+                    <option2 name="needle" />
+                    <option3 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getProperty("needle")?.name shouldBe "content2"
+            element.getProperty("needle")?.name shouldBe "option2"
         }
 
         test("returns `null` if no children have the given name") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" />
-                    <content2 name="noodle" />
-                    <content3 attribute="value" />
+                    <option1 name="wrong" />
+                    <option2 name="noodle" />
+                    <option3 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getProperty("needle")?.name should beNull()
+            element.getProperty("needle")?.name shouldBe null
         }
 
         test("returns `null` if multiple children have the given name") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" />
-                    <content2 name="needle" />
-                    <content3 name="needle" />
-                    <content4 attribute="value" />
+                    <option1 name="wrong" />
+                    <option2 name="needle" />
+                    <option3 name="needle" />
+                    <option4 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getProperty("needle")?.name should beNull()
+            element.getProperty("needle")?.name shouldBe null
         }
     }
 
@@ -104,23 +104,23 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" />
-                    <content2 name="needle" />
-                    <content3 attribute="value" />
+                    <option1 name="wrong" />
+                    <option2 name="needle" />
+                    <option3 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getMultiProperty("needle").map { it.name } shouldContainExactly listOf("content2")
+            element.getMultiProperty("needle").map { it.name } shouldContainExactly listOf("option2")
         }
 
-        test("returns `null` if no children have the given name") {
+        test("returns en empty list if no children have the given name") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" />
-                    <content2 name="noodle" />
-                    <content3 attribute="value" />
+                    <option1 name="wrong" />
+                    <option2 name="noodle" />
+                    <option3 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
@@ -132,15 +132,15 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" />
-                    <content2 name="needle" />
-                    <content3 name="needle" />
-                    <content4 attribute="value" />
+                    <option1 name="wrong" />
+                    <option2 name="needle" />
+                    <option3 name="needle" />
+                    <option4 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getMultiProperty("needle").map { it.name } shouldContainExactly listOf("content2", "content3")
+            element.getMultiProperty("needle").map { it.name } shouldContainExactly listOf("option2", "option3")
         }
     }
 
@@ -149,14 +149,14 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" />
-                    <content2 name="needle" />
-                    <content3 attribute="value" />
+                    <option1 name="wrong" />
+                    <option2 name="needle" />
+                    <option3 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getPropertyByPath("needle")?.name shouldBe "content2"
+            element.getPropertyByPath("needle")?.name shouldBe "option2"
         }
 
         test("returns the singular child if `null` is given") {
@@ -169,16 +169,16 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" />
-                    <content2 name="needle">
+                    <option1 name="wrong" />
+                    <option2 name="needle">
                         <wrapper>
-                            <contentA name="prong">
+                            <optionA name="prong">
                                 <target />
-                            </contentA>
-                            <contentB name="undesired" />
+                            </optionA>
+                            <optionB name="undesired" />
                         </wrapper>
-                    </content2>
-                    <content3 attribute="value" />
+                    </option2>
+                    <option3 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
@@ -190,32 +190,32 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" />
-                    <content2 name="needle">
+                    <option1 name="wrong" />
+                    <option2 name="needle">
                         <wrapper>
-                            <contentA name="prong">
+                            <optionA name="prong">
                                 <target />
-                            </contentA>
-                            <contentB name="undesired" />
+                            </optionA>
+                            <optionB name="undesired" />
                         </wrapper>
-                    </content2>
-                    <content3 attribute="value" />
+                    </option2>
+                    <option3 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getPropertyByPath("wrong", null, "prong", null)?.name should beNull()
+            element.getPropertyByPath("wrong", null, "prong", null)?.name shouldBe null
         }
     }
 
     context("getPropertyValue") {
-        test("returns value of the property with the given name") {
+        test("returns the value of the property with the given name") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" value="desired" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="desired" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
@@ -227,43 +227,117 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" value="undesired" />
-                    <content2 name="noodle" value="valet" />
-                    <content3 attribute="value" />
+                    <option1 name="wrong" value="undesired" />
+                    <option2 name="noodle" value="valet" />
+                    <option3 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getPropertyValue("needle") should beNull()
+            element.getPropertyValue("needle") shouldBe null
         }
 
         test("returns `null` if the property exists multiple times") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content1 name="wrong" value="undesired" />
-                    <content2 name="needle" value="valet" />
-                    <content3 name="needle" value="voodoo" />
-                    <content4 attribute="value" />
+                    <option1 name="wrong" value="undesired" />
+                    <option2 name="needle" value="valet" />
+                    <option3 name="needle" value="voodoo" />
+                    <option4 attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getPropertyValue("needle") should beNull()
+            element.getPropertyValue("needle") shouldBe null
         }
 
         test("returns `null` if the property has no value") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            element.getPropertyValue("needle") should beNull()
+            element.getPropertyValue("needle") shouldBe null
+        }
+    }
+
+    context("getMultiPropertyValue") {
+        test("returns the value of the property with the given name") {
+            val element = JDOMUtil.load(
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="desired" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
+            )
+
+            element.getMultiPropertyValue("needle") shouldBe listOf("desired")
+        }
+
+        test("returns the values of all properties with the given name") {
+            val element = JDOMUtil.load(
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="value1" />
+                    <option name="needle" value="value2" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
+            )
+
+            element.getMultiPropertyValue("needle") shouldBe listOf("value1", "value2")
+        }
+
+        test("returns a list with entries only for properties with a value") {
+            val element = JDOMUtil.load(
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" />
+                    <option name="needle" value="desired" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
+            )
+
+            element.getMultiPropertyValue("needle") shouldBe listOf("desired")
+        }
+
+        test("returns an empty list if the property does not exist") {
+            val element = JDOMUtil.load(
+                """
+                <tag>
+                    <option1 name="wrong" value="undesired" />
+                    <option2 name="noodle" value="valet" />
+                    <option3 attribute="value" />
+                </tag>
+                """.trimIndent()
+            )
+
+            element.getMultiPropertyValue("needle") should beEmpty()
+        }
+
+        test("returns an empty list if the property has no value") {
+            val element = JDOMUtil.load(
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
+            )
+
+            element.getMultiPropertyValue("needle") should beEmpty()
         }
     }
 
@@ -272,68 +346,93 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
-            element.getPropertyValue("needle") should beNull()
 
             element.setPropertyValue("needle", "value")
 
-            element.getPropertyValue("needle") shouldBe "value"
-        }
-
-        test("changes the property's value") {
-            val element = JDOMUtil.load(
+            element shouldMatchXml
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" value="value" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option attribute="value" />
+                    <option name="needle" value="value" />
                 </tag>
                 """.trimIndent()
-            )
-            element.getPropertyValue("needle") shouldBe "value"
-
-            element.setPropertyValue("needle", "new-value")
-
-            element.getPropertyValue("needle") shouldBe "new-value"
         }
 
         test("adds a value to the property if it does not have one") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
-            element.getPropertyValue("needle") should beNull()
 
             element.setPropertyValue("needle", "value")
 
-            element.getPropertyValue("needle") shouldBe "value"
+            element shouldMatchXml
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="value" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
         }
 
-        test("does nothing if multiple children have the given name") {
+        test("changes the existing property's value") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" value="valet" />
-                    <content name="needle" value="voodoo" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="value" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            val copy = JDOMUtil.load(JDOMUtil.write(element))
             element.setPropertyValue("needle", "new-value")
 
-            JDOMUtil.write(element) shouldBe JDOMUtil.write(copy)
+            element shouldMatchXml
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="new-value" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
+        }
+
+        test("changes all existing properties' values") {
+            val element = JDOMUtil.load(
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="valet" />
+                    <option name="needle" value="voodoo" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
+            )
+
+            element.setPropertyValue("needle", "new-value")
+
+            element shouldMatchXml
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="new-value" />
+                    <option name="needle" value="new-value" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
         }
     }
 
@@ -342,65 +441,79 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" value="desired" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="desired" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
-            element.getPropertyValue("needle") shouldBe "desired"
-            element.getPropertyValue("new-needle") should beNull()
 
             element.renameProperty("needle", "new-needle")
 
-            element.getPropertyValue("needle") should beNull()
-            element.getPropertyValue("new-needle") shouldBe "desired"
+            element shouldMatchXml
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="new-needle" value="desired" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
         }
 
         test("renames all properties with the given name") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" value="desired1" />
-                    <content attribute="value" />
-                    <content name="needle" value="desired2" />
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="desired1" />
+                    <option attribute="value" />
+                    <option name="needle" value="desired2" />
                 </tag>
                 """.trimIndent()
             )
-            element.getMultiProperty("needle") should haveSize(2)
-            element.getMultiProperty("new-needle") should beEmpty()
 
             element.renameProperty("needle", "new-needle")
 
-            element.getMultiProperty("needle") should beEmpty()
-            element.getMultiProperty("new-needle") should haveSize(2)
+            element shouldMatchXml
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="new-needle" value="desired1" />
+                    <option attribute="value" />
+                    <option name="new-needle" value="desired2" />
+                </tag>
+                """.trimIndent()
         }
 
         test("does nothing if no property has the given name") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            val copy = JDOMUtil.load(JDOMUtil.write(element))
             element.renameProperty("needle", "new-needle")
 
-            JDOMUtil.write(element) shouldBe JDOMUtil.write(copy)
+            element shouldMatchXml
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
         }
 
         test("throws an error if the new name is already in use") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" value="desired1" />
-                    <content attribute="value" />
-                    <content name="new-needle" value="desired2" />
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="desired1" />
+                    <option attribute="value" />
+                    <option name="new-needle" value="desired2" />
                 </tag>
                 """.trimIndent()
             )
@@ -414,56 +527,68 @@ object XmlHelpersTest : FunSpec({
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" value="desired" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="desired" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
-            element.getPropertyValue("needle") shouldBe "desired"
-            element.getPropertyValue("wrong") shouldBe "undesired"
 
             element.removeProperty("needle")
 
-            element.getProperty("needle") should beNull()
-            element.getPropertyValue("wrong") shouldBe "undesired"
+            element shouldMatchXml
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
         }
 
         test("removes all properties with the given name") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="needle" value="foo" />
-                    <content name="wrong" value="undesired" />
-                    <content name="needle" value="bar" />
-                    <content attribute="value" />
+                    <option name="needle" value="foo" />
+                    <option name="wrong" value="undesired" />
+                    <option name="needle" value="bar" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
-            element.getMultiProperty("needle") should haveSize(2)
-            element.getPropertyValue("wrong") shouldBe "undesired"
 
             element.removeProperty("needle")
 
-            element.getMultiProperty("needle") should beEmpty()
-            element.getPropertyValue("wrong") shouldBe "undesired"
+            element shouldMatchXml
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
         }
 
         test("does nothing if no property with the given name exists") {
             val element = JDOMUtil.load(
                 """
                 <tag>
-                    <content name="wrong" value="undesired" />
-                    <content name="also_wrong" value="also_undesired" />
-                    <content attribute="value" />
+                    <option name="wrong" value="undesired" />
+                    <option name="also_wrong" value="also_undesired" />
+                    <option attribute="value" />
                 </tag>
                 """.trimIndent()
             )
 
-            val copy = JDOMUtil.load(JDOMUtil.write(element))
             element.removeProperty("needle")
 
-            JDOMUtil.write(element) shouldBe JDOMUtil.write(copy)
+            element shouldMatchXml
+                """
+                <tag>
+                    <option name="wrong" value="undesired" />
+                    <option name="also_wrong" value="also_undesired" />
+                    <option attribute="value" />
+                </tag>
+                """.trimIndent()
         }
     }
 

@@ -1,29 +1,34 @@
+@file:Suppress("detekt:TooManyFunctions") // Fine for test helper classes
+
 package com.fwdekker.randomness.testhelpers
 
 import com.fwdekker.randomness.Bundle
 import com.fwdekker.randomness.IconDescriptor
 import com.fwdekker.randomness.State
 import com.fwdekker.randomness.matchesFormat
+import com.intellij.openapi.util.JDOMUtil
 import io.kotest.assertions.withClue
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult
+import io.kotest.matchers.be
 import io.kotest.matchers.collections.beEmptyArray
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.nulls.beNull
 import io.kotest.matchers.should
+import io.kotest.matchers.shouldNot
+import org.jdom.Element
 import javax.swing.Icon
 
 
 /**
- * @see beEmptyArray
+ * Similar to [beEmptyArray], but also fails if `this` is not specifically an array of [Int]s.
  */
 fun beEmptyIntArray() = Matcher<IntArray> { self -> beEmptyArray<Int>().test(self.toTypedArray()) }
 
 /**
  * @see shouldContainExactly
  */
-infix fun IntArray.shouldContainExactly(collection: Array<Int>) =
-    this.toTypedArray() shouldContainExactly collection
+infix fun IntArray.shouldContainExactly(collection: Array<Int>) = toTypedArray() shouldContainExactly collection
 
 
 /**
@@ -43,6 +48,14 @@ fun matchBundle(key: String, vararg args: String): Matcher<String?> =
     }
 
 /**
+ * Infix version of [matchBundle], without additional arguments.
+ */
+infix fun <S : String?> S.shouldMatchBundle(key: String): S {
+    this should matchBundle(key)
+    return this
+}
+
+/**
  * Matches [State.doValidate] against the [Bundle] entry at [key], based on [matchBundle] (without `args`).
  *
  * If [key] is `null`, the [State] should be valid. If [key] is the empty string, the [State] should be invalid for
@@ -53,9 +66,15 @@ fun matchBundle(key: String, vararg args: String): Matcher<String?> =
 fun validateAsBundle(key: String?): Matcher<State> =
     Matcher { scheme ->
         when (key) {
-            null -> withClue("Should be valid") { beNull().test(scheme.doValidate()) }
-            "" -> withClue("Should be invalid with any message") { beNull().invert().test(scheme.doValidate()) }
-            else -> withClue("Should be invalid with specific message") { matchBundle(key).test(scheme.doValidate()) }
+            null -> withClue("Should be valid") { beNull().test(scheme.doValidate()?.message) }
+
+            "" -> withClue("Should be invalid with any message") {
+                beNull().invert().test(scheme.doValidate()?.message)
+            }
+
+            else -> withClue("Should be invalid with specific message") {
+                matchBundle(key).test(scheme.doValidate()?.message)
+            }
         }
     }
 
@@ -102,6 +121,14 @@ infix fun <I : Icon?> I.shouldBeSameIconAs(other: Icon?): I {
 }
 
 /**
+ * Negated infix version of [beSameIconAs].
+ */
+infix fun <I : Icon?> I.shouldNotBeSameIconAs(other: Icon?): I {
+    this shouldNot beSameIconAs(other)
+    return this
+}
+
+/**
  * Alternative version for [IconDescriptor]s.
  */
 fun beSameIconAs(other: IconDescriptor?): Matcher<IconDescriptor?> =
@@ -112,5 +139,20 @@ fun beSameIconAs(other: IconDescriptor?): Matcher<IconDescriptor?> =
  */
 infix fun <I : IconDescriptor?> I.shouldBeSameIconAs(other: IconDescriptor?): I {
     this should beSameIconAs(other)
+    return this
+}
+
+
+/**
+ * Matches an [Element] against [xml] to verify that they represent the same [Element].
+ */
+fun matchXml(xml: String): Matcher<Element> =
+    Matcher { element -> be(JDOMUtil.write(JDOMUtil.load(xml))).test(JDOMUtil.write(element)) }
+
+/**
+ * Infix version of [matchXml].
+ */
+infix fun Element.shouldMatchXml(xml: String): Element {
+    this should matchXml(xml)
     return this
 }

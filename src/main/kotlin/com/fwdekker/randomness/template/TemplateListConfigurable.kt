@@ -63,9 +63,12 @@ internal class TemplateListConfigurable : Configurable, Disposable {
      */
     @Throws(ConfigurationException::class)
     override fun apply() {
-        val validationInfo = editor.doValidate()
-        if (validationInfo != null)
-            throw ConfigurationException(validationInfo, Bundle("template_list.error.failed_to_save_settings"))
+        editor.doValidate()?.also {
+            if (it.state is Scheme)
+                selectScheme(it.state)
+
+            throw ConfigurationException(it.message, Bundle("template_list.error.failed_to_save_settings"))
+        }
 
         val oldList = editor.originalTemplateList.deepCopy(retainUuid = true)
         editor.apply()

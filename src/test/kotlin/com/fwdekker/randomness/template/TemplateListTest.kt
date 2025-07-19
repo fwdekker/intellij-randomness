@@ -2,13 +2,13 @@ package com.fwdekker.randomness.template
 
 import com.fwdekker.randomness.Settings
 import com.fwdekker.randomness.testhelpers.DummyScheme
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
-import io.kotest.matchers.nulls.beNull
-import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 
 
@@ -16,6 +16,9 @@ import io.kotest.matchers.types.shouldBeSameInstanceAs
  * Unit tests for [TemplateList].
  */
 object TemplateListTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     context("applyContext") {
         test("applies the context to itself") {
             val newContext = Settings()
@@ -42,7 +45,7 @@ object TemplateListTest : FunSpec({
         test("returns null if no such template can be found") {
             val list = TemplateList()
 
-            list.getTemplateByUuid("46840969-0b31-4fef-92b0-42f34dbc9f8b") should beNull()
+            list.getTemplateByUuid("46840969-0b31-4fef-92b0-42f34dbc9f8b") shouldBe null
         }
 
         test("returns the template with the given UUID") {
@@ -58,7 +61,7 @@ object TemplateListTest : FunSpec({
 
             val scheme = list.templates[0].schemes[0]
 
-            list.getTemplateByUuid(scheme.uuid) should beNull()
+            list.getTemplateByUuid(scheme.uuid) shouldBe null
         }
     }
 
@@ -66,7 +69,7 @@ object TemplateListTest : FunSpec({
         test("returns null if no such scheme can be found") {
             val list = TemplateList()
 
-            list.getSchemeByUuid("46840969-0b31-4fef-92b0-42f34dbc9f8b") should beNull()
+            list.getSchemeByUuid("46840969-0b31-4fef-92b0-42f34dbc9f8b") shouldBe null
         }
 
         test("returns the scheme with the given UUID") {

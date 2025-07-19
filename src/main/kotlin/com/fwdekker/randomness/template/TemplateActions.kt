@@ -216,6 +216,6 @@ class TemplateSettingsAction(private val template: Template? = null) : AnAction(
     override fun actionPerformed(event: AnActionEvent) =
         ShowSettingsUtil.getInstance()
             .showSettingsDialog(event.project, TemplateListConfigurable::class.java) { configurable ->
-                configurable?.also { it.schemeToSelect = template?.uuid }
+                configurable?.apply { schemeToSelect = template?.let { it.schemes.firstOrNull() ?: it }?.uuid }
             }
 }

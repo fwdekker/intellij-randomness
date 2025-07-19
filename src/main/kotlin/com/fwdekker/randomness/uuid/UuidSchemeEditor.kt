@@ -6,11 +6,10 @@ import com.fwdekker.randomness.affix.AffixDecoratorEditor
 import com.fwdekker.randomness.array.ArrayDecoratorEditor
 import com.fwdekker.randomness.ui.JDateTimeField
 import com.fwdekker.randomness.ui.UIConstants
-import com.fwdekker.randomness.ui.bindDateTimeLongValue
 import com.fwdekker.randomness.ui.bindDateTimes
+import com.fwdekker.randomness.ui.bindTimestamp
 import com.fwdekker.randomness.ui.isEditable
 import com.fwdekker.randomness.ui.loadMnemonic
-import com.fwdekker.randomness.ui.toLocalDateTime
 import com.fwdekker.randomness.ui.withFixedWidth
 import com.fwdekker.randomness.ui.withName
 import com.fwdekker.randomness.uuid.UuidScheme.Companion.DEFAULT_MAX_DATE_TIME
@@ -48,23 +47,26 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                         .isEditable(false)
                         .withName("version")
                         .bindItem(scheme::version.toNullableProperty())
+                        .bindValidation(scheme::version)
                         .also { versionHasDateTime = it.component.selectedValueMatches { it in TIME_BASED_VERSIONS } }
                 }
 
                 row(Bundle("datetime.ui.value.min_datetime_option")) {  // TODO: Use uuid-specific text
-                    cell(JDateTimeField(DEFAULT_MIN_DATE_TIME.toLocalDateTime()))
+                    cell(JDateTimeField(DEFAULT_MIN_DATE_TIME))
                         .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
                         .withName("minDateTime")
-                        .bindDateTimeLongValue(scheme::minDateTime)
+                        .bindTimestamp(scheme::minDateTime)
+                        .bindValidation(scheme::minDateTime)
                         .enabledIf(versionHasDateTime)
                         .also { minDateTimeField = it.component }
                 }
 
                 row(Bundle("datetime.ui.value.max_datetime_option")) {  // TODO: Use uuid-specific text
-                    cell(JDateTimeField(DEFAULT_MAX_DATE_TIME.toLocalDateTime()))
+                    cell(JDateTimeField(DEFAULT_MAX_DATE_TIME))
                         .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
                         .withName("maxDateTime")
-                        .bindDateTimeLongValue(scheme::maxDateTime)
+                        .bindTimestamp(scheme::maxDateTime)
+                        .bindValidation(scheme::maxDateTime)
                         .enabledIf(versionHasDateTime)
                         .also { maxDateTimeField = it.component }
                 }.bottomGap(BottomGap.SMALL)
@@ -76,6 +78,7 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                         .loadMnemonic()
                         .withName("isUppercase")
                         .bindSelected(scheme::isUppercase)
+                        .bindValidation(scheme::isUppercase)
                 }
 
                 row {
@@ -83,6 +86,7 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                         .loadMnemonic()
                         .withName("addDashes")
                         .bindSelected(scheme::addDashes)
+                        .bindValidation(scheme::addDashes)
                 }
 
                 row {
@@ -98,7 +102,7 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                 .also { decoratorEditors += it }
                 .let { cell(it.rootComponent).align(AlignX.FILL) }
         }
-    }
+    }.finalize(this)
 
 
     init {

@@ -4,10 +4,11 @@ import com.fwdekker.randomness.Icons
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.TRANSPARENCY
-import com.fwdekker.randomness.testhelpers.beSameIconAs
 import com.fwdekker.randomness.testhelpers.getSouthColor
-import com.fwdekker.randomness.testhelpers.matchBundle
 import com.fwdekker.randomness.testhelpers.render
+import com.fwdekker.randomness.testhelpers.shouldBeSameIconAs
+import com.fwdekker.randomness.testhelpers.shouldMatchBundle
+import com.fwdekker.randomness.testhelpers.shouldNotBeSameIconAs
 import com.fwdekker.randomness.testhelpers.typeIcon
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.intellij.util.ui.EmptyIcon
@@ -15,10 +16,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
 import io.kotest.matchers.collections.shouldContainExactly
-import io.kotest.matchers.nulls.beNull
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNot
 import java.awt.Color
 
 
@@ -38,7 +36,7 @@ object TemplateGroupActionTest : FunSpec({
 
             action.templatePresentation.text shouldBe template.name
             action.templatePresentation.description shouldBe "Inserts a(n) Name at all carets."
-            action.templatePresentation.icon should beSameIconAs(template.icon?.get())
+            action.templatePresentation.icon shouldBeSameIconAs template.icon?.get()
         }
     }
 })
@@ -88,7 +86,7 @@ object TemplateInsertActionTest : FunSpec({
 
                 // Test if icon is fully transparent
                 val icon = action.templatePresentation.icon!!
-                icon should beSameIconAs(EmptyIcon.create(icon))
+                icon shouldBeSameIconAs EmptyIcon.create(icon)
             }
 
             test("adds a repeat overlay for a repeat variant") {
@@ -97,7 +95,7 @@ object TemplateInsertActionTest : FunSpec({
 
                 // Test if icon is not fully transparent
                 val icon = action.templatePresentation.icon!!
-                icon shouldNot beSameIconAs(EmptyIcon.create(icon))
+                icon shouldNotBeSameIconAs EmptyIcon.create(icon)
             }
         }
     }
@@ -133,7 +131,7 @@ object TemplateSettingsActionTest : FunSpec({
             test("uses a default text if the template is null") {
                 val action = TemplateSettingsAction(template = null)
 
-                action.templatePresentation.text should matchBundle("template.name.settings")
+                action.templatePresentation.text shouldMatchBundle "template.name.settings"
             }
 
             test("uses the template's name if the template is not null") {
@@ -147,7 +145,7 @@ object TemplateSettingsActionTest : FunSpec({
             test("has no description of the template is null") {
                 val action = TemplateSettingsAction(template = null)
 
-                action.templatePresentation.description should beNull()
+                action.templatePresentation.description shouldBe null
             }
 
             test("uses the template's name to describe the action if the template is not null") {

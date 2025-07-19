@@ -1,15 +1,15 @@
 package com.fwdekker.randomness.datetime
 
+import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
-import com.fwdekker.randomness.testhelpers.dateTimeProp
 import com.fwdekker.randomness.testhelpers.editorApplyTests
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
 import com.fwdekker.randomness.testhelpers.prop
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
+import com.fwdekker.randomness.testhelpers.timestampProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.testhelpers.valueProp
 import io.kotest.core.spec.style.FunSpec
@@ -35,7 +35,7 @@ object DateTimeSchemeEditorTest : FunSpec({
 
     beforeNonContainer {
         scheme = DateTimeScheme()
-        editor = guiGet { DateTimeSchemeEditor(scheme) }
+        editor = runEdt { DateTimeSchemeEditor(scheme) }
         frame = Containers.showInFrame(editor.rootComponent)
     }
 
@@ -46,10 +46,12 @@ object DateTimeSchemeEditorTest : FunSpec({
 
     context("input handling") {
         test("binds the minimum and maximum times") {
-            guiRun { frame.textBox("maxDateTime").dateTimeProp().set(-368L) }
+            runEdt { frame.textBox("minDateTime").timestampProp().set(Timestamp("1131")) }
 
-            guiGet { frame.textBox("minDateTime").dateTimeProp().get() } shouldBe -368L
-            guiGet { frame.textBox("maxDateTime").dateTimeProp().get() } shouldBe -368L
+            runEdt { frame.textBox("maxDateTime").timestampProp().set(Timestamp("0463")) }
+
+            runEdt { frame.textBox("minDateTime").timestampProp().get() } shouldBe Timestamp("0463")
+            runEdt { frame.textBox("maxDateTime").timestampProp().get() } shouldBe Timestamp("0463")
         }
     }
 
@@ -61,16 +63,32 @@ object DateTimeSchemeEditorTest : FunSpec({
             { editor },
             mapOf(
                 "minDateTime" to {
-                    row(frame.textBox("minDateTime").dateTimeProp(), editor.scheme::minDateTime.prop(), 369L)
+                    row(
+                        frame.textBox("minDateTime").timestampProp(),
+                        editor.scheme::minDateTime.prop(),
+                        Timestamp("0379-09-20 17:27:35.767"),
+                    )
                 },
                 "maxDateTime" to {
-                    row(frame.textBox("maxDateTime").dateTimeProp(), editor.scheme::maxDateTime.prop(), 822L)
+                    row(
+                        frame.textBox("maxDateTime").timestampProp(),
+                        editor.scheme::maxDateTime.prop(),
+                        Timestamp("8457-03-25 04:00:37.075"),
+                    )
                 },
                 "pattern" to {
-                    row(frame.textBox("pattern").textProp(), editor.scheme::pattern.prop(), "dd/MM/yyyy")
+                    row(
+                        frame.textBox("pattern").textProp(),
+                        editor.scheme::pattern.prop(),
+                        "dd/MM/yyyy",
+                    )
                 },
                 "arrayDecorator" to {
-                    row(frame.spinner("arrayMaxCount").valueProp(), editor.scheme.arrayDecorator::maxCount.prop(), 7)
+                    row(
+                        frame.spinner("arrayMaxCount").valueProp(),
+                        editor.scheme.arrayDecorator::maxCount.prop(),
+                        7,
+                    )
                 },
             )
         )

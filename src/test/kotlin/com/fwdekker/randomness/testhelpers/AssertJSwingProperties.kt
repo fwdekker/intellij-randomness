@@ -37,8 +37,7 @@ fun <S, T : AbstractButton> AbstractTwoStateButtonFixture<S, T>.isSelectedProp()
  *
  * Required until issue KT-8575 is solved.
  */
-fun JComboBoxFixture.itemProp() =
-    this.prop({ this.target()::getSelectedItem }, { this.target()::setSelectedItem })
+fun JComboBoxFixture.itemProp() = this.prop({ this.target()::getSelectedItem }, { this.target()::setSelectedItem })
 
 /**
  * Creates a [MutableProperty] for the [javax.swing.ComboBoxEditor.getItem] field.
@@ -55,11 +54,12 @@ fun JComboBoxFixture.textProp() = this.prop({ this.target().editor::getItem }, {
 fun JSpinnerFixture.valueProp() = this.prop({ this.target()::getValue }, { this.target()::setValue })
 
 /**
- * Creates a [MutableProperty] for the [JDateTimeField.longValue] field.
+ * Creates a [MutableProperty] for [JDateTimeField]'s contained [com.fwdekker.randomness.Timestamp].
  *
  * Required until issue KT-8575 is solved.
  */
-fun JTextComponentFixture.dateTimeProp() = (this.target() as JDateTimeField)::longValue.prop()
+fun JTextComponentFixture.timestampProp() =
+    (this.target() as JDateTimeField).let { target -> this.prop({ target::getValue }, { target::setValue }) }
 
 /**
  * Creates a [MutableProperty] for the [javax.swing.text.JTextComponent.getText] field.

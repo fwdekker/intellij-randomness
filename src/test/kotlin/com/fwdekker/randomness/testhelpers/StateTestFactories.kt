@@ -1,6 +1,5 @@
 package com.fwdekker.randomness.testhelpers
 
-import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.State
 import com.fwdekker.randomness.lowerCaseFirst
 import com.intellij.util.xmlb.XmlSerializer.deserialize
@@ -12,37 +11,37 @@ import io.kotest.matchers.shouldNotBe
 
 
 /**
- * Tests the [com.fwdekker.randomness.State.deepCopy] method of the scheme created by [createState].
+ * Tests the [com.fwdekker.randomness.State.deepCopy] method of the state created by [createState].
  */
 fun <S : State> stateDeepCopyTestFactory(createState: () -> S) =
     funSpec {
         context("deepCopy") {
-            lateinit var scheme: S
+            lateinit var state: S
 
 
             beforeNonContainer {
-                scheme = createState()
+                state = createState()
             }
 
 
             test("equals old instance") {
-                scheme.deepCopy() shouldBe scheme
+                state.deepCopy() shouldBe state
             }
 
             test("is independent of old instance") {
-                val copy = scheme.deepCopy()
+                val copy = state.deepCopy()
 
-                scheme.uuid = "other"
+                state.uuid = "other"
 
-                copy.uuid shouldNotBe scheme.uuid
+                copy.uuid shouldNotBe state.uuid
             }
 
             test("retains uuid if chosen") {
-                scheme.deepCopy(true).uuid shouldBe scheme.uuid
+                state.deepCopy(true).uuid shouldBe state.uuid
             }
 
             test("replaces uuid if chosen") {
-                scheme.deepCopy(false).uuid shouldNotBe scheme.uuid
+                state.deepCopy(false).uuid shouldNotBe state.uuid
             }
         }
     }
@@ -51,7 +50,7 @@ fun <S : State> stateDeepCopyTestFactory(createState: () -> S) =
  * Tests that [com.fwdekker.randomness.PersistentSettings] serializes and deserializes [S] correctly without losing user
  * configuration.
  */
-fun <S : Scheme> schemeSerializationTestFactory(createScheme: () -> S) =
+fun <S : State> stateSerializationTestFactory(createState: () -> S) =
     funSpec {
         fun <T> reserialize(any: Any, clz: Class<T>): T =
             deserialize(serialize(deserialize(serialize(any), clz)), clz)
@@ -59,25 +58,26 @@ fun <S : Scheme> schemeSerializationTestFactory(createScheme: () -> S) =
 
         context("(de)serialization") {
             test("mutation is not a no-op") {
-                createScheme().mutated() shouldNotBe createScheme()
+                createState().mutated() shouldNotBe createState()
             }
 
             test("retains default values") {
-                val scheme = createScheme()
-                reserialize(createScheme(), scheme::class.java) shouldBe scheme
+                val state = createState()
+                reserialize(createState(), state::class.java) shouldBe state
             }
 
             test("retains modified values") {
-                val scheme = createScheme().mutated()
-                reserialize(scheme, scheme::class.java) shouldBe scheme
+                val state = createState().mutated()
+                reserialize(state, state::class.java) shouldBe state
             }
 
             test("serializes exactly the properties for which `isSerialized` holds") {
-                val scheme = createScheme()
-                val xml = serialize(scheme)
+                val state = createState()
+                val xml = serialize(state)
 
-                val beanProps = scheme.properties().filter { it.isSerialized() }.map { it.name }
-                    .map { it.removePrefix("is").lowerCaseFirst() }
+                val beanProps = state.properties()
+                    .filter { it.isSerialized() }
+                    .map { it.name.removePrefix("is").lowerCaseFirst() }
                 val xmlProps = xml.children.mapNotNull { it.getAttribute("name")?.value }
 
                 xmlProps shouldContainExactlyInAnyOrder beanProps

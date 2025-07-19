@@ -6,6 +6,7 @@ import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.ui.JBColor
 import com.intellij.util.xmlb.annotations.OptionTag
 import java.awt.Color
@@ -40,6 +41,20 @@ data class DecimalScheme(
     override val name = Bundle("decimal.title")
     override val typeIcon get() = BASE_ICON
     override val decorators get() = listOf(affixDecorator, arrayDecorator)
+    override val validators = validators {
+        of(::maxValue)
+            .check({ it >= minValue }, { Bundle("decimal.error.min_value_above_max") })
+            .check(
+                { it - minValue <= MAX_VALUE_DIFFERENCE },
+                { Bundle("decimal.error.value_range", MAX_VALUE_DIFFERENCE) }
+            )
+        of(::decimalCount)
+            .check({ it >= MIN_DECIMAL_COUNT }, { Bundle("decimal.error.decimal_count_too_low", MIN_DECIMAL_COUNT) })
+        of(::decimalSeparator).check({ it.length == 1 }, { Bundle("decimal.error.decimal_separator_length") })
+        of(::groupingSeparator).check({ it.length == 1 }, { Bundle("decimal.error.grouping_separator_length") })
+        include(::affixDecorator)
+        include(::arrayDecorator)
+    }
 
 
     /**
@@ -66,16 +81,6 @@ data class DecimalScheme(
         return format.format(decimal)
     }
 
-
-    override fun doValidate() =
-        when {
-            minValue > maxValue -> Bundle("decimal.error.min_value_above_max")
-            maxValue - minValue > MAX_VALUE_DIFFERENCE -> Bundle("decimal.error.value_range", MAX_VALUE_DIFFERENCE)
-            decimalCount < MIN_DECIMAL_COUNT -> Bundle("decimal.error.decimal_count_too_low", MIN_DECIMAL_COUNT)
-            decimalSeparator.length != 1 -> Bundle("decimal.error.decimal_separator_length")
-            groupingSeparator.length != 1 -> Bundle("decimal.error.grouping_separator_length")
-            else -> affixDecorator.doValidate() ?: arrayDecorator.doValidate()
-        }
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(

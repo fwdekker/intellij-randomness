@@ -1,10 +1,11 @@
 package com.fwdekker.randomness.datetime
 
+import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.testhelpers.Tags
-import com.fwdekker.randomness.testhelpers.schemeSerializationTestFactory
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
+import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
@@ -17,16 +18,16 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [DateTimeScheme].
  */
 object DateTimeSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {
         withData(
             mapOf(
                 "returns date at given timestamp" to
-                    row(DateTimeScheme().withDateTime(45_582L), "1970-01-01 00:00:45"),
+                    row(DateTimeScheme().withDateTime(Timestamp("2768-06-30 18:01:48.695")), "2768-06-30 18:01:48.695"),
                 "returns date with given format" to
-                    row(DateTimeScheme(pattern = "yyyy.MM").withDateTime(966_670L), "1970.01"),
+                    row(DateTimeScheme(pattern = "yyyy.MM").withDateTime(Timestamp("6999-03-29")), "6999.03"),
             )
         ) { (scheme, output) -> scheme.generateStrings()[0] shouldBe output }
 
@@ -40,28 +41,28 @@ object DateTimeSchemeTest : FunSpec({
     context("doValidate") {
         withData(
             mapOf(
-                "succeeds for default state" to
-                    row(DateTimeScheme(), null),
+                "succeeds for default state" to row(DateTimeScheme(), null),
                 "fails if min date-time is above max date-time" to
-                    row(DateTimeScheme(minDateTime = 531L, maxDateTime = 38L), "datetime.error.min_datetime_above_max"),
-                "fails if pattern is invalid" to
-                    row(DateTimeScheme(pattern = "yyyy-ffff"), ""),
-                "succeeds if invalid pattern is escaped" to
-                    row(DateTimeScheme(pattern = "yyyy-'ffff'"), null),
+                    row(
+                        DateTimeScheme(minDateTime = Timestamp("4434"), maxDateTime = Timestamp("1853")),
+                        "datetime.error.min_datetime_above_max",
+                    ),
+                "fails if pattern is invalid" to row(DateTimeScheme(pattern = "yyyy-ffff"), ""),
+                "succeeds if invalid pattern is escaped" to row(DateTimeScheme(pattern = "yyyy-'ffff'"), null),
             )
         ) { (scheme, validation) -> scheme shouldValidateAsBundle validation }
     }
 
     include(stateDeepCopyTestFactory { DateTimeScheme() })
 
-    include(schemeSerializationTestFactory { DateTimeScheme() })
+    include(stateSerializationTestFactory { DateTimeScheme() })
 })
 
 
 /**
  * Sets the [DateTimeScheme.minDateTime] and [DateTimeScheme.maxDateTime] to [dateTime].
  */
-private fun DateTimeScheme.withDateTime(dateTime: Long): DateTimeScheme {
+private fun DateTimeScheme.withDateTime(dateTime: Timestamp): DateTimeScheme {
     minDateTime = dateTime
     maxDateTime = dateTime
     return this

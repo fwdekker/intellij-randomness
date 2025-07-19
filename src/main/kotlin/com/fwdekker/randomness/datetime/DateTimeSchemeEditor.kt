@@ -7,9 +7,8 @@ import com.fwdekker.randomness.datetime.DateTimeScheme.Companion.DEFAULT_MAX_DAT
 import com.fwdekker.randomness.datetime.DateTimeScheme.Companion.DEFAULT_MIN_DATE_TIME
 import com.fwdekker.randomness.ui.JDateTimeField
 import com.fwdekker.randomness.ui.UIConstants
-import com.fwdekker.randomness.ui.bindDateTimeLongValue
 import com.fwdekker.randomness.ui.bindDateTimes
-import com.fwdekker.randomness.ui.toLocalDateTime
+import com.fwdekker.randomness.ui.bindTimestamp
 import com.fwdekker.randomness.ui.withFixedWidth
 import com.fwdekker.randomness.ui.withName
 import com.intellij.ui.dsl.builder.AlignX
@@ -30,18 +29,20 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
             lateinit var maxDateTimeField: JDateTimeField
 
             row(Bundle("datetime.ui.value.min_datetime_option")) {
-                cell(JDateTimeField(DEFAULT_MIN_DATE_TIME.toLocalDateTime()))
+                cell(JDateTimeField(DEFAULT_MIN_DATE_TIME))
                     .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
                     .withName("minDateTime")
-                    .bindDateTimeLongValue(scheme::minDateTime)
+                    .bindTimestamp(scheme::minDateTime)
+                    .bindValidation(scheme::minDateTime)
                     .also { minDateTimeField = it.component }
             }
 
             row(Bundle("datetime.ui.value.max_datetime_option")) {
-                cell(JDateTimeField(DEFAULT_MAX_DATE_TIME.toLocalDateTime()))
+                cell(JDateTimeField(DEFAULT_MAX_DATE_TIME))
                     .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
                     .withName("maxDateTime")
-                    .bindDateTimeLongValue(scheme::maxDateTime)
+                    .bindTimestamp(scheme::maxDateTime)
+                    .bindValidation(scheme::maxDateTime)
                     .also { maxDateTimeField = it.component }
             }.bottomGap(BottomGap.SMALL)
 
@@ -53,6 +54,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
                     .comment(Bundle("datetime.ui.pattern_comment"))
                     .withName("pattern")
                     .bindText(scheme::pattern)
+                    .bindValidation(scheme::pattern)
 
                 browserLink(Bundle("datetime.ui.value.pattern_help"), Bundle("datetime.ui.value.pattern_help_url"))
             }
@@ -63,7 +65,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
                 .also { decoratorEditors += it }
                 .let { cell(it.rootComponent).align(AlignX.FILL) }
         }
-    }
+    }.finalize(this)
 
 
     init {

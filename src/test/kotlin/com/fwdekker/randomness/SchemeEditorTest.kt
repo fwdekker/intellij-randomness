@@ -4,10 +4,12 @@ import com.fwdekker.randomness.testhelpers.DummyDecoratorScheme
 import com.fwdekker.randomness.testhelpers.DummyDecoratorSchemeEditor
 import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.DummySchemeEditor
+import com.fwdekker.randomness.testhelpers.DummyValidatableScheme
+import com.fwdekker.randomness.testhelpers.DummyValidatableSchemeEditor
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.afterNonContainer
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
+import com.fwdekker.randomness.testhelpers.beforeNonContainer
+import com.fwdekker.randomness.testhelpers.ideaRunEdt
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.ui.withName
@@ -16,7 +18,6 @@ import com.intellij.ui.dsl.builder.panel
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.ints.shouldBeGreaterThanOrEqual
-import io.kotest.matchers.nulls.beNull
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
@@ -25,6 +26,7 @@ import org.assertj.swing.fixture.Containers
 import org.assertj.swing.fixture.FrameFixture
 import java.awt.Component
 import javax.swing.JCheckBox
+import javax.swing.text.JTextComponent
 
 
 /**
@@ -35,7 +37,7 @@ object SchemeEditorTest : FunSpec({
 
 
     lateinit var frame: FrameFixture
-    lateinit var editor: DummySchemeEditor
+    lateinit var editor: SchemeEditor<*>
 
 
     useEdtViolationDetection()
@@ -46,8 +48,8 @@ object SchemeEditorTest : FunSpec({
     }
 
 
-    suspend fun registerTestEditor(createEditor: () -> DummySchemeEditor) {
-        editor = guiGet(createEditor)
+    suspend fun registerTestEditor(createEditor: () -> SchemeEditor<*>) {
+        editor = ideaRunEdt(createEditor)
         frame = Containers.showInFrame(editor.rootComponent)
     }
 
@@ -105,7 +107,7 @@ object SchemeEditorTest : FunSpec({
                 }
             }
 
-            editor.preferredFocusedComponent should beNull()
+            editor.preferredFocusedComponent shouldBe null
         }
     }
 
@@ -119,9 +121,9 @@ object SchemeEditorTest : FunSpec({
             }
             frame.textBox().requireText("old")
 
-            guiRun { frame.textBox().target().text = "new" }
+            ideaRunEdt { frame.textBox().target().text = "new" }
             frame.textBox().requireText("new")
-            guiRun { editor.reset() }
+            ideaRunEdt { editor.reset() }
 
             frame.textBox().requireText("old")
         }
@@ -143,9 +145,9 @@ object SchemeEditorTest : FunSpec({
             }
             frame.textBox().requireText("old")
 
-            guiRun { frame.textBox().target().text = "new" }
+            ideaRunEdt { frame.textBox().target().text = "new" }
             frame.textBox().requireText("new")
-            guiRun { editor.reset() }
+            ideaRunEdt { editor.reset() }
 
             frame.textBox().requireText("old")
         }
@@ -156,7 +158,7 @@ object SchemeEditorTest : FunSpec({
             val scheme = DummyScheme(prefix = "old")
             registerTestEditor { DummySchemeEditor(scheme) { panel { row { textField().bindText(scheme::prefix) } } } }
 
-            guiRun { frame.textBox().target().text = "new" }
+            ideaRunEdt { frame.textBox().target().text = "new" }
             editor.apply()
 
             scheme.prefix shouldBe "new"
@@ -177,11 +179,122 @@ object SchemeEditorTest : FunSpec({
                 }
             }
 
-            guiRun { frame.textBox().target().text = "new" }
+            ideaRunEdt { frame.textBox().target().text = "new" }
             editor.apply()
 
             scheme.decorators[0] shouldBeSameInstanceAs decorator
             (scheme.decorators[0] as DummyDecoratorScheme).append shouldBe "new"
+        }
+    }
+
+    context("doValidate") {
+        lateinit var foo: JTextComponent
+        lateinit var bar: JTextComponent
+
+
+        beforeNonContainer {
+            registerTestEditor { DummyValidatableSchemeEditor(DummyValidatableScheme()) }
+
+            foo = ideaRunEdt { frame.textBox("foo").target() }
+            bar = ideaRunEdt { frame.textBox("bar").target() }
+        }
+
+        suspend fun revalidate() =
+            ideaRunEdt {
+                editor.apply()
+                editor.doValidate()
+            }
+
+        suspend fun JTextComponent.hasError(): Boolean =
+            ideaRunEdt { this.getClientProperty("JComponent.outline") } != null
+
+
+        test("shows no errors if all fields are valid") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "foo"
+                frame.textBox("bar").target().text = "bar"
+            }
+
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe false
+        }
+
+        test("shows an error for the invalid field") {
+            ideaRunEdt { frame.textBox("foo").target().text = "wrong" }
+
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe false
+        }
+
+        test("shows an error for each invalid field") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "wrong"
+                frame.textBox("bar").target().text = "wrong"
+            }
+
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe true
+        }
+
+        test("stops showing an error once the field is valid again") {
+            ideaRunEdt { frame.textBox("foo").target().text = "wrong" }
+            revalidate()
+            foo.hasError() shouldBe true
+
+            ideaRunEdt { frame.textBox("foo").target().text = "foo" }
+            revalidate()
+            foo.hasError() shouldBe false
+        }
+
+        test("stops showing an error once a field is valid again, even if other fields are still invalid") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "wrong"
+                frame.textBox("bar").target().text = "wrong"
+            }
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe true
+
+            ideaRunEdt { frame.textBox("foo").target().text = "foo" }
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe true
+        }
+
+        test("stops showing errors for all fields if they are all valid again") {
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "wrong"
+                frame.textBox("bar").target().text = "wrong"
+            }
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe true
+
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "foo"
+                frame.textBox("bar").target().text = "bar"
+            }
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe false
+        }
+
+        test("shows and hides error popups once fields become invalid and valid, respectively") {
+            ideaRunEdt { frame.textBox("foo").target().text = "wrong" }
+            revalidate()
+            foo.hasError() shouldBe true
+            bar.hasError() shouldBe false
+
+            ideaRunEdt {
+                frame.textBox("foo").target().text = "foo"
+                frame.textBox("bar").target().text = "wrong"
+            }
+            revalidate()
+            foo.hasError() shouldBe false
+            bar.hasError() shouldBe true
         }
     }
 
@@ -192,7 +305,7 @@ object SchemeEditorTest : FunSpec({
 
             var updateCount = 0
             editor.addChangeListener { updateCount++ }
-            guiRun { frame.textBox().target().text = "new" }
+            ideaRunEdt { frame.textBox().target().text = "new" }
 
             updateCount shouldBe 1
         }
@@ -204,7 +317,7 @@ object SchemeEditorTest : FunSpec({
 
             var updateCount = 0
             editor.addChangeListener { updateCount++ }
-            guiRun { frame.textBox().target().text = "new" }
+            ideaRunEdt { frame.textBox().target().text = "new" }
 
             updateCount shouldBeGreaterThanOrEqual 1
         }
@@ -227,7 +340,7 @@ object SchemeEditorTest : FunSpec({
 
             var updateCount = 0
             editor.addChangeListener { updateCount++ }
-            guiRun { frame.textBox().target().text = "new" }
+            ideaRunEdt { frame.textBox().target().text = "new" }
 
             updateCount shouldBeGreaterThanOrEqual 2
         }

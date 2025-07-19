@@ -5,11 +5,10 @@ import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorApplyTests
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
 import com.fwdekker.randomness.testhelpers.isSelectedProp
 import com.fwdekker.randomness.testhelpers.matcher
 import com.fwdekker.randomness.testhelpers.prop
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.testhelpers.valueProp
@@ -39,7 +38,7 @@ object ArrayDecoratorEditorTest : FunSpec({
 
     beforeNonContainer {
         scheme = ArrayDecorator(enabled = true)
-        editor = guiGet { ArrayDecoratorEditor(scheme) }
+        editor = runEdt { ArrayDecoratorEditor(scheme) }
         frame = showInFrame(editor.rootComponent)
     }
 
@@ -56,7 +55,7 @@ object ArrayDecoratorEditorTest : FunSpec({
 
             test("hides the titled separator if the editor is embedded") {
                 frame.cleanUp()
-                editor = guiGet { ArrayDecoratorEditor(scheme, embedded = true) }
+                editor = runEdt { ArrayDecoratorEditor(scheme, embedded = true) }
                 frame = showInFrame(editor.rootComponent)
 
                 frame.robot().finder().findAll(matcher(TitledSeparator::class.java)) should beEmpty()
@@ -68,14 +67,14 @@ object ArrayDecoratorEditorTest : FunSpec({
     context("input handling") {
         context("arrayEnabled") {
             test("disables inputs if deselected") {
-                guiRun { frame.checkBox("arrayEnabled").target().isSelected = false }
+                runEdt { frame.checkBox("arrayEnabled").target().isSelected = false }
 
                 frame.spinner("arrayMinCount").requireDisabled()
             }
 
             test("enables inputs if (re)selected") {
-                guiRun { frame.checkBox("arrayEnabled").target().isSelected = false }
-                guiRun { frame.checkBox("arrayEnabled").target().isSelected = true }
+                runEdt { frame.checkBox("arrayEnabled").target().isSelected = false }
+                runEdt { frame.checkBox("arrayEnabled").target().isSelected = true }
 
                 frame.spinner("arrayMinCount").requireEnabled()
             }
@@ -83,7 +82,7 @@ object ArrayDecoratorEditorTest : FunSpec({
             test("remains disabled and is disconnected from inputs if the editor is embedded") {
                 frame.cleanUp()
                 scheme.enabled = false
-                editor = guiGet { ArrayDecoratorEditor(scheme, embedded = true) }
+                editor = runEdt { ArrayDecoratorEditor(scheme, embedded = true) }
                 frame = showInFrame(editor.rootComponent)
 
                 // This special matcher does not require the component to be visible
@@ -94,19 +93,19 @@ object ArrayDecoratorEditorTest : FunSpec({
 
         context("*Count") {
             test("truncates decimals in the minimum count") {
-                guiRun { frame.spinner("arrayMinCount").target().value = 983.24f }
+                runEdt { frame.spinner("arrayMinCount").target().value = 983.24f }
 
                 frame.spinner("arrayMinCount").requireValue(983)
             }
 
             test("truncates decimals in the maximum count") {
-                guiRun { frame.spinner("arrayMaxCount").target().value = 881.78f }
+                runEdt { frame.spinner("arrayMaxCount").target().value = 881.78f }
 
                 frame.spinner("arrayMaxCount").requireValue(881)
             }
 
             test("binds the minimum and maximum counts") {
-                guiRun { frame.spinner("arrayMinCount").target().value = 188 }
+                runEdt { frame.spinner("arrayMinCount").target().value = 188 }
 
                 frame.spinner("arrayMinCount").requireValue(188)
                 frame.spinner("arrayMaxCount").requireValue(188)
@@ -117,19 +116,19 @@ object ArrayDecoratorEditorTest : FunSpec({
             context("embedded") {
                 beforeNonContainer {
                     frame.cleanUp()
-                    editor = guiGet { ArrayDecoratorEditor(scheme, embedded = true) }
+                    editor = runEdt { ArrayDecoratorEditor(scheme, embedded = true) }
                     frame = showInFrame(editor.rootComponent)
                 }
 
 
                 test("disables separator if checkbox is disabled") {
-                    guiRun { frame.checkBox("arraySeparatorEnabled").target().isSelected = false }
+                    runEdt { frame.checkBox("arraySeparatorEnabled").target().isSelected = false }
 
                     frame.comboBox("arraySeparator").requireDisabled()
                 }
 
                 test("enables separator if checkbox is enabled") {
-                    guiRun { frame.checkBox("arraySeparatorEnabled").target().isSelected = true }
+                    runEdt { frame.checkBox("arraySeparatorEnabled").target().isSelected = true }
 
                     frame.comboBox("arraySeparator").requireEnabled()
                 }
@@ -137,28 +136,28 @@ object ArrayDecoratorEditorTest : FunSpec({
 
             context("not embedded") {
                 test("disables separator if panel is disabled and checkbox is disabled") {
-                    guiRun { frame.checkBox("arraySeparatorEnabled").target().isSelected = false }
+                    runEdt { frame.checkBox("arraySeparatorEnabled").target().isSelected = false }
 
                     frame.comboBox("arraySeparator").requireDisabled()
                 }
 
                 test("disables separator if panel is disabled and checkbox is enabled") {
-                    guiRun { frame.checkBox("arrayEnabled").target().isSelected = false }
-                    guiRun { frame.checkBox("arraySeparatorEnabled").target().isSelected = true }
+                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = false }
+                    runEdt { frame.checkBox("arraySeparatorEnabled").target().isSelected = true }
 
                     frame.comboBox("arraySeparator").requireDisabled()
                 }
 
                 test("disables separator if panel is enabled and checkbox is disabled") {
-                    guiRun { frame.checkBox("arrayEnabled").target().isSelected = true }
-                    guiRun { frame.checkBox("arraySeparatorEnabled").target().isSelected = false }
+                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = true }
+                    runEdt { frame.checkBox("arraySeparatorEnabled").target().isSelected = false }
 
                     frame.comboBox("arraySeparator").requireDisabled()
                 }
 
                 test("enables separator if panel is enabled and checkbox is enabled") {
-                    guiRun { frame.checkBox("arrayEnabled").target().isSelected = true }
-                    guiRun { frame.checkBox("arraySeparatorEnabled").target().isSelected = true }
+                    runEdt { frame.checkBox("arrayEnabled").target().isSelected = true }
+                    runEdt { frame.checkBox("arraySeparatorEnabled").target().isSelected = true }
 
                     frame.comboBox("arraySeparator").requireEnabled()
                 }
@@ -206,6 +205,13 @@ object ArrayDecoratorEditorTest : FunSpec({
                         frame.comboBox("arraySeparator").textProp(),
                         editor.scheme::separator.prop(),
                         " - ",
+                    )
+                },
+                "elementFormat" to {
+                    row(
+                        frame.comboBox("arrayElementFormat").textProp(),
+                        editor.scheme::elementFormat.prop(),
+                        "{val}=foo",
                     )
                 },
                 "affixDecorator" to {

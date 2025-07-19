@@ -10,6 +10,7 @@ import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.ui.Gray
 import com.intellij.util.xmlb.annotations.OptionTag
 import com.intellij.util.xmlb.annotations.Transient
@@ -34,6 +35,18 @@ data class TemplateReference(
     override val typeIcon get() = template?.typeIcon ?: DEFAULT_ICON
     override val icon get() = OverlayedIcon(typeIcon, decorators.mapNotNull { it.overlayIcon } + OverlayIcon.REFERENCE)
     override val decorators get() = listOf(arrayDecorator)
+    override val validators = validators {
+        of(::templateUuid)
+            .check({ it != null }, { Bundle("reference.error.no_selection") })
+            .check({ template != null }, { Bundle("reference.error.not_found") })
+            .check {
+                getReferenceCycleOrNull()
+                    ?.let { cycle -> Bundle("reference.error.recursion", "(${cycle.joinToString(" → ") { it.name }})") }
+                    ?.let { info(it) }
+            }
+        include(::affixDecorator)
+        include(::arrayDecorator)
+    }
 
     /**
      * The [Template] in the [context]'s [TemplateList] that contains this [TemplateReference].
@@ -89,17 +102,6 @@ data class TemplateReference(
             .generateStrings(count)
             .map { capitalization.transform(it, random) }
 
-
-    override fun doValidate(): String? {
-        val cycle = getReferenceCycleOrNull()
-
-        return when {
-            templateUuid == null -> Bundle("reference.error.no_selection")
-            template == null -> Bundle("reference.error.not_found")
-            cycle != null -> Bundle("reference.error.recursion", "(${cycle.joinToString(" → ") { it.name }})")
-            else -> affixDecorator.doValidate() ?: arrayDecorator.doValidate()
-        }
-    }
 
     /**
      * Note that the [context] must be updated manually.

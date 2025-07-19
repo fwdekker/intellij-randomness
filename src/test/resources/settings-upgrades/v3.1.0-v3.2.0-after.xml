@@ -1,0 +1,25 @@
+<component name="Randomness">
+  <option name="uuid" value="1f4f2248-6934-4221-be27-103f03c9ccad"/>
+  <option name="version" value="3.2.0"/>
+  <option name="templateList">
+    <TemplateList>
+      <option name="uuid" value="31a9c2ee-9c42-44f4-b6fb-48dda2ba95de"/>
+      <option name="templates">
+        <list>
+          <Template>
+            <option name="name" value="UUID"/>
+            <option name="schemes">
+              <UuidScheme>
+                <option name="addDashes" value="true"/>
+                <option name="version" value="1"/>
+                <option name="uppercase" value="false"/>
+                <option name="uuid" value="240aaa25-eeb4-4564-8286-7c0c2420c874"/>
+              </UuidScheme>
+            </option>
+            <option name="uuid" value="92fd8e20-618e-479f-93f0-ce04f6470caa"/>
+          </Template>
+        </list>
+      </option>
+    </TemplateList>
+  </option>
+</component>

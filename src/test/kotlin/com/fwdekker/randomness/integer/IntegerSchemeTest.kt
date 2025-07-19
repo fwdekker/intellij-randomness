@@ -4,9 +4,9 @@ import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
 import com.fwdekker.randomness.fixedlength.FixedLengthDecorator
 import com.fwdekker.randomness.testhelpers.Tags
-import com.fwdekker.randomness.testhelpers.schemeSerializationTestFactory
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
+import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
@@ -19,7 +19,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [IntegerScheme].
  */
 object IntegerSchemeTest : FunSpec({
-    tags(Tags.SCHEME)
+    tags(Tags.PLAIN, Tags.SCHEME)
 
 
     context("generateStrings") {
@@ -123,7 +123,7 @@ object IntegerSchemeTest : FunSpec({
 
     include(stateDeepCopyTestFactory { IntegerScheme() })
 
-    include(schemeSerializationTestFactory { IntegerScheme() })
+    include(stateSerializationTestFactory { IntegerScheme() })
 })
 
 

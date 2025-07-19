@@ -3,6 +3,7 @@ package com.fwdekker.randomness.ui
 import com.fwdekker.randomness.SchemeEditor
 import javax.swing.AbstractButton
 import javax.swing.JComboBox
+import javax.swing.JFormattedTextField
 import javax.swing.JSpinner
 import javax.swing.JTree
 import javax.swing.event.DocumentEvent
@@ -32,6 +33,11 @@ fun addChangeListenerTo(vararg components: Any, listener: () -> Unit) {
             }
 
             is JSpinner -> component.addChangeListener { listener() }
+            is JFormattedTextField -> {
+                component.addPropertyChangeListener("value") { listener() }
+                addChangeListenerTo(component.document, listener = listener)
+            }
+
             is JTextComponent -> addChangeListenerTo(component.document, listener = listener)
             is JTree -> {
                 component.model.addTreeModelListener(SimpleTreeModelListener { listener() })

@@ -53,9 +53,9 @@ fun ContainerScope.afterNonContainer(after: AfterAny) {
 /**
  * Like the regular `test` function, but ensures that the [block] runs in the event-dispatching thread (EDT).
  */
-suspend fun FunSpecContainerScope.edtTest(name: String, block: suspend TestScope.() -> Unit) =
+suspend fun FunSpecContainerScope.ideaEdtTest(name: String, block: suspend TestScope.() -> Unit) =
     test(name) {
-        guiRun {
+        ideaRunEdt {
             block()
         }
     }

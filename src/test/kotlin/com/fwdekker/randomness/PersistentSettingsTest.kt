@@ -1,15 +1,19 @@
 package com.fwdekker.randomness
 
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
+import com.fwdekker.randomness.testhelpers.shouldMatchXml
 import com.intellij.openapi.util.JDOMUtil
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.data.row
+import io.kotest.datatest.withData
 import io.kotest.matchers.collections.beEmpty
-import io.kotest.matchers.nulls.beNull
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
+import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldStartWith
+import java.io.FileNotFoundException
 import java.lang.module.ModuleDescriptor.Version
 import java.net.URL
 
@@ -18,9 +22,13 @@ import java.net.URL
  * Unit tests for [PersistentSettings].
  */
 object PersistentSettingsTest : FunSpec({
+    tags(Tags.PLAIN)
+
+
     lateinit var settings: PersistentSettings
 
-    fun getTestConfig(path: String): URL = javaClass.getResource(path)!!
+    fun getTestConfig(path: String): URL =
+        javaClass.getResource(path) ?: throw FileNotFoundException("Could not find resource '$path'.")
 
 
     beforeNonContainer {
@@ -73,66 +81,51 @@ object PersistentSettingsTest : FunSpec({
                 val stored = JDOMUtil.load(getTestConfig("/settings-upgrades/v3.1.0-v3.3.5.xml"))
                 stored.getSchemes().single().run {
                     getPropertyValue("type") shouldBe "1"
-                    getProperty("version") should beNull()
+                    getProperty("version") shouldBe null
                 }
                 stored.getDecorators() shouldNot beEmpty()
-                stored.getDecorators().forEach { it.getProperty("generator") shouldNot beNull() }
+                stored.getDecorators().forEach { it.getProperty("generator") shouldNotBe null }
 
                 val patched = settings.upgrade(stored, Version.parse("3.3.5"))
                 patched.getSchemes().single().run {
-                    getProperty("type") should beNull()
+                    getProperty("type") shouldBe null
                     getPropertyValue("version") shouldBe "1"
                 }
                 patched.getDecorators() shouldNot beEmpty()
-                patched.getDecorators().forEach { it.getProperty("generator") should beNull() }
+                patched.getDecorators().forEach { it.getProperty("generator") shouldBe null }
             }
 
             test("upgrades only up to the specified version") {
                 val stored = JDOMUtil.load(getTestConfig("/settings-upgrades/v3.1.0-v3.3.5.xml"))
                 stored.getSchemes().single().run {
                     getPropertyValue("type") shouldBe "1"
-                    getProperty("version") should beNull()
+                    getProperty("version") shouldBe null
                 }
                 stored.getDecorators() shouldNot beEmpty()
-                stored.getDecorators().forEach { it.getProperty("generator") shouldNot beNull() }
+                stored.getDecorators().forEach { it.getProperty("generator") shouldNotBe null }
 
                 val patched = settings.upgrade(stored, Version.parse("3.2.0"))
                 patched.getSchemes().single().run {
-                    getProperty("type") should beNull()
+                    getProperty("type") shouldBe null
                     getPropertyValue("version") shouldBe "1"
                 }
                 stored.getDecorators() shouldNot beEmpty()
-                stored.getDecorators().forEach { it.getProperty("generator") shouldNot beNull() }
+                stored.getDecorators().forEach { it.getProperty("generator") shouldNotBe null }
             }
         }
 
         context("specific upgrades") {
-            context("v3.1.0 to v3.2.0") {
-                test("replaces `type` with `version` in all `UuidScheme`s") {
-                    val stored = JDOMUtil.load(getTestConfig("/settings-upgrades/v3.1.0-v3.2.0.xml"))
-                    stored.getSchemes().single().run {
-                        getPropertyValue("type") shouldBe "1"
-                        getProperty("version") should beNull()
-                    }
+            withData(
+                nameFn = { "v${it.a} to v${it.b} (${it.c})" },
+                row("3.1.0", "3.2.0", "renames `type` to `version` for UUIDs"),
+                row("3.3.4", "3.3.5", "removes `generator` fields"),
+                row("3.3.6", "3.4.0", "patches epochs to `Timestamp` objects"),
+            ) { (from, to, _) ->
+                val unpatched = JDOMUtil.load(getTestConfig("/settings-upgrades/v$from-v$to-before.xml"))
 
-                    val patched = settings.upgrade(stored, Version.parse("3.2.0"))
-                    patched.getSchemes().single().run {
-                        getProperty("type") should beNull()
-                        getPropertyValue("version") shouldBe "1"
-                    }
-                }
-            }
+                val patched = settings.upgrade(unpatched, Version.parse(to))
 
-            context("v3.3.4 to v3.3.5") {
-                test("removes `generator` fields from all decorators") {
-                    val stored = JDOMUtil.load(getTestConfig("/settings-upgrades/v3.3.4-v3.3.5.xml"))
-                    stored.getDecorators() shouldNot beEmpty()
-                    stored.getDecorators().forEach { it.getProperty("generator") shouldNot beNull() }
-
-                    val patched = settings.upgrade(stored, Version.parse("3.3.5"))
-                    patched.getDecorators() shouldNot beEmpty()
-                    patched.getDecorators().forEach { it.getProperty("generator") should beNull() }
-                }
+                patched shouldMatchXml getTestConfig("/settings-upgrades/v$from-v$to-after.xml").readText()
             }
         }
     }

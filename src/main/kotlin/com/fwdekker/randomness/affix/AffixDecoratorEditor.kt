@@ -41,6 +41,7 @@ class AffixDecoratorEditor(
                 .let { if (enableMnemonic) it.loadMnemonic() else it.disableMnemonic() }
                 .withName(namePrefix.camelPlus("affixEnabled"))
                 .bindSelected(scheme::enabled)
+                .bindValidation(scheme::enabled)
                 .also { enabledCheckBox = it }
 
             comboBox(presets)
@@ -48,7 +49,13 @@ class AffixDecoratorEditor(
                 .isEditable(true)
                 .withName(namePrefix.camelPlus("affixDescriptor"))
                 .bindCurrentText(scheme::descriptor)
+                .bindValidation(scheme::descriptor)
             contextHelp(Bundle("affix.ui.comment"))
         }.also { if (enabledIf != null) it.enabledIf(enabledIf) }
+    }.finalize(this)
+
+
+    init {
+        reset()
     }
 }

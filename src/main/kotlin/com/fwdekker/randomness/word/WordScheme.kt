@@ -7,6 +7,7 @@ import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.ui.JBColor
 import com.intellij.util.xmlb.annotations.OptionTag
 import com.intellij.util.xmlb.annotations.Transient
@@ -31,6 +32,11 @@ data class WordScheme(
     override val name = Bundle("word.title")
     override val typeIcon get() = BASE_ICON
     override val decorators get() = listOf(affixDecorator, arrayDecorator)
+    override val validators = validators {
+        of(::words).check({ it.isNotEmpty() }, { Bundle("word.error.empty_word_list") })
+        include(::affixDecorator)
+        include(::arrayDecorator)
+    }
 
 
     /**
@@ -39,10 +45,6 @@ data class WordScheme(
     override fun generateUndecoratedStrings(count: Int) =
         List(count) { capitalization.transform(words.random(random), random) }
 
-
-    override fun doValidate() =
-        if (words.isEmpty()) Bundle("word.error.empty_word_list")
-        else affixDecorator.doValidate() ?: arrayDecorator.doValidate()
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(

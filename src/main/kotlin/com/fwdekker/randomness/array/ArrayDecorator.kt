@@ -4,6 +4,7 @@ import com.fwdekker.randomness.Bundle
 import com.fwdekker.randomness.DecoratorScheme
 import com.fwdekker.randomness.OverlayIcon
 import com.fwdekker.randomness.affix.AffixDecorator
+import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.util.xmlb.annotations.OptionTag
 
 
@@ -15,6 +16,7 @@ import com.intellij.util.xmlb.annotations.OptionTag
  * @property maxCount The maximum number of elements to generate, inclusive.
  * @property separatorEnabled Whether to separate elements using [separator].
  * @property separator The string to place between generated elements.
+ * @property elementFormat The format according to which each element of the array should be formatted.
  * @property affixDecorator The affixation to apply to the generated values.
  */
 data class ArrayDecorator(
@@ -23,35 +25,43 @@ data class ArrayDecorator(
     var maxCount: Int = DEFAULT_MAX_COUNT,
     var separatorEnabled: Boolean = DEFAULT_SEPARATOR_ENABLED,
     var separator: String = DEFAULT_SEPARATOR,
+    var elementFormat: String = DEFAULT_ELEMENT_FORMAT,
     @OptionTag val affixDecorator: AffixDecorator = DEFAULT_AFFIX_DECORATOR,
 ) : DecoratorScheme() {
     override val name = Bundle("array.title")
     override val overlayIcon get() = if (enabled) OverlayIcon.ARRAY else null
     override val decorators = listOf(affixDecorator)
     override val isEnabled get() = enabled
+    override val validators = validators {
+        of(::minCount).check({ it >= MIN_MIN_COUNT }, { Bundle("array.error.min_count_too_low", MIN_MIN_COUNT) })
+        of(::maxCount).check({ it >= minCount }, { Bundle("array.error.min_count_above_max") })
+        include(::affixDecorator)
+    }
 
 
     override fun generateUndecoratedStrings(count: Int): List<String> {
-        val partsPerString = List(count) { random.nextInt(minCount, maxCount + 1) }
-        val parts = generator(partsPerString.sum())
+        // Generates `count` arrays, with each array containing some number of elements.
 
-        return partsPerString
-            .fold(Pair(parts, emptyList<String>())) { (remainingParts, createdStrings), nextPartCount ->
-                val nextString =
-                    remainingParts
-                        .take(nextPartCount)
-                        .joinToString(if (separatorEnabled) separator.replace("\\n", "\n") else "")
+        val elementsPerArray = List(count) { random.nextInt(minCount, maxCount + 1) }
+        val elements = generator(elementsPerArray.sum())
 
-                Pair(remainingParts.drop(nextPartCount), createdStrings + nextString)
+        return elementsPerArray
+            .foldIndexed(Pair(elements, emptyList<String>())) { aId, (remainingElements, createdArrays), elementCount ->
+                val newArray = remainingElements
+                    .take(elementCount)
+                    .mapIndexed { eId, element ->
+                        elementFormat
+                            .replace("{aid}", aId.toString())
+                            .replace("{eid}", eId.toString())
+                            .replace("{val}", element) // Must be last, to avoid recursive replacement
+                    }
+                    .joinToString(separator = if (separatorEnabled) separator.replace("\\n", "\n") else "")
+
+                Pair(remainingElements.drop(elementCount), createdArrays + newArray)
             }
             .second
     }
 
-
-    override fun doValidate() =
-        if (minCount < MIN_MIN_COUNT) Bundle("array.error.min_count_too_low", MIN_MIN_COUNT)
-        else if (maxCount < minCount) Bundle("array.error.min_count_above_max")
-        else affixDecorator.doValidate()
 
     override fun deepCopy(retainUuid: Boolean) = copy().deepCopyTransient(retainUuid)
 
@@ -94,6 +104,22 @@ data class ArrayDecorator(
          * The default value of the [separator] field.
          */
         const val DEFAULT_SEPARATOR = ", "
+
+        /**
+         * The preset values for the [format] field.
+         */
+        val PRESET_ELEMENT_FORMATS = listOf(
+            "{val}",
+            "{eid}: {val}",
+            "{eid}={val}",
+            "({aid}, {eid}): {val}",
+            "({aid}, {eid})={val}",
+        )
+
+        /**
+         * The default value of the [format] field.
+         */
+        const val DEFAULT_ELEMENT_FORMAT = "{val}"
 
         /**
          * The preset values for the [affixDecorator] descriptor.

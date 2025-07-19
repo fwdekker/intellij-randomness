@@ -5,10 +5,9 @@ import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorApplyTests
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
-import com.fwdekker.randomness.testhelpers.guiGet
-import com.fwdekker.randomness.testhelpers.guiRun
 import com.fwdekker.randomness.testhelpers.prop
 import com.fwdekker.randomness.testhelpers.requireEnabledIs
+import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.intellij.ui.layout.selected
@@ -40,7 +39,7 @@ object AffixDecoratorEditorTest : FunSpec({
 
     beforeNonContainer {
         scheme = AffixDecorator(enabled = true)
-        editor = guiGet { AffixDecoratorEditor(scheme, presets = listOf("a", "b", "c")) }
+        editor = runEdt { AffixDecoratorEditor(scheme, presets = listOf("a", "b", "c")) }
         frame = Containers.showInFrame(editor.rootComponent)
     }
 
@@ -57,7 +56,7 @@ object AffixDecoratorEditorTest : FunSpec({
 
             test("disables mnemonics if false") {
                 frame.cleanUp()
-                editor = guiGet { AffixDecoratorEditor(scheme, presets = listOf("."), enableMnemonic = false) }
+                editor = runEdt { AffixDecoratorEditor(scheme, presets = listOf("."), enableMnemonic = false) }
                 frame = Containers.showInFrame(editor.rootComponent)
 
                 frame.checkBox("affixEnabled").target().mnemonic shouldBe 0
@@ -72,7 +71,7 @@ object AffixDecoratorEditorTest : FunSpec({
 
             test("prefixes component names by the given prefix and retains camel case") {
                 frame.cleanUp()
-                editor = guiGet { AffixDecoratorEditor(scheme, presets = listOf("."), namePrefix = "prefix") }
+                editor = runEdt { AffixDecoratorEditor(scheme, presets = listOf("."), namePrefix = "prefix") }
                 frame = Containers.showInFrame(editor.rootComponent)
 
                 shouldNotThrowAny { frame.checkBox("prefixAffixEnabled") }
@@ -88,7 +87,7 @@ object AffixDecoratorEditorTest : FunSpec({
 
 
             beforeNonContainer {
-                toggle = guiGet { JCheckBox().also { it.isSelected = false } }
+                toggle = runEdt { JCheckBox().also { it.isSelected = false } }
             }
 
 
@@ -105,10 +104,10 @@ object AffixDecoratorEditorTest : FunSpec({
                 val predicate = predicateState?.let { toggle.selected }
 
                 frame.cleanUp()
-                editor = guiGet { AffixDecoratorEditor(scheme, presets = listOf("."), enabledIf = predicate) }
+                editor = runEdt { AffixDecoratorEditor(scheme, presets = listOf("."), enabledIf = predicate) }
                 frame = Containers.showInFrame(editor.rootComponent)
 
-                guiRun {
+                runEdt {
                     if (predicateState != null) toggle.isSelected = predicateState
                     frame.checkBox().target().isSelected = checkboxState
                 }

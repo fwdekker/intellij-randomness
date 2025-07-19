@@ -1,0 +1,25 @@
+<component name="Randomness">
+  <option name="uuid" value="bd172430-5a6a-4ccc-8aec-cae43b2586cf" />
+  <option name="version" value="3.3.6" />
+  <option name="templateList">
+    <TemplateList>
+      <option name="uuid" value="e79ad989-6e7a-4615-8971-069abcf2220a" />
+      <option name="templates">
+        <list>
+          <Template>
+            <option name="name" value="Date-Time" />
+            <option name="schemes">
+              <DateTimeScheme>
+                <option name="maxDateTime" value="117013248000000" />
+                <option name="minDateTime" value="-23225875200000" />
+                <option name="pattern" value="yyyy-MM-dd HH:mm:ss" />
+                <option name="uuid" value="05986edd-9aec-454d-b20a-4440f7c6695b" />
+              </DateTimeScheme>
+            </option>
+            <option name="uuid" value="e8891c89-62e0-4857-afd9-7f62ce7ed9f8" />
+          </Template>
+        </list>
+      </option>
+    </TemplateList>
+  </option>
+</component>
