@@ -19,7 +19,7 @@ fun properties(key: String): String = project.findProperty(key).toString()
 plugins {
     // Compilation
     id("org.jetbrains.kotlin.jvm") version "1.9.24"  // Set to latest version compatible with `pluginSinceBuild`, see also https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
-    id("org.jetbrains.intellij.platform") version "2.6.0"
+    id("org.jetbrains.intellij.platform") version "2.5.0"
 
     // Tests/coverage
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
