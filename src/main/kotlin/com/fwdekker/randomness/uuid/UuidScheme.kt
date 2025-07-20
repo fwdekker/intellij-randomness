@@ -64,10 +64,10 @@ data class UuidScheme(
     @Suppress("detekt:MagicNumber") // UUID versions are well-defined
     override fun generateUndecoratedStrings(count: Int): List<String> {
         val generator = when (version) {
-            1 -> TimeBasedGenerator(random.nextAddress(), random.uuidTimer(minDateTime.epochMilli!!, maxDateTime.epochMilli!!))
+            1 -> TimeBasedGenerator(random.nextAddress(), random.uuidTimer(minDateTime, maxDateTime))
             4 -> RandomBasedGenerator(random.asJavaRandom())
-            6 -> TimeBasedReorderedGenerator(random.nextAddress(), random.uuidTimer(minDateTime.epochMilli!!, maxDateTime.epochMilli!!))
-            7 -> TimeBasedEpochGenerator(random.asJavaRandom(), random.uuidClock(minDateTime.epochMilli!!, maxDateTime.epochMilli!!))
+            6 -> TimeBasedReorderedGenerator(random.nextAddress(), random.uuidTimer(minDateTime, maxDateTime))
+            7 -> TimeBasedEpochGenerator(random.asJavaRandom(), random.uuidClock(minDateTime, maxDateTime))
             8 -> FreeFormGenerator(random)
             else -> error(Bundle("uuid.error.unknown_version", version))
         }
@@ -172,19 +172,19 @@ private fun Random.nextLongInclusive(min: Long = Long.MIN_VALUE, max: Long = Lon
 /**
  * Returns a [UUIDClock] that generates random times between [min] and [max] using this [Random] instance.
  *
- * Both [min] and [max] are inclusive, and both are expressed as epoch milliseconds.
+ * Both [min] and [max] are inclusive, and are assumed to be valid.
  */
-private fun Random.uuidClock(min: Long = Long.MIN_VALUE, max: Long = Long.MAX_VALUE) =
+private fun Random.uuidClock(min: Timestamp, max: Timestamp) =
     object : UUIDClock() {
-        override fun currentTimeMillis() = nextLongInclusive(min, max)
+        override fun currentTimeMillis() = nextLongInclusive(min.epochMilli!!, max.epochMilli!!)
     }
 
 /**
  * Returns a [UUIDTimer] that generates random times between [min] and [max] using this [Random] instance.
  *
- * Both [min] and [max] are inclusive, and both are expressed as epoch milliseconds.
+ * Both [min] and [max] are inclusive, and are assumed to be valid.
  */
-private fun Random.uuidTimer(min: Long = Long.MIN_VALUE, max: Long = Long.MAX_VALUE) =
+private fun Random.uuidTimer(min: Timestamp, max: Timestamp) =
     UUIDTimer(asJavaRandom(), null, uuidClock(min, max))
 
 

@@ -48,30 +48,10 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                         .withName("version")
                         .bindItem(scheme::version.toNullableProperty())
                         .bindValidation(scheme::version)
-                        .also { versionHasDateTime = it.component.selectedValueMatches { it in TIME_BASED_VERSIONS } }
+                        .also { cell ->
+                            versionHasDateTime = cell.component.selectedValueMatches { it in TIME_BASED_VERSIONS }
+                        }
                 }
-
-                row(Bundle("datetime.ui.value.min_datetime_option")) {  // TODO: Use uuid-specific text
-                    cell(JDateTimeField(DEFAULT_MIN_DATE_TIME))
-                        .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
-                        .withName("minDateTime")
-                        .bindTimestamp(scheme::minDateTime)
-                        .bindValidation(scheme::minDateTime)
-                        .enabledIf(versionHasDateTime)
-                        .also { minDateTimeField = it.component }
-                }
-
-                row(Bundle("datetime.ui.value.max_datetime_option")) {  // TODO: Use uuid-specific text
-                    cell(JDateTimeField(DEFAULT_MAX_DATE_TIME))
-                        .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
-                        .withName("maxDateTime")
-                        .bindTimestamp(scheme::maxDateTime)
-                        .bindValidation(scheme::maxDateTime)
-                        .enabledIf(versionHasDateTime)
-                        .also { maxDateTimeField = it.component }
-                }.bottomGap(BottomGap.SMALL)
-
-                bindDateTimes(minDateTimeField, maxDateTimeField)
 
                 row {
                     checkBox(Bundle("uuid.ui.value.capitalization_option"))
@@ -93,7 +73,27 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                     AffixDecoratorEditor(scheme.affixDecorator, PRESET_AFFIX_DECORATOR_DESCRIPTORS)
                         .also { decoratorEditors += it }
                         .let { cell(it.rootComponent) }
-                }
+                }.bottomGap(BottomGap.SMALL)
+
+                row(Bundle("uuid.ui.value.min_datetime_option")) {
+                    cell(JDateTimeField(DEFAULT_MIN_DATE_TIME))
+                        .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
+                        .withName("minDateTime")
+                        .bindTimestamp(scheme::minDateTime)
+                        .bindValidation(scheme::minDateTime)
+                        .also { minDateTimeField = it.component }
+                }.enabledIf(versionHasDateTime)
+
+                row(Bundle("uuid.ui.value.max_datetime_option")) {
+                    cell(JDateTimeField(DEFAULT_MAX_DATE_TIME))
+                        .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
+                        .withName("maxDateTime")
+                        .bindTimestamp(scheme::maxDateTime)
+                        .bindValidation(scheme::maxDateTime)
+                        .also { maxDateTimeField = it.component }
+                }.enabledIf(versionHasDateTime)
+
+                bindDateTimes(minDateTimeField, maxDateTimeField)
             }
         }
 
