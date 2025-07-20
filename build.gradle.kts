@@ -135,6 +135,13 @@ tasks {
             }
         }
 
+        publishing {
+            token = System.getenv("PUBLISH_TOKEN")
+
+            if (project.hasProperty("publish.beta"))
+                channels = listOf("beta")
+        }
+
         pluginVerification {
             ides {
                 properties("pluginVerifierIdeVersions").split(",").forEach { ide(it) }

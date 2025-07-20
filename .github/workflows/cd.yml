@@ -1,12 +1,15 @@
 name: CD
 
 on:
-  release:
-    types: [ published ]
   workflow_dispatch:
     inputs:
+      checklist_complete:
+        description: 'I have read and completed the release checklist'
+        type: boolean
+        default: false
+        required: true
       dry_run:
-        description: 'dry run'
+        description: 'Dry run'
         type: boolean
         default: true
 
@@ -29,11 +32,18 @@ jobs:
           printf "Found version '%s'.\n" "$MY_VERSION"
           printf "MY_VERSION=%s\n" "$MY_VERSION" >> "$GITHUB_ENV"
           printf "MY_VERSION=%s\n" "$MY_VERSION" >> "$GITHUB_OUTPUT"
-      - name: Check if corresponding section exists in changelog
-        # Yes, you really do need to compare with a string, and no, using ! does not work
+      - name: "Check: Current branch is 'main'"
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        run: |
+          ${{ github.ref }} == 'refs/heads/master'
+      - name: "Check: Version does not start with 9.9.9"
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        run: |
+          test "$MY_VERSION" = "${MY_VERSION#9.9.9}"
+      - name: "Check: Version is listed in changelog"
         if: ${{ github.event.inputs.dry_run == 'false' }}
         run: grep -qF "# [${MY_VERSION#v}] --" CHANGELOG.md
-      - name: Check that release does not already exist
+      - name: "Check: Release does not already exist"
         if: ${{ github.event.inputs.dry_run == 'false' }}
         # Using `fetch-tags` option of `actions/checkout` does not work properly
         run: |
@@ -71,10 +81,10 @@ jobs:
       - name: Publish plugin to JetBrains Marketplace
         if: ${{ github.event.inputs.dry_run == 'false' }}
         env:
-          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
-          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+          PUBLISH_TOKEN: ${{ secrets.JB_PUBLISH_TOKEN }}
+          CERTIFICATE_CHAIN: ${{ secrets.JB_CERTIFICATE_CHAIN }}
+          PRIVATE_KEY: ${{ secrets.JB_PRIVATE_KEY }}
+          PRIVATE_KEY_PASSWORD: ${{ secrets.JB_PRIVATE_KEY_PASSWORD }}
         run: ./gradlew publishPlugin
 
       - name: Extract release notes
@@ -117,7 +127,7 @@ jobs:
           # Required to push updated documentation to repository.
           # If you get "Error: fatal: could not read Username for 'https://github.com': terminal prompts disabled", then
           # the token has probably expired.
-          token: ${{ secrets.personal_access_token }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Set up Java
         uses: actions/setup-java@v4
