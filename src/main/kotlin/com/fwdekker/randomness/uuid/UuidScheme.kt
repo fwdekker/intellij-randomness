@@ -31,19 +31,19 @@ import kotlin.random.asJavaRandom
  * Contains settings for generating random UUIDs.
  *
  * @property version The version of UUIDs to generate.
- * @property minDateTime The minimum date-time to use, applicable only for time-based UUIDs.
- * @property maxDateTime The maximum date-time to use, applicable only for time-based UUIDs.
  * @property isUppercase `true` if and only if all letters are uppercase.
  * @property addDashes `true` if and only if the UUID should have dashes in it.
+ * @property minDateTime The minimum date-time to use, applicable only for time-based UUIDs.
+ * @property maxDateTime The maximum date-time to use, applicable only for time-based UUIDs.
  * @property affixDecorator The affixation to apply to the generated values.
  * @property arrayDecorator Settings that determine whether the output should be an array of values.
  */
 data class UuidScheme(
     var version: Int = DEFAULT_VERSION,
-    @OptionTag var minDateTime: Timestamp = DEFAULT_MIN_DATE_TIME,
-    @OptionTag var maxDateTime: Timestamp = DEFAULT_MAX_DATE_TIME,
     var isUppercase: Boolean = DEFAULT_IS_UPPERCASE,
     var addDashes: Boolean = DEFAULT_ADD_DASHES,
+    @OptionTag var minDateTime: Timestamp = DEFAULT_MIN_DATE_TIME,
+    @OptionTag var maxDateTime: Timestamp = DEFAULT_MAX_DATE_TIME,
     @OptionTag val affixDecorator: AffixDecorator = DEFAULT_AFFIX_DECORATOR,
     @OptionTag val arrayDecorator: ArrayDecorator = DEFAULT_ARRAY_DECORATOR,
 ) : Scheme() {
@@ -53,6 +53,9 @@ data class UuidScheme(
     override val decorators get() = listOf(affixDecorator, arrayDecorator)
     override val validators = validators {
         of(::version).check({ it in SUPPORTED_VERSIONS }, { Bundle("uuid.error.unknown_version", it) })
+        include(::minDateTime)
+        include(::maxDateTime)
+        of(::maxDateTime).check({ !it.isBefore(minDateTime) }, { Bundle("datetime.error.min_datetime_above_max") })
         include(::affixDecorator)
         include(::arrayDecorator)
     }

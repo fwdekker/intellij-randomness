@@ -6,16 +6,20 @@ import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.editorApplyTests
 import com.fwdekker.randomness.testhelpers.editorFieldsTests
+import com.fwdekker.randomness.testhelpers.find
+import com.fwdekker.randomness.testhelpers.matcher
 import com.fwdekker.randomness.testhelpers.prop
 import com.fwdekker.randomness.testhelpers.runEdt
 import com.fwdekker.randomness.testhelpers.textProp
 import com.fwdekker.randomness.testhelpers.timestampProp
+import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
 import com.fwdekker.randomness.testhelpers.valueProp
+import com.fwdekker.randomness.ui.JDateTimeField
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import org.assertj.swing.fixture.Containers
+import org.assertj.swing.fixture.Containers.showInFrame
 import org.assertj.swing.fixture.FrameFixture
 
 
@@ -32,11 +36,12 @@ object DateTimeSchemeEditorTest : FunSpec({
 
 
     useEdtViolationDetection()
+    useBareIdeaFixture()
 
     beforeNonContainer {
         scheme = DateTimeScheme()
         editor = runEdt { DateTimeSchemeEditor(scheme) }
-        frame = Containers.showInFrame(editor.rootComponent)
+        frame = showInFrame(editor.rootComponent)
     }
 
     afterNonContainer {
@@ -45,7 +50,18 @@ object DateTimeSchemeEditorTest : FunSpec({
 
 
     context("input handling") {
-        test("binds the minimum and maximum times") {
+        test("expands entered date-times") {
+            val min = runEdt { frame.find(matcher(JDateTimeField::class.java, matcher = { it.name == "minDateTime" })) }
+
+            runEdt {
+                min.text = "0867"
+                min.commitEdit()
+            }
+
+            runEdt { min.value.value } shouldBe "0867-01-01 00:00:00.000"
+        }
+
+        test("binds the minimum and maximum date-times") {
             runEdt { frame.textBox("minDateTime").timestampProp().set(Timestamp("1131")) }
 
             runEdt { frame.textBox("maxDateTime").timestampProp().set(Timestamp("0463")) }

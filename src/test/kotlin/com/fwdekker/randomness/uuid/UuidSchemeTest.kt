@@ -1,7 +1,9 @@
 package com.fwdekker.randomness.uuid
 
+import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
+import com.fwdekker.randomness.datetime.DateTimeScheme
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
@@ -63,6 +65,15 @@ object UuidSchemeTest : FunSpec({
                     row(UuidScheme(), null),
                 "fails for unsupported version" to
                     row(UuidScheme(version = 14), "uuid.error.unknown_version"),
+                "fails for invalid min date-time" to
+                    row(UuidScheme(minDateTime = Timestamp("invalid")), "timestamp.error.parse"),
+                "fails for invalid max date-time" to
+                    row(UuidScheme(minDateTime = Timestamp("invalid")), "timestamp.error.parse"),
+                "fails if min date-time is above max date-time" to
+                    row(
+                        DateTimeScheme(minDateTime = Timestamp("5757"), maxDateTime = Timestamp("4376")),
+                        "uuid.error.min_datetime_above_max",
+                    ),
                 "fails if affix decorator is invalid" to
                     row(UuidScheme(affixDecorator = AffixDecorator(descriptor = """\""")), ""),
                 "fails if array decorator is invalid" to

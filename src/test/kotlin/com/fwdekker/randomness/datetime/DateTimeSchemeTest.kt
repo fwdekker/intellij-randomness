@@ -6,6 +6,7 @@ import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
 import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
+import com.fwdekker.randomness.uuid.UuidScheme
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
@@ -25,9 +26,9 @@ object DateTimeSchemeTest : FunSpec({
         withData(
             mapOf(
                 "returns date at given timestamp" to
-                    row(DateTimeScheme().withDateTime(Timestamp("2768-06-30 18:01:48.695")), "2768-06-30 18:01:48.695"),
+                    row(DateTimeScheme().withDateTime("2768-06-30 18:01:48.695"), "2768-06-30 18:01:48.695"),
                 "returns date with given format" to
-                    row(DateTimeScheme(pattern = "yyyy.MM").withDateTime(Timestamp("6999-03-29")), "6999.03"),
+                    row(DateTimeScheme(pattern = "yyyy.MM").withDateTime("6999-03-29"), "6999.03"),
             )
         ) { (scheme, output) -> scheme.generateStrings()[0] shouldBe output }
 
@@ -42,6 +43,10 @@ object DateTimeSchemeTest : FunSpec({
         withData(
             mapOf(
                 "succeeds for default state" to row(DateTimeScheme(), null),
+                "fails for invalid min date-time" to
+                    row(UuidScheme(minDateTime = Timestamp("invalid")), "timestamp.error.parse"),
+                "fails for invalid max date-time" to
+                    row(UuidScheme(minDateTime = Timestamp("invalid")), "timestamp.error.parse"),
                 "fails if min date-time is above max date-time" to
                     row(
                         DateTimeScheme(minDateTime = Timestamp("4434"), maxDateTime = Timestamp("1853")),
@@ -62,8 +67,8 @@ object DateTimeSchemeTest : FunSpec({
 /**
  * Sets the [DateTimeScheme.minDateTime] and [DateTimeScheme.maxDateTime] to [dateTime].
  */
-private fun DateTimeScheme.withDateTime(dateTime: Timestamp): DateTimeScheme {
-    minDateTime = dateTime
-    maxDateTime = dateTime
+private fun DateTimeScheme.withDateTime(dateTime: String): DateTimeScheme {
+    this.maxDateTime = Timestamp(dateTime)
+    this.minDateTime = Timestamp(dateTime)
     return this
 }
