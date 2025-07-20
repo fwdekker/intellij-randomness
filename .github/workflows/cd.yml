@@ -7,11 +7,13 @@ on:
         description: 'I have read and completed the release checklist'
         type: boolean
         default: false
-        required: true
       dry_run:
         description: 'Dry run'
         type: boolean
         default: true
+
+permissions:
+  contents: write
 
 jobs:
   pre-flight-checks:
@@ -24,7 +26,10 @@ jobs:
     steps:
       - name: Print inputs
         run: |
-          printf "dry_run: %s\n" "${{ github.event.inputs.dry_run }}"
+          printf "dry_run: '%s'\n" "${{ github.event.inputs.dry_run }}"
+          printf "checklist_complete: '%s'\n" "${{ github.event.inputs.checklist_complete }}"
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Extract Randomness version number
         id: my_version
         run: |
@@ -32,17 +37,24 @@ jobs:
           printf "Found version '%s'.\n" "$MY_VERSION"
           printf "MY_VERSION=%s\n" "$MY_VERSION" >> "$GITHUB_ENV"
           printf "MY_VERSION=%s\n" "$MY_VERSION" >> "$GITHUB_OUTPUT"
+      - name: "Check: Release checklist completed"
+        run: |
+          ! test '${{ github.event.inputs.checklist_complete }}' = 'false'
       - name: "Check: Current branch is 'main'"
         if: ${{ github.event.inputs.dry_run == 'false' }}
         run: |
-          ${{ github.ref }} == 'refs/heads/master'
+          test '${{ github.ref }}' = 'refs/heads/main'
       - name: "Check: Version does not start with 9.9.9"
         if: ${{ github.event.inputs.dry_run == 'false' }}
         run: |
           test "$MY_VERSION" = "${MY_VERSION#9.9.9}"
+      - name: "Check: Version number is formatted correctly"
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        run: |
+          expr "$MY_VERSION" : "^v[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+$" >/dev/null
       - name: "Check: Version is listed in changelog"
         if: ${{ github.event.inputs.dry_run == 'false' }}
-        run: grep -qF "# [${MY_VERSION#v}] --" CHANGELOG.md
+        run: grep -qF "## ${MY_VERSION#v} -- " CHANGELOG.md
       - name: "Check: Release does not already exist"
         if: ${{ github.event.inputs.dry_run == 'false' }}
         # Using `fetch-tags` option of `actions/checkout` does not work properly
@@ -73,9 +85,9 @@ jobs:
 
       - name: Build and sign plugin
         env:
-          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+          CERTIFICATE_CHAIN: ${{ secrets.JB_CERTIFICATE_CHAIN }}
+          PRIVATE_KEY: ${{ secrets.JB_PRIVATE_KEY }}
+          PRIVATE_KEY_PASSWORD: ${{ secrets.JB_PRIVATE_KEY_PASSWORD }}
         run: ./gradlew signPlugin
 
       - name: Publish plugin to JetBrains Marketplace
@@ -88,23 +100,21 @@ jobs:
         run: ./gradlew publishPlugin
 
       - name: Extract release notes
-        id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v2
-        with:
-          release_notes_file: RELEASE_NOTES.md
-      - name: Prepend header to release notes
         run: |
-          printf "This plugin is also available on the [plugin repository](https://plugins.jetbrains.com/plugin/9836-randomness).\n" | cat - RELEASE_NOTES.md | tee RELEASE_NOTES.md
+          printf "%s\n\n%s\n" \
+            "This plugin is also available on the [plugin repository](https://plugins.jetbrains.com/plugin/9836-randomness)." \
+            "$(awk "/^## ${MY_VERSION#v}/{flag=1;next}; /^## [^(${MY_VERSION#v})]/{flag=0}; {if (flag==1) {print}}" CHANGELOG.md)" \
+            | tee RELEASE_NOTES.md
       - name: Publish release
-        uses: softprops/action-gh-release@v1
         if: ${{ github.event.inputs.dry_run == 'false' }}
-        with:
-          target_commitish: main
-          tag_name: ${{ env.MY_VERSION }}
-          body_path: RELEASE_NOTES.md
-          files: build/distributions/
-          draft: false
-          prerelease: false
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          gh release create "$MY_VERSION" \
+            "build/distributions/"*"-signed.zip" \
+            --title "$MY_VERSION" \
+            --notes-file RELEASE_NOTES.md \
+            --target main
 
   release-pages:
     needs: [ pre-flight-checks, release-plugin ]
