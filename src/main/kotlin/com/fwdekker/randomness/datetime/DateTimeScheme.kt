@@ -17,8 +17,8 @@ import java.time.format.DateTimeFormatter
 /**
  * Contains settings for generating random date-times.
  *
- * @property minDateTime The minimum date-time as a millisecond epoch to be generated, inclusive.
- * @property maxDateTime The maximum date-time as a millisecond epoch to be generated, inclusive.
+ * @property minDateTime The minimum date-time to be generated, inclusive.
+ * @property maxDateTime The maximum date-time to be generated, inclusive.
  * @property pattern The pattern in which the generated date-time is formatted.
  * @property arrayDecorator Settings that determine whether the output should be an array of values.
  */

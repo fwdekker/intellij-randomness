@@ -30,7 +30,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
 
             row(Bundle("datetime.ui.value.min_datetime_option")) {
                 cell(JDateTimeField(DEFAULT_MIN_DATE_TIME))
-                    .withFixedWidth(UIConstants.SIZE_LARGE)
+                    .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
                     .withName("minDateTime")
                     .bindTimestamp(scheme::minDateTime)
                     .bindValidation(scheme::minDateTime)
@@ -39,7 +39,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
 
             row(Bundle("datetime.ui.value.max_datetime_option")) {
                 cell(JDateTimeField(DEFAULT_MAX_DATE_TIME))
-                    .withFixedWidth(UIConstants.SIZE_LARGE)
+                    .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
                     .withName("maxDateTime")
                     .bindTimestamp(scheme::maxDateTime)
                     .bindValidation(scheme::maxDateTime)
