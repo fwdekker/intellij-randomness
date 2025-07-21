@@ -86,7 +86,7 @@ Please also check the [contribution guidelines](.github/CONTRIBUTING.md).
 $ gradlew runIde                       # Open a sandbox IntelliJ instance running the plugin
 $ gradlew buildPlugin                  # Build an installable zip of the plugin
 $ gradlew buildPlugin -Pbuild.hotswap  # Same as above, but allow hot-swapping the plugin during development
-$ gradlew signPlugin                   # Sign built plugin
+$ gradlew signPlugin                   # Build and sign plugin
 ```
 
 Signing the plugin requires specific environment variables to be set to refer to appropriate key files.
@@ -118,14 +118,21 @@ This is also true for prefixing with `f:`.
 ### 📚 Documentation
 ```bash
 $ gradlew dokkaHtml                        # Generate documentation
-$ gradlew dokkaHtml -Pdokka.pagesDir=/foo  # Generate linked documentation
+$ gradlew dokkaHtml -Pdokka.pagesDir=/foo  # Generate documentation, and link to older versions in `/foo`
 ```
-
-Whenever a release is created on GitHub, [GitHub Actions generates new documentation](https://github.com/FWDekker/intellij-randomness/actions/workflows/cd.yml), after which this is deployed to [GitHub Pages](https://fwdekker.github.io/intellij-randomness/).
 
 Documentation pages link to each other using a version dropdown menu.
 Simply running `gradlew dokkaHtml` does not generate a dropdown menu, because Dokka is not automatically aware of all previous versions.
 To link the versions together, check out the `gh-branch` of this repository in a separate directory, and point `dokka.pagesDir` to that directory.
+
+### 📯 Release
+To create a release, manually trigger the [deployment workflow](https://github.com/fwdekker/intellij-randomness/actions/workflows/cd.yml) on the `main` branch.
+This workflow will do the following:
+1. Run a few sanity checks.
+2. Build and sign the plugin.
+3. Upload the plugin to the JetBrains Marketplace.
+4. Create a GitHub release.
+5. Update [GitHub Pages](https://fwdekker.github.io/intellij-randomness/).
 
 ### 🖼 Icons
 The icons used by the plugin are found in [the file `icons.sketch`](.github/img/icons.sketch).

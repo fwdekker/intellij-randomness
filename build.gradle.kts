@@ -128,11 +128,23 @@ tasks {
         }
 
         signing {
-            if (System.getenv("CERTIFICATE_CHAIN") != null) {
-                certificateChainFile = file(System.getenv("CERTIFICATE_CHAIN"))
-                privateKeyFile = file(System.getenv("PRIVATE_KEY"))
-                password = System.getenv("PRIVATE_KEY_PASSWORD")
+            (System.getenv("CERTIFICATE_CHAIN") ?: "").also {
+                if (it.startsWith("/")) certificateChainFile = file(it)
+                else certificateChain = it
             }
+            (System.getenv("PRIVATE_KEY") ?: "").also {
+                if (it.startsWith("/")) privateKeyFile = file(it)
+                else privateKey = it
+            }
+
+            password = System.getenv("PRIVATE_KEY_PASSWORD") ?: ""
+        }
+
+        publishing {
+            token = System.getenv("PUBLISH_TOKEN") ?: ""
+
+            if (project.hasProperty("publish.beta"))
+                channels = listOf("beta")
         }
 
         pluginVerification {
