@@ -1,14 +1,16 @@
 package com.fwdekker.randomness
 
 import com.fwdekker.randomness.Timestamp.Companion.FORMATTER
+import com.fwdekker.randomness.Timestamp.Companion.NOW
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
-import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
 import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.comparables.shouldBeLessThan
+import io.kotest.matchers.longs.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import kotlin.random.Random
 
@@ -35,6 +37,21 @@ object TimestampTest : FunSpec({
                     row("65789190", null),
             )
         ) { (timestamp, expected) -> Timestamp(timestamp).epochMilli shouldBe expected }
+
+        test("returns the current time for the 'NOW' timestamp") {
+            // Checks that it is between 2025 and 2100
+            Timestamp(NOW).epochMilli!!.shouldBeGreaterThan(1_735_689_600_000L).shouldBeLessThan(4_102_444_799_999L)
+        }
+
+        test("returns different values at different times for the 'NOW' timestamp") {
+            val timestamp = Timestamp(NOW)
+
+            val time1 = timestamp.epochMilli!!
+            Thread.sleep(5L)
+            val time2 = timestamp.epochMilli!!
+
+            time2 shouldBeGreaterThan time1
+        }
     }
 
 
@@ -92,6 +109,9 @@ object TimestampTest : FunSpec({
                         row(Timestamp("16 April 0222 17:26:01.811"), "0222-04-16 17:26:01.811"),
                     "parses an American English date" to
                         row(Timestamp("May 3, 0454 19:43:08.435"), "0454-05-03 19:43:08.435"),
+                    // NOW timestamp
+                    "does not change the 'NOW' timestamp's value" to
+                        row(Timestamp(NOW), NOW),
                     // Invalid
                     "retains an empty timestamp" to
                         row(Timestamp(""), ""),
@@ -118,6 +138,12 @@ object TimestampTest : FunSpec({
                     row(Timestamp("invalid"), Timestamp("7927-06-10 12:17:15.448"), false),
                 "returns false if second date is invalid" to
                     row(Timestamp("8164-03-06 05:00:04.146"), Timestamp("invalid"), false),
+                "returns true if first date is before 'NOW'" to
+                    row(Timestamp("1714-01-26 01:15:40"), Timestamp(NOW), true),
+                "returns true if second date is after 'NOW'" to
+                    row(Timestamp(NOW), Timestamp("6379-06-15 14:40:39"), true),
+                "returns false if both dates are 'NOW'" to
+                    row(Timestamp(NOW), Timestamp(NOW), false),
                 "returns false if both dates are invalid" to
                     row(Timestamp("invalid"), Timestamp("invalid"), false),
             )
@@ -139,6 +165,10 @@ object TimestampTest : FunSpec({
                     row(Timestamp("invalid"), "timestamp.error.parse"),
                 "fails for an invalid numeric timestamp" to
                     row(Timestamp("71895819"), "timestamp.error.parse"),
+                "succeeds for a properly capitalised 'NOW'" to
+                    row(Timestamp(NOW), null),
+                "fails for an improperly capitalised 'NOW'" to
+                    row(Timestamp("now"), "timestamp.error.parse"),
             )
         ) { (timestamp, validation) -> timestamp shouldValidateAsBundle validation }
     }
@@ -162,7 +192,7 @@ object TimestampTest : FunSpec({
 
     include(stateDeepCopyTestFactory { Timestamp() })
 
-    include(stateSerializationTestFactory { Timestamp() })
+    // include(stateSerializationTestFactory { Timestamp() }) // Requires special [Converter] to be injected
 })
 
 /**
@@ -213,6 +243,24 @@ object TimestampKtTest : FunSpec({
                 min.isBefore(timestamp) shouldBe true
                 timestamp.isBefore(max) shouldBe true
             }
+        }
+
+        test("generates values in the past using the 'NOW' timestamp") {
+            val min = Timestamp("2000-01-01 00:00:00.000")
+            val max = Timestamp(NOW)
+
+            val timestamp = Timestamp(Random.nextTimestampInclusive(min, max).format(FORMATTER))
+
+            timestamp.isBefore(Timestamp("2099-01-01 00:00:00.000")) shouldBe true
+        }
+
+        test("generates values in the future using the 'NOW' timestamp") {
+            val min = Timestamp(NOW)
+            val max = Timestamp("2125-01-01 00:00:00.000")
+
+            val timestamp = Timestamp(Random.nextTimestampInclusive(min, max).format(FORMATTER))
+
+            Timestamp("2025-01-01 00:00:00.000").isBefore(timestamp) shouldBe true
         }
     }
 })

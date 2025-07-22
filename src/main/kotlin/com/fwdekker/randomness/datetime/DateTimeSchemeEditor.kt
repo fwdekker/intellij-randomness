@@ -35,6 +35,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
                     .bindTimestamp(scheme::minDateTime)
                     .bindValidation(scheme::minDateTime)
                     .also { minDateTimeField = it.component }
+                contextHelp(Bundle("datetime.ui.datetime_help"))
             }
 
             row(Bundle("datetime.ui.value.max_datetime_option")) {
@@ -44,6 +45,7 @@ class DateTimeSchemeEditor(scheme: DateTimeScheme = DateTimeScheme()) : SchemeEd
                     .bindTimestamp(scheme::maxDateTime)
                     .bindValidation(scheme::maxDateTime)
                     .also { maxDateTimeField = it.component }
+                contextHelp(Bundle("datetime.ui.datetime_help"))
             }.bottomGap(BottomGap.SMALL)
 
             bindDateTimes(minDateTimeField, maxDateTimeField)

@@ -4,6 +4,7 @@ import com.fwdekker.randomness.Bundle
 import com.fwdekker.randomness.Icons
 import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.Timestamp
+import com.fwdekker.randomness.TimestampConverter
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.array.ArrayDecorator
 import com.fwdekker.randomness.nextTimestampInclusive
@@ -23,8 +24,8 @@ import java.time.format.DateTimeFormatter
  * @property arrayDecorator Settings that determine whether the output should be an array of values.
  */
 data class DateTimeScheme(
-    @OptionTag var minDateTime: Timestamp = DEFAULT_MIN_DATE_TIME,
-    @OptionTag var maxDateTime: Timestamp = DEFAULT_MAX_DATE_TIME,
+    @OptionTag(converter = TimestampConverter::class) var minDateTime: Timestamp = DEFAULT_MIN_DATE_TIME,
+    @OptionTag(converter = TimestampConverter::class) var maxDateTime: Timestamp = DEFAULT_MAX_DATE_TIME,
     var pattern: String = DEFAULT_PATTERN,
     @OptionTag val arrayDecorator: ArrayDecorator = ArrayDecorator(),
 ) : Scheme() {

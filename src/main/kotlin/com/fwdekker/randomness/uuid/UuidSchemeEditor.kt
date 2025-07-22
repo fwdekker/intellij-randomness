@@ -42,15 +42,41 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                 lateinit var minDateTimeField: JDateTimeField
                 lateinit var maxDateTimeField: JDateTimeField
 
-                row(Bundle("uuid.ui.value.version.option")) {
-                    comboBox(UuidScheme.SUPPORTED_VERSIONS, UuidVersionRenderer())
-                        .isEditable(false)
-                        .withName("version")
-                        .bindItem(scheme::version.toNullableProperty())
-                        .bindValidation(scheme::version)
-                        .also { cell ->
-                            versionHasDateTime = cell.component.selectedValueMatches { it in TIME_BASED_VERSIONS }
-                        }
+                panel {
+                    row(Bundle("uuid.ui.value.version.option")) {
+                        comboBox(UuidScheme.SUPPORTED_VERSIONS, UuidVersionRenderer())
+                            .isEditable(false)
+                            .withName("version")
+                            .bindItem(scheme::version.toNullableProperty())
+                            .bindValidation(scheme::version)
+                            .also { cell ->
+                                versionHasDateTime = cell.component.selectedValueMatches { it in TIME_BASED_VERSIONS }
+                            }
+                    }
+                }
+
+                indent {
+                    row(Bundle("uuid.ui.value.min_datetime_option")) {
+                        cell(JDateTimeField(DEFAULT_MIN_DATE_TIME))
+                            .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
+                            .withName("minDateTime")
+                            .bindTimestamp(scheme::minDateTime)
+                            .bindValidation(scheme::minDateTime)
+                            .also { minDateTimeField = it.component }
+                        contextHelp(Bundle("uuid.ui.datetime_help"))
+                    }.enabledIf(versionHasDateTime)
+
+                    row(Bundle("uuid.ui.value.max_datetime_option")) {
+                        cell(JDateTimeField(DEFAULT_MAX_DATE_TIME))
+                            .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
+                            .withName("maxDateTime")
+                            .bindTimestamp(scheme::maxDateTime)
+                            .bindValidation(scheme::maxDateTime)
+                            .also { maxDateTimeField = it.component }
+                        contextHelp(Bundle("uuid.ui.datetime_help"))
+                    }.enabledIf(versionHasDateTime).bottomGap(BottomGap.SMALL)
+
+                    bindDateTimes(minDateTimeField, maxDateTimeField)
                 }
 
                 row {
@@ -73,27 +99,7 @@ class UuidSchemeEditor(scheme: UuidScheme = UuidScheme()) : SchemeEditor<UuidSch
                     AffixDecoratorEditor(scheme.affixDecorator, PRESET_AFFIX_DECORATOR_DESCRIPTORS)
                         .also { decoratorEditors += it }
                         .let { cell(it.rootComponent) }
-                }.bottomGap(BottomGap.SMALL)
-
-                row(Bundle("uuid.ui.value.min_datetime_option")) {
-                    cell(JDateTimeField(DEFAULT_MIN_DATE_TIME))
-                        .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
-                        .withName("minDateTime")
-                        .bindTimestamp(scheme::minDateTime)
-                        .bindValidation(scheme::minDateTime)
-                        .also { minDateTimeField = it.component }
-                }.enabledIf(versionHasDateTime)
-
-                row(Bundle("uuid.ui.value.max_datetime_option")) {
-                    cell(JDateTimeField(DEFAULT_MAX_DATE_TIME))
-                        .withFixedWidth(UIConstants.SIZE_VERY_LARGE)
-                        .withName("maxDateTime")
-                        .bindTimestamp(scheme::maxDateTime)
-                        .bindValidation(scheme::maxDateTime)
-                        .also { maxDateTimeField = it.component }
-                }.enabledIf(versionHasDateTime)
-
-                bindDateTimes(minDateTimeField, maxDateTimeField)
+                }
             }
         }
 
