@@ -162,7 +162,7 @@ data class DecimalScheme(
         /**
          * The default value of the [affixDecorator] field.
          */
-        val DEFAULT_AFFIX_DECORATOR get() = AffixDecorator(enabled = false, descriptor = "f@")
+        val DEFAULT_AFFIX_DECORATOR get() = AffixDecorator(enabled = false, descriptor = "@f")
 
         /**
          * The default value of the [arrayDecorator] field.

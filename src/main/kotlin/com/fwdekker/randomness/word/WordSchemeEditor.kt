@@ -44,7 +44,7 @@ class WordSchemeEditor(scheme: WordScheme = WordScheme()) : SchemeEditor<WordSch
             lateinit var document: Document
 
             row(Bundle("word.ui.words.insert_option")) {
-                comboBox(listOf(PRESET_ITEM) + DefaultWordList.WORD_LISTS, wordListRenderer)
+                comboBox(listOf(PRESET_ITEM) + DefaultWordList.WORD_LISTS, WORD_LIST_RENDERER)
                     .withName("presets")
                     .also {
                         it.component.addItemListener { event ->
@@ -108,17 +108,6 @@ class WordSchemeEditor(scheme: WordScheme = WordScheme()) : SchemeEditor<WordSch
         }
     }.finalize(this)
 
-    @Suppress("UnstableApiUsage") // Cannot be circumvented
-    private val wordListRenderer = listCellRenderer<DefaultWordList?> {
-        val index = index
-        val name = value?.name
-
-        text(name ?: Bundle("word_list.ui.nameless")) {
-            if (index == 0 || name == null)
-                attributes = REGULAR_ITALIC_ATTRIBUTES
-        }
-    }
-
 
     init {
         reset()
@@ -132,7 +121,22 @@ class WordSchemeEditor(scheme: WordScheme = WordScheme()) : SchemeEditor<WordSch
         /**
          * The "header" item inserted at the top of the preset combobox.
          */
-        val PRESET_ITEM get() = DefaultWordList("<html><i>${Bundle("word_list.ui.select_preset")}</i>", "")
+        val PRESET_ITEM get() = DefaultWordList(Bundle("word_list.ui.select_preset"), "")
+
+        /**
+         * Renders a [DefaultWordList] as a string inside a [javax.swing.JComboBox].
+         */
+        @Suppress("UnstableApiUsage") // Cannot be circumvented
+        private val WORD_LIST_RENDERER =
+            listCellRenderer<DefaultWordList?> {
+                val index = index
+                val name = value?.name
+
+                text(name ?: Bundle("word_list.ui.nameless")) {
+                    if (index == 0 || name == null)
+                        attributes = REGULAR_ITALIC_ATTRIBUTES
+                }
+            }
     }
 }
 
