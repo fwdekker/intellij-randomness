@@ -17,7 +17,6 @@ permissions:
 
 jobs:
   pre-flight-checks:
-    if: "!(contains(github.event.head_commit.message, '[cd skip]') || contains(github.event.head_commit.message, '[skip cd]'))"
     runs-on: ubuntu-latest
 
     outputs:
@@ -26,8 +25,8 @@ jobs:
     steps:
       - name: Print inputs
         run: |
-          printf "dry_run: '%s'\n" "${{ github.event.inputs.dry_run }}"
-          printf "checklist_complete: '%s'\n" "${{ github.event.inputs.checklist_complete }}"
+          printf "dry_run: '%s'\n" '${{ github.event.inputs.dry_run }}'
+          printf "checklist_complete: '%s'\n" '${{ github.event.inputs.checklist_complete }}'
       - name: Checkout
         uses: actions/checkout@v4
       - name: Extract Randomness version number
@@ -51,7 +50,7 @@ jobs:
       - name: "Check: Version number is formatted correctly"
         if: ${{ github.event.inputs.dry_run == 'false' }}
         run: |
-          expr "$MY_VERSION" : "^v[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+$" >/dev/null
+          expr "$MY_VERSION" : '^v[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+$' >/dev/null
       - name: "Check: Version is listed in changelog"
         if: ${{ github.event.inputs.dry_run == 'false' }}
         run: grep -qF "## ${MY_VERSION#v} -- " CHANGELOG.md
@@ -103,7 +102,7 @@ jobs:
         run: |
           printf "%s\n\n%s\n" \
             "This plugin is also available on the [plugin repository](https://plugins.jetbrains.com/plugin/9836-randomness)." \
-            "$(awk "/^## ${MY_VERSION#v}/{flag=1;next}; /^## [^(${MY_VERSION#v})]/{flag=0}; {if (flag==1) {print}}" CHANGELOG.md)" \
+            "$(awk "/^## ${MY_VERSION#v}/{flag=1;next}; /^## /{flag=0}; {if (flag==1) {print}}" CHANGELOG.md)" \
             | tee RELEASE_NOTES.md
       - name: Publish release
         if: ${{ github.event.inputs.dry_run == 'false' }}
@@ -152,7 +151,7 @@ jobs:
 
       - name: Generate new documentation
         working-directory: main/
-        run: ./gradlew dokkaHtml -Pdokka.pagesDir="${{ github.workspace }}/gh-pages/"
+        run: ./gradlew dokkaHtml -Pdokka.pagesDir='${{ github.workspace }}/gh-pages/'
 
       - name: Move new documentation into gh-pages
         run: |
@@ -166,6 +165,6 @@ jobs:
           git config --global user.name "FWDekkerBot"
           git config --global user.email "bot@fwdekker.com"
           git add --all
-          git commit -m "Update for ${MY_VERSION}"
+          git commit -m "Update for $MY_VERSION"
 
           git push origin gh-pages
