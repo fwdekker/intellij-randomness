@@ -38,5 +38,5 @@ Always run tests and static analysis before opening a pull request.
 
 
 ## 🗞️ Publish a release
-When it's time for a new release, check the [release checklist](RELEASE_CHECKLIST.md) to make sure everything is in
+When it's time for a new release, check the [release checklist](PULL_REQUEST_TEMPLATE/release.md) to make sure everything is in
 order.

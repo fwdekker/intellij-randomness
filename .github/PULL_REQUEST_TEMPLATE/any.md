@@ -1,3 +1,12 @@
+---
+name: ⛙ Anything else
+about: Any other type of pull request
+title: ''
+labels:
+assignees: FWDekker
+
+---
+
 ### Summary
 <!-- Provide a general description of the code changes in your pull request. If your pull request is related to an issue, please tag it here. -->
 
