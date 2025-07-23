@@ -1,0 +1,525 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>TemplateJTree</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<link href="../../../styles/multimodule.css" rel="Stylesheet">
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Randomness
+                    </a>
+            </div>
+            <div class="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;-randomness/com.fwdekker.randomness.template/-template-j-tree/index.html&quot;}"><div class="versions-dropdown">
+  <div class="versions-dropdown-button">v3.3.2</div>
+  <div class="versions-dropdown-data"><a href="../../../../../-randomness/com.fwdekker.randomness.template/-template-j-tree/index.html">v3.3.3</a><a href="index.html">v3.3.2</a><a href="../../../../v3.3.1/-randomness/com.fwdekker.randomness.template/-template-j-tree/index.html">v3.3.1</a><a href="../../../../v3.3.0/-randomness/com.fwdekker.randomness.template/-template-j-tree/index.html">v3.3.0</a><a href="../../../../v3.2.0/-randomness/com.fwdekker.randomness.template/-template-j-tree/index.html">v3.2.0</a><a href="../../../../v3.1.0/-randomness/com.fwdekker.randomness.template/-template-j-tree/index.html">v3.1.0</a><a href="../../../../../not-found-version.html?v=v3.0.0">v3.0.0</a><a href="../../../../../not-found-version.html?v=v2.7.7">v2.7.7</a><a href="../../../../../not-found-version.html?v=v2.7.6">v2.7.6</a><a href="../../../../../not-found-version.html?v=v2.7.5">v2.7.5</a><a href="../../../../../not-found-version.html?v=v2.7.4">v2.7.4</a><a href="../../../../../not-found-version.html?v=v2.7.3">v2.7.3</a><a href="../../../../../not-found-version.html?v=v2.7.2">v2.7.2</a><a href="../../../../../not-found-version.html?v=v2.7.1">v2.7.1</a><a href="../../../../../not-found-version.html?v=v2.7.0">v2.7.0</a><a href="../../../../../not-found-version.html?v=v2.6.1">v2.6.1</a><a href="../../../../../not-found-version.html?v=v2.6.0">v2.6.0</a><a href="../../../../../not-found-version.html?v=v2.5.1">v2.5.1</a><a href="../../../../../not-found-version.html?v=v2.5.0">v2.5.0</a><a href="../../../../../not-found-version.html?v=v2.4.1">v2.4.1</a><a href="../../../../../not-found-version.html?v=v2.4.0">v2.4.0</a><a href="../../../../../not-found-version.html?v=v2.3.0">v2.3.0</a><a href="../../../../../not-found-version.html?v=v2.2.0">v2.2.0</a><a href="../../../../../not-found-version.html?v=v2.1.0">v2.1.0</a><a href="../../../../../not-found-version.html?v=v2.0.0">v2.0.0</a><a href="../../../../../not-found-version.html?v=v1.6.1">v1.6.1</a><a href="../../../../../not-found-version.html?v=v1.6.0">v1.6.0</a><a href="../../../../../not-found-version.html?v=v1.5.2">v1.5.2</a><a href="../../../../../not-found-version.html?v=v1.5.1">v1.5.1</a><a href="../../../../../not-found-version.html?v=v1.5.0">v1.5.0</a><a href="../../../../../not-found-version.html?v=v1.4.0">v1.4.0</a><a href="../../../../../not-found-version.html?v=v1.3.2">v1.3.2</a><a href="../../../../../not-found-version.html?v=v1.3.1">v1.3.1</a><a href="../../../../../not-found-version.html?v=v1.3.0">v1.3.0</a><a href="../../../../../not-found-version.html?v=v1.2.0">v1.2.0</a><a href="../../../../../not-found-version.html?v=v1.1.0">v1.1.0</a><a href="../../../../../not-found-version.html?v=v1.0.1">v1.0.1</a><a href="../../../../../not-found-version.html?v=v1.0.0">v1.0.0</a></div>
+</div>
+</dokka-template-command>            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="Randomness::com.fwdekker.randomness.template/TemplateJTree///PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../../index.html">Randomness</a><span class="delimiter">/</span><a href="../index.html">com.fwdekker.randomness.template</a><span class="delimiter">/</span><span class="current">TemplateJTree</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Template</span><wbr><span><span>JTree</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">TemplateJTree</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>originalTemplateList<span class="token operator">: </span><a href="../-template-list/index.html">TemplateList</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>currentTemplateList<span class="token operator">: </span><a href="../-template-list/index.html">TemplateList</a></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="com.intellij.ui.treeStructure/Tree///PointingToDeclaration/">Tree</span><span class="clearfix"><span class="floating-right">(<a href="https://github.com/FWDekker/intellij-randomness/tree/v3.3.2/src/main/kotlin/com/fwdekker/randomness/template/TemplateJTree.kt#L59">source</a>)</span></span></div><p class="paragraph">A tree containing <a href="../-template/index.html">Template</a>s and <a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a>s.</p><p class="paragraph">Changes made through this tree's interface (e.g. adding, removing, copying) are immediately reflected in the <a href="current-template-list.html">currentTemplateList</a>. The <a href="original-template-list.html">originalTemplateList</a> is used only as a reference point to determine what changes have occurred, for example when <a href="is-modified.html">isModified</a> is called or when the end user requests that changes are (partially) reverted.</p><p class="paragraph">If changes are made outside of this tree's interface (i.e. by directly operating on the <a href="current-template-list.html">currentTemplateList</a> instance that was passed in the constructor), this tree's internal model becomes desynchronized, and must be resynchronized by invoking <a href="reload.html">reload</a>. Except for <a href="reload.html">reload</a>, the behaviour of this tree is undefined while desynchronized.</p><p class="paragraph">Internally, the <a href="current-template-list.html">currentTemplateList</a> is loaded into a <a href="../-template-j-tree-model/index.html">TemplateJTreeModel</a>. The <a href="index.html">TemplateJTree</a> class is the corresponding user interface class, which additionally provides (1) toolbars and buttons for manipulating the model, (2) node expansion and selection, and (3) handling for tracking and reversing modifications.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>original</span><wbr><span>Template</span><wbr><span><span>List</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the (read-only) original templates without modifications</p></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>current</span><wbr><span>Template</span><wbr><span><span>List</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the current templates, including modifications</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-39311138%2FConstructors%2F769193423" anchor-label="TemplateJTree" id="-39311138%2FConstructors%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-template-j-tree.html"><span>Template</span><wbr><span><span>JTree</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-39311138%2FConstructors%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">originalTemplateList<span class="token operator">: </span><a href="../-template-list/index.html">TemplateList</a><span class="token punctuation">, </span></span><span class="parameter ">currentTemplateList<span class="token operator">: </span><a href="../-template-list/index.html">TemplateList</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="2013416481%2FClasslikes%2F769193423" anchor-label="AddButton" id="2013416481%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-add-button/index.html"><span>Add</span><wbr><span><span>Button</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2013416481%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">inner </span><span class="token keyword">class </span><a href="-add-button/index.html">AddButton</a> : <span data-unresolved-link="com.intellij.ui/AnActionButton///PointingToDeclaration/">AnActionButton</span></div><div class="brief "><p class="paragraph">Displays a popup to add a scheme, or immediately adds a template if nothing is currently selected.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1856028905%2FClasslikes%2F769193423" anchor-label="CellRenderer" id="1856028905%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-cell-renderer/index.html"><span>Cell</span><wbr><span><span>Renderer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1856028905%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">inner </span><span class="token keyword">class </span><a href="-cell-renderer/index.html">CellRenderer</a> : <span data-unresolved-link="com.intellij.ui/ColoredTreeCellRenderer///PointingToDeclaration/">ColoredTreeCellRenderer</span></div><div class="brief "><p class="paragraph">Renders a cell in the tree.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2018177432%2FClasslikes%2F769193423" anchor-label="Companion" id="-2018177432%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2018177432%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div><div class="brief "><p class="paragraph">Holds constants.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-730904665%2FClasslikes%2F769193423" anchor-label="CopyButton" id="-730904665%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-copy-button/index.html"><span>Copy</span><wbr><span><span>Button</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-730904665%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">inner </span><span class="token keyword">class </span><a href="-copy-button/index.html">CopyButton</a> : <span data-unresolved-link="com.intellij.ui/AnActionButton///PointingToDeclaration/">AnActionButton</span></div><div class="brief "><p class="paragraph">Copies the selected scheme in the tree.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-769954598%2FClasslikes%2F769193423" anchor-label="DownButton" id="-769954598%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-down-button/index.html"><span>Down</span><wbr><span><span>Button</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-769954598%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">inner </span><span class="token keyword">class </span><a href="-down-button/index.html">DownButton</a> : <span data-unresolved-link="com.intellij.ui/AnActionButton///PointingToDeclaration/">AnActionButton</span></div><div class="brief "><p class="paragraph">Moves the selected scheme down by one position in the tree.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1552902520%2FClasslikes%2F769193423" anchor-label="RemoveButton" id="1552902520%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-remove-button/index.html"><span>Remove</span><wbr><span><span>Button</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1552902520%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">inner </span><span class="token keyword">class </span><a href="-remove-button/index.html">RemoveButton</a> : <span data-unresolved-link="com.intellij.ui/AnActionButton///PointingToDeclaration/">AnActionButton</span></div><div class="brief "><p class="paragraph">Removes the selected scheme from the tree.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1236914957%2FClasslikes%2F769193423" anchor-label="ResetButton" id="-1236914957%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-reset-button/index.html"><span>Reset</span><wbr><span><span>Button</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1236914957%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">inner </span><span class="token keyword">class </span><a href="-reset-button/index.html">ResetButton</a> : <span data-unresolved-link="com.intellij.ui/AnActionButton///PointingToDeclaration/">AnActionButton</span></div><div class="brief "><p class="paragraph">Resets the selected scheme to its original state, or removes it if it has no original state.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="186484481%2FClasslikes%2F769193423" anchor-label="UpButton" id="186484481%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-up-button/index.html"><span>Up</span><wbr><span><span>Button</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="186484481%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">inner </span><span class="token keyword">class </span><a href="-up-button/index.html">UpButton</a> : <span data-unresolved-link="com.intellij.ui/AnActionButton///PointingToDeclaration/">AnActionButton</span></div><div class="brief "><p class="paragraph">Moves the selected scheme up by one position in the tree.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="101118583%2FProperties%2F769193423" anchor-label="collapsedTemplates" id="101118583%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="collapsed-templates.html"><span>collapsed</span><wbr><span><span>Templates</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="101118583%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">var </span><a href="collapsed-templates.html">collapsedTemplates</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Collection///PointingToDeclaration/">Collection</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The list of currently-collapsed <a href="../-template/index.html">Template</a>s by UUID.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1865766128%2FProperties%2F769193423" anchor-label="currentTemplateList" id="1865766128%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="current-template-list.html"><span>current</span><wbr><span>Template</span><wbr><span><span>List</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1865766128%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">var </span><a href="current-template-list.html">currentTemplateList</a><span class="token operator">: </span><a href="../-template-list/index.html">TemplateList</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="588144612%2FProperties%2F769193423" anchor-label="myModel" id="588144612%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="my-model.html"><span>my</span><wbr><span><span>Model</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="588144612%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">internal </span><span class="token keyword">val </span><a href="my-model.html">myModel</a><span class="token operator">: </span><a href="../-template-j-tree-model/index.html">TemplateJTreeModel</a></div><div class="brief "><p class="paragraph">The tree's model.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-344779952%2FProperties%2F769193423" anchor-label="originalTemplateList" id="-344779952%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="original-template-list.html"><span>original</span><wbr><span>Template</span><wbr><span><span>List</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-344779952%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="original-template-list.html">originalTemplateList</a><span class="token operator">: </span><a href="../-template-list/index.html">TemplateList</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-755873079%2FProperties%2F769193423" anchor-label="selectedNodeNotRoot" id="-755873079%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="selected-node-not-root.html"><span>selected</span><wbr><span>Node</span><wbr><span>Not</span><wbr><span><span>Root</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-755873079%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="selected-node-not-root.html">selectedNodeNotRoot</a><span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The currently selected node, or <code class="lang-kotlin">null</code> if no node is selected, or <code class="lang-kotlin">null</code> if the root is selected.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="32749753%2FProperties%2F769193423" anchor-label="selectedScheme" id="32749753%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="selected-scheme.html"><span>selected</span><wbr><span><span>Scheme</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="32749753%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="selected-scheme.html">selectedScheme</a><span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The currently selected scheme (or template), or <code class="lang-kotlin">null</code> if no scheme is currently selected.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="811028292%2FProperties%2F769193423" anchor-label="selectedTemplate" id="811028292%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="selected-template.html"><span>selected</span><wbr><span><span>Template</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="811028292%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="selected-template.html">selectedTemplate</a><span class="token operator">: </span><a href="../-template/index.html">Template</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The currently selected template, or the parent of the currently selected non-template scheme, or <code class="lang-kotlin">null</code> if no scheme is currently selected.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1398422588%2FFunctions%2F769193423" anchor-label="addScheme" id="-1398422588%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-scheme.html"><span>add</span><wbr><span><span>Scheme</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1398422588%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="add-scheme.html"><span class="token function">addScheme</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">newScheme<span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds <a href="add-scheme.html">newScheme</a> at an appropriate location in the tree based on the currently selected node.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-209058662%2FFunctions%2F769193423" anchor-label="asDecoratedPanel" id="-209058662%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="as-decorated-panel.html"><span>as</span><wbr><span>Decorated</span><wbr><span><span>Panel</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-209058662%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="as-decorated-panel.html"><span class="token function">asDecoratedPanel</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="javax.swing/JPanel///PointingToDeclaration/">JPanel</span></div><div class="brief "><p class="paragraph">Returns a panel containing this tree decorated with accessible action buttons.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1879606164%2FFunctions%2F769193423" anchor-label="canMoveSchemeByOnePosition" id="1879606164%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="can-move-scheme-by-one-position.html"><span>can</span><wbr><span>Move</span><wbr><span>Scheme</span><wbr><span>By</span><wbr><span>One</span><wbr><span><span>Position</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1879606164%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="can-move-scheme-by-one-position.html"><span class="token function">canMoveSchemeByOnePosition</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scheme<span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a><span class="token punctuation">, </span></span><span class="parameter ">moveDown<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Returns <code class="lang-kotlin">true</code> if and only if <a href="move-scheme-by-one-position.html">moveSchemeByOnePosition</a> can be invoked with these parameters.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="596415066%2FFunctions%2F769193423" anchor-label="expandAll" id="596415066%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="expand-all.html"><span>expand</span><wbr><span><span>All</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="596415066%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="expand-all.html"><span class="token function">expandAll</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Expands all <a href="../-template/index.html">Template</a>s.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1847295623%2FFunctions%2F769193423" anchor-label="findUniqueNameFor" id="-1847295623%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="find-unique-name-for.html"><span>find</span><wbr><span>Unique</span><wbr><span>Name</span><wbr><span><span>For</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1847295623%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="find-unique-name-for.html"><span class="token function">findUniqueNameFor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">template<span class="token operator">: </span><a href="../-template/index.html">Template</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Finds a good, unique name for <a href="find-unique-name-for.html">template</a> so that it can be inserted into this list without conflict.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="244721840%2FFunctions%2F769193423" anchor-label="getMoveDescriptor" id="244721840%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-move-descriptor.html"><span>get</span><wbr><span>Move</span><wbr><span><span>Descriptor</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="244721840%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="get-move-descriptor.html"><span class="token function">getMoveDescriptor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scheme<span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a><span class="token punctuation">, </span></span><span class="parameter ">moveDown<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Triple///PointingToDeclaration/">Triple</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span><span data-unresolved-link="com.intellij.ui/RowsDnDSupport.RefinedDropSupport.Position///PointingToDeclaration/">RowsDnDSupport.RefinedDropSupport.Position</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns the arguments to pass to <a href="../-template-j-tree-model/move-row.html">TemplateJTreeModel.moveRow</a> or <a href="../-template-j-tree-model/can-move-row.html">TemplateJTreeModel.canMoveRow</a> to describe moving <a href="get-move-descriptor.html">scheme</a> up (if <a href="get-move-descriptor.html">moveDown</a> is <code class="lang-kotlin">false</code>) or down (if <a href="get-move-descriptor.html">moveDown</a> is <code class="lang-kotlin">true</code>).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-641013649%2FFunctions%2F769193423" anchor-label="isModified" id="-641013649%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-modified.html"><span>is</span><wbr><span><span>Modified</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-641013649%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="is-modified.html"><span class="token function">isModified</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scheme<span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Returns <code class="lang-kotlin">true</code> if and only if <a href="is-modified.html">scheme</a> has been modified with respect to <a href="original-template-list.html">originalTemplateList</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1858341060%2FFunctions%2F769193423" anchor-label="moveSchemeByOnePosition" id="-1858341060%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="move-scheme-by-one-position.html"><span>move</span><wbr><span>Scheme</span><wbr><span>By</span><wbr><span>One</span><wbr><span><span>Position</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1858341060%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="move-scheme-by-one-position.html"><span class="token function">moveSchemeByOnePosition</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scheme<span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a><span class="token punctuation">, </span></span><span class="parameter ">moveDown<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Moves <a href="move-scheme-by-one-position.html">scheme</a> by one position; down if <a href="move-scheme-by-one-position.html">moveDown</a> is `true, and up otherwise.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2054284326%2FFunctions%2F769193423" anchor-label="reload" id="-2054284326%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reload.html"><span><span>reload</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2054284326%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="reload.html"><span class="token function">reload</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">changedScheme<span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Notifies the tree that external changes have been made to <a href="current-template-list.html">currentTemplateList</a>, and resynchronizes the tree's model with the template list.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1358671737%2FFunctions%2F769193423" anchor-label="removeScheme" id="1358671737%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="remove-scheme.html"><span>remove</span><wbr><span><span>Scheme</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1358671737%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="remove-scheme.html"><span class="token function">removeScheme</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scheme<span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes <a href="remove-scheme.html">scheme</a> from the tree, and selects an appropriate other scheme.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1409019756%2FFunctions%2F769193423" anchor-label="replaceScheme" id="1409019756%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="replace-scheme.html"><span>replace</span><wbr><span><span>Scheme</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1409019756%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="replace-scheme.html"><span class="token function">replaceScheme</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">oldScheme<span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a><span class="token punctuation">, </span></span><span class="parameter ">newScheme<span class="token operator">: </span><a href="../../com.fwdekker.randomness/-scheme/index.html">Scheme</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Replaces <a href="replace-scheme.html">oldScheme</a> with <a href="replace-scheme.html">newScheme</a> in-place.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1690313782%2FFunctions%2F769193423" anchor-label="runPreservingState" id="-1690313782%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="run-preserving-state.html"><span>run</span><wbr><span>Preserving</span><wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1690313782%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="run-preserving-state.html"><span class="token function">runPreservingState</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">lambda<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Runs <a href="run-preserving-state.html">lambda</a> while ensuring that the <a href="selected-scheme.html">selectedScheme</a> and collapsed templates remain unchanged.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Florine&nbsp;W.&nbsp;Dekker</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

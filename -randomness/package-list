@@ -771,6 +771,8 @@ $dokka.location:com.fwdekker.randomness/OverlayedIcon/getIconWidth/#/PointingToD
 $dokka.location:com.fwdekker.randomness/OverlayedIcon/overlays/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-overlayed-icon/overlays.html
 $dokka.location:com.fwdekker.randomness/OverlayedIcon/paintIcon/#java.awt.Component?#java.awt.Graphics?#kotlin.Int#kotlin.Int/PointingToDeclaration/-randomness/com.fwdekker.randomness/-overlayed-icon/paint-icon.html
 $dokka.location:com.fwdekker.randomness/OverlayedIcon/plusOverlay/#javax.swing.Icon/PointingToDeclaration/-randomness/com.fwdekker.randomness/-overlayed-icon/plus-overlay.html
+$dokka.location:com.fwdekker.randomness/OverlayedIcon/validate/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-overlayed-icon/validate.html
+$dokka.location:com.fwdekker.randomness/OverlayedIcon/validated/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-overlayed-icon/validated.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings.Companion///PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/-companion/index.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings.Companion/CURRENT_VERSION/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/-companion/-c-u-r-r-e-n-t_-v-e-r-s-i-o-n.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings///PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/index.html

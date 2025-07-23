@@ -1,0 +1,581 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>TemplateJTreeModel</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<link href="../../../styles/multimodule.css" rel="Stylesheet">
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Randomness
+                    </a>
+            </div>
+            <div class="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;-randomness/com.fwdekker.randomness.template/-template-j-tree-model/index.html&quot;}"><div class="versions-dropdown">
+  <div class="versions-dropdown-button">v3.3.2</div>
+  <div class="versions-dropdown-data"><a href="../../../../../-randomness/com.fwdekker.randomness.template/-template-j-tree-model/index.html">v3.3.3</a><a href="index.html">v3.3.2</a><a href="../../../../v3.3.1/-randomness/com.fwdekker.randomness.template/-template-j-tree-model/index.html">v3.3.1</a><a href="../../../../v3.3.0/-randomness/com.fwdekker.randomness.template/-template-j-tree-model/index.html">v3.3.0</a><a href="../../../../v3.2.0/-randomness/com.fwdekker.randomness.template/-template-j-tree-model/index.html">v3.2.0</a><a href="../../../../v3.1.0/-randomness/com.fwdekker.randomness.template/-template-j-tree-model/index.html">v3.1.0</a><a href="../../../../../not-found-version.html?v=v3.0.0">v3.0.0</a><a href="../../../../../not-found-version.html?v=v2.7.7">v2.7.7</a><a href="../../../../../not-found-version.html?v=v2.7.6">v2.7.6</a><a href="../../../../../not-found-version.html?v=v2.7.5">v2.7.5</a><a href="../../../../../not-found-version.html?v=v2.7.4">v2.7.4</a><a href="../../../../../not-found-version.html?v=v2.7.3">v2.7.3</a><a href="../../../../../not-found-version.html?v=v2.7.2">v2.7.2</a><a href="../../../../../not-found-version.html?v=v2.7.1">v2.7.1</a><a href="../../../../../not-found-version.html?v=v2.7.0">v2.7.0</a><a href="../../../../../not-found-version.html?v=v2.6.1">v2.6.1</a><a href="../../../../../not-found-version.html?v=v2.6.0">v2.6.0</a><a href="../../../../../not-found-version.html?v=v2.5.1">v2.5.1</a><a href="../../../../../not-found-version.html?v=v2.5.0">v2.5.0</a><a href="../../../../../not-found-version.html?v=v2.4.1">v2.4.1</a><a href="../../../../../not-found-version.html?v=v2.4.0">v2.4.0</a><a href="../../../../../not-found-version.html?v=v2.3.0">v2.3.0</a><a href="../../../../../not-found-version.html?v=v2.2.0">v2.2.0</a><a href="../../../../../not-found-version.html?v=v2.1.0">v2.1.0</a><a href="../../../../../not-found-version.html?v=v2.0.0">v2.0.0</a><a href="../../../../../not-found-version.html?v=v1.6.1">v1.6.1</a><a href="../../../../../not-found-version.html?v=v1.6.0">v1.6.0</a><a href="../../../../../not-found-version.html?v=v1.5.2">v1.5.2</a><a href="../../../../../not-found-version.html?v=v1.5.1">v1.5.1</a><a href="../../../../../not-found-version.html?v=v1.5.0">v1.5.0</a><a href="../../../../../not-found-version.html?v=v1.4.0">v1.4.0</a><a href="../../../../../not-found-version.html?v=v1.3.2">v1.3.2</a><a href="../../../../../not-found-version.html?v=v1.3.1">v1.3.1</a><a href="../../../../../not-found-version.html?v=v1.3.0">v1.3.0</a><a href="../../../../../not-found-version.html?v=v1.2.0">v1.2.0</a><a href="../../../../../not-found-version.html?v=v1.1.0">v1.1.0</a><a href="../../../../../not-found-version.html?v=v1.0.1">v1.0.1</a><a href="../../../../../not-found-version.html?v=v1.0.0">v1.0.0</a></div>
+</div>
+</dokka-template-command>            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="Randomness::com.fwdekker.randomness.template/TemplateJTreeModel///PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../../index.html">Randomness</a><span class="delimiter">/</span><a href="../index.html">com.fwdekker.randomness.template</a><span class="delimiter">/</span><span class="current">TemplateJTreeModel</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Template</span><wbr><span>JTree</span><wbr><span><span>Model</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">TemplateJTreeModel</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">list<span class="token operator">: </span><a href="../-template-list/index.html">TemplateList</a><span class="token operator"> = </span>TemplateList(mutableListOf())</span></span><span class="token punctuation">)</span> : <span data-unresolved-link="javax.swing.tree/TreeModel///PointingToDeclaration/">TreeModel</span>, <span data-unresolved-link="com.intellij.util.ui/EditableModel///PointingToDeclaration/">EditableModel</span>, <span data-unresolved-link="com.intellij.ui/RowsDnDSupport.RefinedDropSupport///PointingToDeclaration/">RowsDnDSupport.RefinedDropSupport</span><span class="clearfix"><span class="floating-right">(<a href="https://github.com/FWDekker/intellij-randomness/tree/v3.3.2/src/main/kotlin/com/fwdekker/randomness/template/TemplateJTreeModel.kt#L28">source</a>)</span></span></div><p class="paragraph">The underlying model of the <a href="../-template-j-tree/index.html">TemplateJTree</a>, which synchronizes its state with a <a href="../-template-list/index.html">TemplateList</a> so that modifications to the model appear in the list and vice versa.</p><p class="paragraph">If the list is modified externally, this model should be notified using a <code class="lang-kotlin">fire</code> method (e.g. <a href="fire-node-changed.html">fireNodeChanged</a>). Except for the <code class="lang-kotlin">fire</code> methods, the behavior of this model is undefined while uninformed of external changes.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>list</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the list to be modeled</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-568409097%2FConstructors%2F769193423" anchor-label="TemplateJTreeModel" id="-568409097%2FConstructors%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-template-j-tree-model.html"><span>Template</span><wbr><span>JTree</span><wbr><span><span>Model</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-568409097%2FConstructors%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">list<span class="token operator">: </span><a href="../-template-list/index.html">TemplateList</a><span class="token operator"> = </span>TemplateList(mutableListOf())</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="816061341%2FProperties%2F769193423" anchor-label="nodes" id="816061341%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nodes.html"><span><span>nodes</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="816061341%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="nodes.html">nodes</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><a href="../-state-node/index.html">StateNode</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The list of all <a href="../-state-node/index.html">StateNode</a>s in this tree.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-479116918%2FProperties%2F769193423" anchor-label="root" id="-479116918%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="root.html"><span><span>root</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-479116918%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="root.html">root</a><span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a></div><div class="brief "><p class="paragraph">The root of the tree, containing the original <a href="../-template-list/index.html">TemplateList</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-771575784%2FProperties%2F769193423" anchor-label="treeModelListeners" id="-771575784%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="tree-model-listeners.html"><span>tree</span><wbr><span>Model</span><wbr><span><span>Listeners</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-771575784%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="tree-model-listeners.html">treeModelListeners</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/MutableList///PointingToDeclaration/">MutableList</span><span class="token operator">&lt;</span><span data-unresolved-link="javax.swing.event/TreeModelListener///PointingToDeclaration/">TreeModelListener</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The listeners that are informed when the state of the tree changes.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1493401213%2FProperties%2F769193423" anchor-label="viewIndexToModelIndex" id="1493401213%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="view-index-to-model-index.html"><span>view</span><wbr><span>Index</span><wbr><span>To</span><wbr><span>Model</span><wbr><span><span>Index</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1493401213%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="view-index-to-model-index.html">viewIndexToModelIndex</a><span class="token operator">: </span><span class="token punctuation">(</span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></div><div class="brief "><p class="paragraph">Converts the row index in the view to the corresponding row index in the model.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-460982157%2FProperties%2F769193423" anchor-label="wrapDrop" id="-460982157%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="wrap-drop.html"><span>wrap</span><wbr><span><span>Drop</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-460982157%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="wrap-drop.html">wrapDrop</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></div><div class="brief "><p class="paragraph">A wrapper provided by the view and used by <a href="drop.html">TemplateJTreeModel.drop</a> to ensure the view's selection and expansion state are retained.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1822060819%2FFunctions%2F769193423" anchor-label="addRow" id="1822060819%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-row.html"><span>add</span><wbr><span><span>Row</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1822060819%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="add-row.html"><span class="token function">addRow</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Nothing///PointingToDeclaration/">Nothing</span></div><div class="brief "><p class="paragraph">Not implemented because this method is used only if this is a model for a table.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1915783215%2FFunctions%2F769193423" anchor-label="addTreeModelListener" id="-1915783215%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-tree-model-listener.html"><span>add</span><wbr><span>Tree</span><wbr><span>Model</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1915783215%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="add-tree-model-listener.html"><span class="token function">addTreeModelListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">listener<span class="token operator">: </span><span data-unresolved-link="javax.swing.event/TreeModelListener///PointingToDeclaration/">TreeModelListener</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds <a href="add-tree-model-listener.html">listener</a> as a listener.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1900222767%2FFunctions%2F769193423" anchor-label="canDrop" id="-1900222767%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="can-drop.html"><span>can</span><wbr><span><span>Drop</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1900222767%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="can-drop.html"><span class="token function">canDrop</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fromIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">toIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">position<span class="token operator">: </span><span data-unresolved-link="com.intellij.ui/RowsDnDSupport.RefinedDropSupport.Position///PointingToDeclaration/">RowsDnDSupport.RefinedDropSupport.Position</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Invokes <a href="can-move-row.html">canMoveRow</a> after converting <a href="can-drop.html">fromIndex</a> and <a href="can-drop.html">toIndex</a> using <a href="view-index-to-model-index.html">viewIndexToModelIndex</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1243814749%2FFunctions%2F769193423" anchor-label="canExchangeRows" id="1243814749%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="can-exchange-rows.html"><span>can</span><wbr><span>Exchange</span><wbr><span><span>Rows</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1243814749%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="can-exchange-rows.html"><span class="token function">canExchangeRows</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">oldIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">newIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Use <a href="can-move-row.html">canMoveRow</a> instead.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1691626347%2FFunctions%2F769193423" anchor-label="canMoveRow" id="-1691626347%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="can-move-row.html"><span>can</span><wbr><span>Move</span><wbr><span><span>Row</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1691626347%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="can-move-row.html"><span class="token function">canMoveRow</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fromIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">toIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">position<span class="token operator">: </span><span data-unresolved-link="com.intellij.ui/RowsDnDSupport.RefinedDropSupport.Position///PointingToDeclaration/">RowsDnDSupport.RefinedDropSupport.Position</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Returns <code class="lang-kotlin">true</code> if and only if <a href="move-row.html">moveRow</a> can be invoked with the given parameters.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1980570623%2FFunctions%2F769193423" anchor-label="drop" id="1980570623%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="drop.html"><span><span>drop</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1980570623%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="drop.html"><span class="token function">drop</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fromIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">toIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">position<span class="token operator">: </span><span data-unresolved-link="com.intellij.ui/RowsDnDSupport.RefinedDropSupport.Position///PointingToDeclaration/">RowsDnDSupport.RefinedDropSupport.Position</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Invokes <a href="move-row.html">moveRow</a> after converting <a href="drop.html">fromIndex</a> and <a href="drop.html">toIndex</a> using <a href="view-index-to-model-index.html">viewIndexToModelIndex</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-161427217%2FFunctions%2F769193423" anchor-label="exchangeRows" id="-161427217%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="exchange-rows.html"><span>exchange</span><wbr><span><span>Rows</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-161427217%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="exchange-rows.html"><span class="token function">exchangeRows</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">oldIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">newIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Nothing///PointingToDeclaration/">Nothing</span></div><div class="brief "><p class="paragraph">Use <a href="move-row.html">moveRow</a> instead.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1060111838%2FFunctions%2F769193423" anchor-label="fireNodeChanged" id="-1060111838%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="fire-node-changed.html"><span>fire</span><wbr><span>Node</span><wbr><span><span>Changed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1060111838%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="fire-node-changed.html"><span class="token function">fireNodeChanged</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">node<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Informs listeners that <a href="fire-node-changed.html">node</a> has been changed.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1778607271%2FFunctions%2F769193423" anchor-label="fireNodeInserted" id="1778607271%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="fire-node-inserted.html"><span>fire</span><wbr><span>Node</span><wbr><span><span>Inserted</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1778607271%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="fire-node-inserted.html"><span class="token function">fireNodeInserted</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">node<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">parent<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token punctuation">, </span></span><span class="parameter ">index<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Informs listeners that <a href="fire-node-inserted.html">node</a> has been inserted into this model as the <a href="fire-node-inserted.html">index</a>th child of <a href="fire-node-inserted.html">parent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-996831747%2FFunctions%2F769193423" anchor-label="fireNodeRemoved" id="-996831747%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="fire-node-removed.html"><span>fire</span><wbr><span>Node</span><wbr><span><span>Removed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-996831747%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="fire-node-removed.html"><span class="token function">fireNodeRemoved</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">child<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">parent<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token punctuation">, </span></span><span class="parameter ">index<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Informs listeners that <a href="fire-node-removed.html">child</a> has been removed from this model, but was formerly the <a href="fire-node-removed.html">index</a>th child of <a href="fire-node-removed.html">parent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="400379906%2FFunctions%2F769193423" anchor-label="fireNodeStructureChanged" id="400379906%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="fire-node-structure-changed.html"><span>fire</span><wbr><span>Node</span><wbr><span>Structure</span><wbr><span><span>Changed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="400379906%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="fire-node-structure-changed.html"><span class="token function">fireNodeStructureChanged</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">node<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token operator"> = </span>root</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Informs listeners that <a href="fire-node-structure-changed.html">node</a>'s structure has been changed.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="815899510%2FFunctions%2F769193423" anchor-label="getChild" id="815899510%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-child.html"><span>get</span><wbr><span><span>Child</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="815899510%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-child.html"><span class="token function">getChild</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parent<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="token punctuation">, </span></span><span class="parameter ">index<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a></div><div class="brief "><p class="paragraph">Returns the <a href="get-child.html">index</a>th child of <a href="get-child.html">parent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-369443898%2FFunctions%2F769193423" anchor-label="getChildCount" id="-369443898%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-child-count.html"><span>get</span><wbr><span>Child</span><wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-369443898%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-child-count.html"><span class="token function">getChildCount</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parent<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></div><div class="brief "><p class="paragraph">Returns the number of children of <a href="get-child-count.html">parent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="45257280%2FFunctions%2F769193423" anchor-label="getIndexOfChild" id="45257280%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-index-of-child.html"><span>get</span><wbr><span>Index</span><wbr><span>Of</span><wbr><span><span>Child</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="45257280%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-index-of-child.html"><span class="token function">getIndexOfChild</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parent<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">child<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></div><div class="brief "><p class="paragraph">Returns the relative index of <a href="get-index-of-child.html">child</a> in <a href="get-index-of-child.html">parent</a>, or <code class="lang-kotlin">-1</code> if (1) either <a href="get-index-of-child.html">parent</a> or <a href="get-index-of-child.html">child</a> is <code class="lang-kotlin">null</code>, (2) either <a href="get-index-of-child.html">parent</a> or <a href="get-index-of-child.html">child</a> is not a <a href="../-state-node/index.html">StateNode</a>, (3) either <a href="get-index-of-child.html">parent</a> or <a href="get-index-of-child.html">child</a> is not contained in this model, or (4) if <a href="get-index-of-child.html">child</a> is not a child of <a href="get-index-of-child.html">parent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1178803238%2FFunctions%2F769193423" anchor-label="getParentOf" id="1178803238%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-parent-of.html"><span>get</span><wbr><span>Parent</span><wbr><span><span>Of</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1178803238%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-parent-of.html"><span class="token function">getParentOf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">node<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the parent of <a href="get-parent-of.html">node</a>, or <code class="lang-kotlin">null</code> if <a href="get-parent-of.html">node</a> has no parent.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-681788571%2FFunctions%2F769193423" anchor-label="getPathToRoot" id="-681788571%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-path-to-root.html"><span>get</span><wbr><span>Path</span><wbr><span>To</span><wbr><span><span>Root</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-681788571%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-path-to-root.html"><span class="token function">getPathToRoot</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">node<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="javax.swing.tree/TreePath///PointingToDeclaration/">TreePath</span></div><div class="brief "><p class="paragraph">Returns the path from <a href="root.html">root</a> to <a href="get-path-to-root.html">node</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="204777110%2FFunctions%2F769193423" anchor-label="getRoot" id="204777110%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-root.html"><span>get</span><wbr><span><span>Root</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="204777110%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-root.html"><span class="token function">getRoot</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a></div><div class="brief "><p class="paragraph">Returns <a href="root.html">root</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1888179057%2FFunctions%2F769193423" anchor-label="insertNode" id="-1888179057%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="insert-node.html"><span>insert</span><wbr><span><span>Node</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1888179057%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="insert-node.html"><span class="token function">insertNode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parent<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token punctuation">, </span></span><span class="parameter ">child<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token punctuation">, </span></span><span class="parameter ">index<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator"> = </span>getChildCount(parent)</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Inserts <a href="insert-node.html">child</a> as the <a href="insert-node.html">index</a>th child of <a href="insert-node.html">parent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-891048708%2FFunctions%2F769193423" anchor-label="insertNodeAfter" id="-891048708%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="insert-node-after.html"><span>insert</span><wbr><span>Node</span><wbr><span><span>After</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-891048708%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="insert-node-after.html"><span class="token function">insertNodeAfter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parent<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token punctuation">, </span></span><span class="parameter ">after<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a><span class="token punctuation">, </span></span><span class="parameter ">child<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Inserts <a href="insert-node-after.html">child</a> as a child into <a href="insert-node-after.html">parent</a> right after <a href="insert-node-after.html">after</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1444561579%2FFunctions%2F769193423" anchor-label="isDropInto" id="1444561579%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-drop-into.html"><span>is</span><wbr><span>Drop</span><wbr><span><span>Into</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1444561579%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="is-drop-into.html"><span class="token function">isDropInto</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">component<span class="token operator">: </span><span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fromIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">toIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Returns <code class="lang-kotlin">true</code> if and only if the node at <a href="is-drop-into.html">fromIndex</a> can be moved <span data-unresolved-link="com.intellij.ui/RowsDnDSupport.RefinedDropSupport.Position.INTO///PointingToDeclaration/{&amp;quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&amp;quot;:{&amp;quot;key&amp;quot;:&amp;quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&amp;quot;}}">Position.INTO</span> the node at <a href="is-drop-into.html">toIndex</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1513474107%2FFunctions%2F769193423" anchor-label="isLeaf" id="-1513474107%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-leaf.html"><span>is</span><wbr><span><span>Leaf</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1513474107%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="is-leaf.html"><span class="token function">isLeaf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">node<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Returns <code class="lang-kotlin">true</code> if and only if <a href="is-leaf.html">node</a> is contained in this model and <a href="is-leaf.html">node</a> does not have children.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-905418585%2FFunctions%2F769193423" anchor-label="moveRow" id="-905418585%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="move-row.html"><span>move</span><wbr><span><span>Row</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-905418585%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="move-row.html"><span class="token function">moveRow</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fromIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">toIndex<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">position<span class="token operator">: </span><span data-unresolved-link="com.intellij.ui/RowsDnDSupport.RefinedDropSupport.Position///PointingToDeclaration/">RowsDnDSupport.RefinedDropSupport.Position</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Moves the node at row <a href="move-row.html">fromIndex</a> near the node at row <a href="move-row.html">toIndex</a> as specified by <a href="move-row.html">position</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1195814475%2FFunctions%2F769193423" anchor-label="removeNode" id="-1195814475%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="remove-node.html"><span>remove</span><wbr><span><span>Node</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1195814475%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="remove-node.html"><span class="token function">removeNode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">node<span class="token operator">: </span><a href="../-state-node/index.html">StateNode</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes <a href="remove-node.html">node</a> from this model.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="157308502%2FFunctions%2F769193423" anchor-label="removeRow" id="157308502%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="remove-row.html"><span>remove</span><wbr><span><span>Row</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="157308502%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="remove-row.html"><span class="token function">removeRow</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">index<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Nothing///PointingToDeclaration/">Nothing</span></div><div class="brief "><p class="paragraph">Not implemented because this method is used only if this is a model for a table.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="567916748%2FFunctions%2F769193423" anchor-label="removeTreeModelListener" id="567916748%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="remove-tree-model-listener.html"><span>remove</span><wbr><span>Tree</span><wbr><span>Model</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="567916748%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="remove-tree-model-listener.html"><span class="token function">removeTreeModelListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">listener<span class="token operator">: </span><span data-unresolved-link="javax.swing.event/TreeModelListener///PointingToDeclaration/">TreeModelListener</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes <a href="remove-tree-model-listener.html">listener</a> as a listener.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1228981376%2FFunctions%2F769193423" anchor-label="valueForPathChanged" id="1228981376%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="value-for-path-changed.html"><span>value</span><wbr><span>For</span><wbr><span>Path</span><wbr><span><span>Changed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1228981376%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="value-for-path-changed.html"><span class="token function">valueForPathChanged</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">path<span class="token operator">: </span><span data-unresolved-link="javax.swing.tree/TreePath///PointingToDeclaration/">TreePath</span><span class="token punctuation">, </span></span><span class="parameter ">newValue<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Nothing///PointingToDeclaration/">Nothing</span></div><div class="brief "><p class="paragraph">Not implemented because this model does not contain an editor component.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Florine&nbsp;W.&nbsp;Dekker</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
