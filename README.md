@@ -30,7 +30,7 @@ You can modify this behavior by holding a key while selecting the type of data t
 
 You can hold multiple modifier keys to combine their effects.
 
-Randomness can also be found in the main menu under <kbd>Tools</kbd> or in <kbd>Code > Generate</kbd>.
+Randomness can also be found in the main menu under <kbd>Tools</kbd> and under <kbd>Code > Generate</kbd>.
 
 <img width="450px" src=".github/img/insertion-sample.gif" alt="Animation of how to insert data" />
 
@@ -47,15 +47,15 @@ Randomness can also be found in the main menu under <kbd>Tools</kbd> or in <kbd>
   For complex kinds of data, you can use templates.
   A template is a list of data types that should be concatenated to create random data.
   Insert **phone numbers**, **email addresses**, **URLs**, **IP addresses**, or any **custom data type** you can think of.
-  Of course, Randomness comes bundled with a whole array of predefined templates to help you out.
-  If needed, you can reuse a template by including it in another template using a **reference**.
+  Of course, Randomness comes bundled with a multitude of predefined templates to help you out.
+  To help you save time, you can also include templates inside other templates using **references**.
 
   <img width="450px" src=".github/img/configuration-sample.gif" alt="Animation of how to configure templates" />
 * 🗃️ **Arrays**<br />
   Need a lot of data?
   Insert an **entire array** of any template you want.
-  For example, an array of integers might look like `[978, 881, 118, 286, 288]`.
-  You can customise the brackets, delimiter, and number of elements to your liking every time you insert an array, because no two arrays are the same.
+  For example, an array of integers might look like `[978, 881, 118, 286, 288]` or `{0: "dog", 1: "giraffe", 2: "mouse"}`.
+  You can customise the brackets, delimiter, element format, and number of elements to your liking every time you insert an array, because no two arrays are the same.
 
   <img width="450px" src=".github/img/array-insertion-sample.gif" alt="Animation of how to insert arrays" />
 * ⌨️ **Shortcuts**<br />

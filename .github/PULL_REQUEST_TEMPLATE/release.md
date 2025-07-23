@@ -42,7 +42,7 @@ assignees: FWDekker
 
 ## Verification
 * [ ] All tests and static analysis pass locally.
-* [ ] Old and new features have been checked manually.
+* [ ] Old and new features have been checked to work manually.
 * [ ] The plugin verifier completes successfully.
   * [ ] The plugin verifier uses the latest versions.
 * [ ] Settings from the previous version have been manually verified to load into the new version without errors.

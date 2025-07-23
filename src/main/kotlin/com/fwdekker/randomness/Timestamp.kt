@@ -100,10 +100,19 @@ class Timestamp(value: String = "1970-01-01 00:00:00.000") : State() {
     }
 
 
+    /**
+     * Returns `true` if and only if `this` and [other] refer to the exact same moment in time.
+     */
     override fun equals(other: Any?): Boolean = other is Timestamp && this.value == other.value
 
-    override fun hashCode(): Int = this.value.hashCode()
+    /**
+     * Returns the hash code of this timestamp.
+     */
+    override fun hashCode(): Int = value.hashCode()
 
+    /**
+     * Returns the string representation of this timestamp, exactly like a data class would.
+     */
     override fun toString(): String = "Timestamp(value=$value)"
 
     override fun deepCopy(retainUuid: Boolean): Timestamp = Timestamp(value).deepCopyTransient(retainUuid)
@@ -141,9 +150,19 @@ class Timestamp(value: String = "1970-01-01 00:00:00.000") : State() {
  * Serializes [Timestamp]s to and from [String]s.
  */
 class TimestampConverter : Converter<Timestamp>() {
-    override fun fromString(value: String): Timestamp = Timestamp(value)
-
+    /**
+     * Serializes the [Timestamp] to a string.
+     *
+     * Works even if the [value] is invalid.
+     */
     override fun toString(value: Timestamp): String = value.value
+
+    /**
+     * Deserializes a [Timestamp] from the given string.
+     *
+     * Works even if the value is not valid for a [Timestamp].
+     */
+    override fun fromString(value: String): Timestamp = Timestamp(value)
 }
 
 

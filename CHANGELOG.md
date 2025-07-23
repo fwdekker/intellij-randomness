@@ -5,7 +5,7 @@
 
 ### Changed
 * UUID schemes can now use a custom range of date-times. ([#566](https://github.com/fwdekker/intellij-randomness/pull/566)) ([#592](https://github.com/fwdekker/intellij-randomness/pull/592))
-* Date-time inputs for date-time schemes and for UUID schemes now support the special `NOW` keyword to use the date and time at the moment at which the scheme is inserted. ([#594](https://github.com/fwdekker/intellij-randomness/pull/594)) ([#596](https://github.com/fwdekker/intellij-randomness/pull/596))
+* Date-time inputs for date-time schemes and UUID schemes now support the special `NOW` keyword to use the date and time at the moment at which the scheme is inserted. ([#594](https://github.com/fwdekker/intellij-randomness/pull/594)) ([#596](https://github.com/fwdekker/intellij-randomness/pull/596))
 * Date-time inputs are now slightly wider, to ensure the entire input is visible while typing.
 * Random arrays can now optionally insert the element indices as well, in a format that is fully customisable. ([#582](https://github.com/fwdekker/intellij-randomness/issues/582)) ([#585](https://github.com/fwdekker/intellij-randomness/pull/585))
 * Input validation is now done on a per-input basis. Validation errors are shown directly alongside the faulty input. This makes it much easier to see what is invalid and how to fix it. ([#588](https://github.com/fwdekker/intellij-randomness/pull/588))
