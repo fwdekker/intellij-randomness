@@ -1,0 +1,172 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>DownButton</title>
+    <link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<link href="../../../../styles/multimodule.css" rel="Stylesheet">
+<link href="../../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../../index.html">
+                            Randomness
+                    </a>
+            </div>
+            <div class="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;-randomness/com.fwdekker.randomness.template/-template-j-tree/-down-button/index.html&quot;}"><div class="versions-dropdown">
+  <div class="versions-dropdown-button">v3.3.5</div>
+  <div class="versions-dropdown-data"><a href="../../../../../../-randomness/com.fwdekker.randomness.template/-template-j-tree/-down-button/index.html">v3.3.6</a><a href="index.html">v3.3.5</a><a href="../../../../../v3.3.4/-randomness/com.fwdekker.randomness.template/-template-j-tree/-down-button/index.html">v3.3.4</a><a href="../../../../../v3.3.3/-randomness/com.fwdekker.randomness.template/-template-j-tree/-down-button/index.html">v3.3.3</a><a href="../../../../../v3.3.2/-randomness/com.fwdekker.randomness.template/-template-j-tree/-down-button/index.html">v3.3.2</a><a href="../../../../../v3.3.1/-randomness/com.fwdekker.randomness.template/-template-j-tree/-down-button/index.html">v3.3.1</a><a href="../../../../../v3.3.0/-randomness/com.fwdekker.randomness.template/-template-j-tree/-down-button/index.html">v3.3.0</a><a href="../../../../../v3.2.0/-randomness/com.fwdekker.randomness.template/-template-j-tree/-down-button/index.html">v3.2.0</a><a href="../../../../../v3.1.0/-randomness/com.fwdekker.randomness.template/-template-j-tree/-down-button/index.html">v3.1.0</a><a href="../../../../../../not-found-version.html?v=v3.0.0">v3.0.0</a><a href="../../../../../../not-found-version.html?v=v2.7.7">v2.7.7</a><a href="../../../../../../not-found-version.html?v=v2.7.6">v2.7.6</a><a href="../../../../../../not-found-version.html?v=v2.7.5">v2.7.5</a><a href="../../../../../../not-found-version.html?v=v2.7.4">v2.7.4</a><a href="../../../../../../not-found-version.html?v=v2.7.3">v2.7.3</a><a href="../../../../../../not-found-version.html?v=v2.7.2">v2.7.2</a><a href="../../../../../../not-found-version.html?v=v2.7.1">v2.7.1</a><a href="../../../../../../not-found-version.html?v=v2.7.0">v2.7.0</a><a href="../../../../../../not-found-version.html?v=v2.6.1">v2.6.1</a><a href="../../../../../../not-found-version.html?v=v2.6.0">v2.6.0</a><a href="../../../../../../not-found-version.html?v=v2.5.1">v2.5.1</a><a href="../../../../../../not-found-version.html?v=v2.5.0">v2.5.0</a><a href="../../../../../../not-found-version.html?v=v2.4.1">v2.4.1</a><a href="../../../../../../not-found-version.html?v=v2.4.0">v2.4.0</a><a href="../../../../../../not-found-version.html?v=v2.3.0">v2.3.0</a><a href="../../../../../../not-found-version.html?v=v2.2.0">v2.2.0</a><a href="../../../../../../not-found-version.html?v=v2.1.0">v2.1.0</a><a href="../../../../../../not-found-version.html?v=v2.0.0">v2.0.0</a><a href="../../../../../../not-found-version.html?v=v1.6.1">v1.6.1</a><a href="../../../../../../not-found-version.html?v=v1.6.0">v1.6.0</a><a href="../../../../../../not-found-version.html?v=v1.5.2">v1.5.2</a><a href="../../../../../../not-found-version.html?v=v1.5.1">v1.5.1</a><a href="../../../../../../not-found-version.html?v=v1.5.0">v1.5.0</a><a href="../../../../../../not-found-version.html?v=v1.4.0">v1.4.0</a><a href="../../../../../../not-found-version.html?v=v1.3.2">v1.3.2</a><a href="../../../../../../not-found-version.html?v=v1.3.1">v1.3.1</a><a href="../../../../../../not-found-version.html?v=v1.3.0">v1.3.0</a><a href="../../../../../../not-found-version.html?v=v1.2.0">v1.2.0</a><a href="../../../../../../not-found-version.html?v=v1.1.0">v1.1.0</a><a href="../../../../../../not-found-version.html?v=v1.0.1">v1.0.1</a><a href="../../../../../../not-found-version.html?v=v1.0.0">v1.0.0</a></div>
+</div>
+</dokka-template-command>            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="Randomness::com.fwdekker.randomness.template/TemplateJTree.DownButton///PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../../../index.html">Randomness</a><span class="delimiter">/</span><a href="../../index.html">com.fwdekker.randomness.template</a><span class="delimiter">/</span><a href="../index.html">TemplateJTree</a><span class="delimiter">/</span><span class="current">DownButton</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Down</span><wbr><span><span>Button</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">inner </span><span class="token keyword">class </span><a href="index.html">DownButton</a> : <span data-unresolved-link="com.intellij.ui/AnActionButton///PointingToDeclaration/">AnActionButton</span><span class="clearfix"><span class="floating-right">(<a href="https://github.com/FWDekker/intellij-randomness/tree/v3.3.5/src/main/kotlin/com/fwdekker/randomness/template/TemplateJTree.kt#L651">source</a>)</span></span></div><p class="paragraph">Moves the selected scheme down by one position in the tree.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="517738193%2FConstructors%2F769193423" anchor-label="DownButton" id="517738193%2FConstructors%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-down-button.html"><span>Down</span><wbr><span><span>Button</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="517738193%2FConstructors%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="270735521%2FFunctions%2F769193423" anchor-label="actionPerformed" id="270735521%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="action-performed.html"><span>action</span><wbr><span><span>Performed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="270735521%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="action-performed.html"><span class="token function">actionPerformed</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">event<span class="token operator">: </span><span data-unresolved-link="com.intellij.openapi.actionSystem/AnActionEvent///PointingToDeclaration/">AnActionEvent</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Moves the selected scheme down by one position in the tree.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="215727350%2FFunctions%2F769193423" anchor-label="getActionUpdateThread" id="215727350%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-action-update-thread.html"><span>get</span><wbr><span>Action</span><wbr><span>Update</span><wbr><span><span>Thread</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="215727350%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-action-update-thread.html"><span class="token function">getActionUpdateThread</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.openapi.actionSystem/ActionUpdateThread///PointingToDeclaration/">ActionUpdateThread</span></div><div class="brief "><p class="paragraph">Specifies the thread in which <span data-unresolved-link="com.fwdekker.randomness.template/TemplateJTree.DownButton/update/#com.intellij.openapi.actionSystem.AnActionEvent/PointingToDeclaration/">update</span> is invoked.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-22156455%2FFunctions%2F769193423" anchor-label="getShortcut" id="-22156455%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-shortcut.html"><span>get</span><wbr><span><span>Shortcut</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-22156455%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-shortcut.html"><span class="token function">getShortcut</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span><span class="token annotation builtin">@</span><span data-unresolved-link="org.jetbrains.annotations/NotNull///PointingToDeclaration/"><span class="token annotation builtin">NotNull</span></span>&nbsp;</span><span data-unresolved-link="com.intellij.openapi.actionSystem/ShortcutSet///PointingToDeclaration/">ShortcutSet</span></div><div class="brief "><p class="paragraph">Returns the shortcut for this action.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1475627198%2FFunctions%2F769193423" anchor-label="isEnabled" id="1475627198%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-enabled.html"><span>is</span><wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1475627198%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="is-enabled.html"><span class="token function">isEnabled</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Returns <code class="lang-kotlin">true</code> if and only if this action is enabled.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Florine&nbsp;W.&nbsp;Dekker</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
