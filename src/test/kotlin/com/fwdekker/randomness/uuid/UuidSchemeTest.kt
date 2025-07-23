@@ -11,6 +11,8 @@ import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
+import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
+import io.kotest.matchers.comparables.shouldBeLessThanOrEqualTo
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.beLowerCase
@@ -32,6 +34,23 @@ object UuidSchemeTest : FunSpec({
             withData(UuidScheme.SUPPORTED_VERSIONS) { version ->
                 UUID.fromString(UuidScheme(version = version).generateStrings()[0]).version() shouldBe version
             }
+        }
+
+        test("uses the specified date-time") {
+            val timestamp = Timestamp("2023-04-07 08:36:29")
+            val scheme = UuidScheme(version = 1, minDateTime = timestamp, maxDateTime = timestamp)
+
+            UUID.fromString(scheme.generateStrings()[0]).epochMilli() shouldBe timestamp.epochMilli
+        }
+
+        test("generates in the specified date-time range") {
+            val min = Timestamp("1851-11-25 22:38:21")
+            val max = Timestamp("3244-03-22 19:10:44")
+            val scheme = UuidScheme(version = 1, minDateTime = min, maxDateTime = max)
+
+            val epoch = UUID.fromString(scheme.generateStrings()[0]).epochMilli()
+            epoch shouldBeGreaterThanOrEqualTo min.epochMilli!!
+            epoch shouldBeLessThanOrEqualTo max.epochMilli!!
         }
 
         test("returns uppercase string") {
@@ -86,3 +105,9 @@ object UuidSchemeTest : FunSpec({
 
     include(stateSerializationTestFactory { UuidScheme() })
 })
+
+/**
+ * Converts the UUID timestamp (expressed in 100ns increments since 1582-10-15) to its UNIX millisecond epoch
+ * representation.
+ */
+private fun UUID.epochMilli(): Long = timestamp() / 10_000L - 12_219_292_800_000L

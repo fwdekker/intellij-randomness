@@ -14,6 +14,7 @@ import com.fwdekker.randomness.CapitalizationMode
 import com.fwdekker.randomness.Icons
 import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.Timestamp
+import com.fwdekker.randomness.TimestampConverter
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
@@ -31,19 +32,19 @@ import kotlin.random.asJavaRandom
  * Contains settings for generating random UUIDs.
  *
  * @property version The version of UUIDs to generate.
- * @property isUppercase `true` if and only if all letters are uppercase.
- * @property addDashes `true` if and only if the UUID should have dashes in it.
  * @property minDateTime The minimum date-time to use, applicable only for time-based UUIDs.
  * @property maxDateTime The maximum date-time to use, applicable only for time-based UUIDs.
+ * @property isUppercase `true` if and only if all letters are uppercase.
+ * @property addDashes `true` if and only if the UUID should have dashes in it.
  * @property affixDecorator The affixation to apply to the generated values.
  * @property arrayDecorator Settings that determine whether the output should be an array of values.
  */
 data class UuidScheme(
     var version: Int = DEFAULT_VERSION,
+    @OptionTag(converter = TimestampConverter::class) var minDateTime: Timestamp = DEFAULT_MIN_DATE_TIME,
+    @OptionTag(converter = TimestampConverter::class) var maxDateTime: Timestamp = DEFAULT_MAX_DATE_TIME,
     var isUppercase: Boolean = DEFAULT_IS_UPPERCASE,
     var addDashes: Boolean = DEFAULT_ADD_DASHES,
-    @OptionTag var minDateTime: Timestamp = DEFAULT_MIN_DATE_TIME,
-    @OptionTag var maxDateTime: Timestamp = DEFAULT_MAX_DATE_TIME,
     @OptionTag val affixDecorator: AffixDecorator = DEFAULT_AFFIX_DECORATOR,
     @OptionTag val arrayDecorator: ArrayDecorator = DEFAULT_ARRAY_DECORATOR,
 ) : Scheme() {

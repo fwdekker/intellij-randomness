@@ -12,7 +12,6 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.Attachment
 import com.intellij.openapi.diagnostic.ExceptionWithAttachments
-import com.intellij.util.addOptionTag
 import com.intellij.util.xmlb.XmlSerializer.deserialize
 import com.intellij.util.xmlb.XmlSerializer.serialize
 import com.intellij.util.xmlb.annotations.OptionTag
@@ -166,10 +165,7 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
                                 (scheme.getMultiProperty("minDateTime") + scheme.getMultiProperty("maxDateTime"))
                                     .forEach { prop ->
                                         val oldValue = prop.getAttributeValue("value").toLong()
-                                        prop.removeAttribute("value")
-
-                                        val newValue = Timestamp.fromEpochMilli(oldValue).value
-                                        prop.addContent(Element("Timestamp").apply { addOptionTag("value", newValue) })
+                                        prop.setAttribute("value", Timestamp.fromEpochMilli(oldValue).value)
                                     }
                             }
                     },
