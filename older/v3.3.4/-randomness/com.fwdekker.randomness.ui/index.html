@@ -1,0 +1,607 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>com.fwdekker.randomness.ui</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<link href="../../styles/multimodule.css" rel="Stylesheet">
+<link href="../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../index.html">
+                            Randomness
+                    </a>
+            </div>
+            <div class="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;-randomness/com.fwdekker.randomness.ui/index.html&quot;}"><div class="versions-dropdown">
+  <div class="versions-dropdown-button">v3.3.4</div>
+  <div class="versions-dropdown-data"><a href="../../../../-randomness/com.fwdekker.randomness.ui/index.html">v3.3.5</a><a href="index.html">v3.3.4</a><a href="../../../v3.3.3/-randomness/com.fwdekker.randomness.ui/index.html">v3.3.3</a><a href="../../../v3.3.2/-randomness/com.fwdekker.randomness.ui/index.html">v3.3.2</a><a href="../../../v3.3.1/-randomness/com.fwdekker.randomness.ui/index.html">v3.3.1</a><a href="../../../v3.3.0/-randomness/com.fwdekker.randomness.ui/index.html">v3.3.0</a><a href="../../../v3.2.0/-randomness/com.fwdekker.randomness.ui/index.html">v3.2.0</a><a href="../../../v3.1.0/-randomness/com.fwdekker.randomness.ui/index.html">v3.1.0</a><a href="../../../../not-found-version.html?v=v3.0.0">v3.0.0</a><a href="../../../../not-found-version.html?v=v2.7.7">v2.7.7</a><a href="../../../../not-found-version.html?v=v2.7.6">v2.7.6</a><a href="../../../../not-found-version.html?v=v2.7.5">v2.7.5</a><a href="../../../../not-found-version.html?v=v2.7.4">v2.7.4</a><a href="../../../../not-found-version.html?v=v2.7.3">v2.7.3</a><a href="../../../../not-found-version.html?v=v2.7.2">v2.7.2</a><a href="../../../../not-found-version.html?v=v2.7.1">v2.7.1</a><a href="../../../../not-found-version.html?v=v2.7.0">v2.7.0</a><a href="../../../../not-found-version.html?v=v2.6.1">v2.6.1</a><a href="../../../../not-found-version.html?v=v2.6.0">v2.6.0</a><a href="../../../../not-found-version.html?v=v2.5.1">v2.5.1</a><a href="../../../../not-found-version.html?v=v2.5.0">v2.5.0</a><a href="../../../../not-found-version.html?v=v2.4.1">v2.4.1</a><a href="../../../../not-found-version.html?v=v2.4.0">v2.4.0</a><a href="../../../../not-found-version.html?v=v2.3.0">v2.3.0</a><a href="../../../../not-found-version.html?v=v2.2.0">v2.2.0</a><a href="../../../../not-found-version.html?v=v2.1.0">v2.1.0</a><a href="../../../../not-found-version.html?v=v2.0.0">v2.0.0</a><a href="../../../../not-found-version.html?v=v1.6.1">v1.6.1</a><a href="../../../../not-found-version.html?v=v1.6.0">v1.6.0</a><a href="../../../../not-found-version.html?v=v1.5.2">v1.5.2</a><a href="../../../../not-found-version.html?v=v1.5.1">v1.5.1</a><a href="../../../../not-found-version.html?v=v1.5.0">v1.5.0</a><a href="../../../../not-found-version.html?v=v1.4.0">v1.4.0</a><a href="../../../../not-found-version.html?v=v1.3.2">v1.3.2</a><a href="../../../../not-found-version.html?v=v1.3.1">v1.3.1</a><a href="../../../../not-found-version.html?v=v1.3.0">v1.3.0</a><a href="../../../../not-found-version.html?v=v1.2.0">v1.2.0</a><a href="../../../../not-found-version.html?v=v1.1.0">v1.1.0</a><a href="../../../../not-found-version.html?v=v1.0.1">v1.0.1</a><a href="../../../../not-found-version.html?v=v1.0.0">v1.0.0</a></div>
+</div>
+</dokka-template-command>            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="package" id="content" pageids="Randomness::com.fwdekker.randomness.ui////PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../index.html">Randomness</a><span class="delimiter">/</span><span class="current">com.fwdekker.randomness.ui</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><p class="paragraph">Custom or specialized UI components.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="106542515%2FClasslikes%2F769193423" anchor-label="JDateTimeField" id="106542515%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-j-date-time-field/index.html"><span>JDate</span><wbr><span>Time</span><wbr><span><span>Field</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="106542515%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-j-date-time-field/index.html">JDateTimeField</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>default<span class="token operator">: </span><span data-unresolved-link="java.time/LocalDateTime///PointingToDeclaration/">LocalDateTime</span><span class="token operator"> = </span>LocalDateTime.now()</span></span><span class="token punctuation">)</span> : <span data-unresolved-link="javax.swing/JFormattedTextField///PointingToDeclaration/">JFormattedTextField</span></div><div class="brief "><p class="paragraph">A <span data-unresolved-link="javax.swing/JFormattedTextField///PointingToDeclaration/">JFormattedTextField</span> for <span data-unresolved-link="java.time/LocalDateTime///PointingToDeclaration/">LocalDateTime</span>s, supporting virtually any date-time format as its input.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="337712874%2FClasslikes%2F769193423" anchor-label="JDoubleSpinner" id="337712874%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-j-double-spinner/index.html"><span>JDouble</span><wbr><span><span>Spinner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="337712874%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-j-double-spinner/index.html">JDoubleSpinner</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/Double///PointingToDeclaration/">Double</span><span class="token operator"> = </span><span class="token constant">0.0</span><span class="token punctuation">, </span></span><span class="parameter ">minValue<span class="token operator">: </span><span data-unresolved-link="kotlin/Double///PointingToDeclaration/">Double</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">maxValue<span class="token operator">: </span><span data-unresolved-link="kotlin/Double///PointingToDeclaration/">Double</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">stepSize<span class="token operator">: </span><span data-unresolved-link="kotlin/Double///PointingToDeclaration/">Double</span><span class="token operator"> = </span><span class="token constant">0.1</span></span></span><span class="token punctuation">)</span> : <a href="-j-number-spinner/index.html">JNumberSpinner</a><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/Double///PointingToDeclaration/">Double</span><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">A <a href="-j-number-spinner/index.html">JNumberSpinner</a> for doubles.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1991595738%2FClasslikes%2F769193423" anchor-label="JIntSpinner" id="-1991595738%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-j-int-spinner/index.html"><span>JInt</span><wbr><span><span>Spinner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1991595738%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-j-int-spinner/index.html">JIntSpinner</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">minValue<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator"> = </span>Int.MIN_VALUE<span class="token punctuation">, </span></span><span class="parameter ">maxValue<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator"> = </span>Int.MAX_VALUE<span class="token punctuation">, </span></span><span class="parameter ">stepSize<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator"> = </span><span class="token constant">1</span></span></span><span class="token punctuation">)</span> : <a href="-j-number-spinner/index.html">JNumberSpinner</a><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">A <a href="-j-number-spinner/index.html">JNumberSpinner</a> for integers.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1926246869%2FClasslikes%2F769193423" anchor-label="JLongSpinner" id="1926246869%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-j-long-spinner/index.html"><span>JLong</span><wbr><span><span>Spinner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1926246869%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-j-long-spinner/index.html">JLongSpinner</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">minValue<span class="token operator">: </span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator"> = </span>Long.MIN_VALUE<span class="token punctuation">, </span></span><span class="parameter ">maxValue<span class="token operator">: </span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator"> = </span>Long.MAX_VALUE<span class="token punctuation">, </span></span><span class="parameter ">stepSize<span class="token operator">: </span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator"> = </span><span class="token constant">1</span></span></span><span class="token punctuation">)</span> : <a href="-j-number-spinner/index.html">JNumberSpinner</a><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">A <a href="-j-number-spinner/index.html">JNumberSpinner</a> for longs.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1835439714%2FClasslikes%2F769193423" anchor-label="JNumberSpinner" id="1835439714%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-j-number-spinner/index.html"><span>JNumber</span><wbr><span><span>Spinner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1835439714%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-j-number-spinner/index.html">JNumberSpinner</a><span class="token operator">&lt;</span><a href="-j-number-spinner/index.html">T</a><span class="token operator"> : </span><span data-unresolved-link="kotlin/Number///PointingToDeclaration/">Number</span>, <span data-unresolved-link="kotlin/Comparable///PointingToDeclaration/">Comparable</span><span class="token operator">&lt;</span><a href="-j-number-spinner/index.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="-j-number-spinner/index.html">T</a><span class="token punctuation">, </span></span><span class="parameter ">minValue<span class="token operator">: </span><a href="-j-number-spinner/index.html">T</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">maxValue<span class="token operator">: </span><a href="-j-number-spinner/index.html">T</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">stepSize<span class="token operator">: </span><a href="-j-number-spinner/index.html">T</a></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="javax.swing/JSpinner///PointingToDeclaration/">JSpinner</span></div><div class="brief "><p class="paragraph">An abstract <span data-unresolved-link="javax.swing/JSpinner///PointingToDeclaration/">JSpinner</span> for numbers that contains common logic for its subclasses.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-264103299%2FClasslikes%2F769193423" anchor-label="MaxLengthDocumentFilter" id="-264103299%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-max-length-document-filter/index.html"><span>Max</span><wbr><span>Length</span><wbr><span>Document</span><wbr><span><span>Filter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-264103299%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="-max-length-document-filter/index.html">MaxLengthDocumentFilter</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>maxLength<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="javax.swing.text/DocumentFilter///PointingToDeclaration/">DocumentFilter</span></div><div class="brief "><p class="paragraph">A document filter that ensures the document always contains at most <a href="-max-length-document-filter/max-length.html">maxLength</a> characters.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1563318269%2FClasslikes%2F769193423" anchor-label="MinMaxLengthDocumentFilter" id="1563318269%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-min-max-length-document-filter/index.html"><span>Min</span><wbr><span>Max</span><wbr><span>Length</span><wbr><span>Document</span><wbr><span><span>Filter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1563318269%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-min-max-length-document-filter/index.html">MinMaxLengthDocumentFilter</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>minLength<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">maxLength<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span> : <a href="-max-length-document-filter/index.html">MaxLengthDocumentFilter</a></div><div class="brief "><p class="paragraph">Similar to <a href="-max-length-document-filter/index.html">MaxLengthDocumentFilter</a>, but the length cannot go below <a href="-min-max-length-document-filter/min-length.html">minLength</a> either.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-82425844%2FClasslikes%2F769193423" anchor-label="PreviewPanel" id="-82425844%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-preview-panel/index.html"><span>Preview</span><wbr><span><span>Panel</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-82425844%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-preview-panel/index.html">PreviewPanel</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>getScheme<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../com.fwdekker.randomness/-scheme/index.html">Scheme</a></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="com.intellij.openapi/Disposable///PointingToDeclaration/">Disposable</span></div><div class="brief "><p class="paragraph">A panel that shows a preview of the values generated by a scheme.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1937909063%2FClasslikes%2F769193423" anchor-label="SimpleDocumentListener" id="1937909063%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-simple-document-listener/index.html"><span>Simple</span><wbr><span>Document</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1937909063%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-simple-document-listener/index.html">SimpleDocumentListener</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>listener<span class="token operator">: </span><span class="token punctuation">(</span><span data-unresolved-link="javax.swing.event/DocumentEvent///PointingToDeclaration/">DocumentEvent</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="javax.swing.event/DocumentListener///PointingToDeclaration/">DocumentListener</span></div><div class="brief "><p class="paragraph">A <span data-unresolved-link="javax.swing.event/DocumentListener///PointingToDeclaration/">DocumentListener</span> that invokes <a href="-simple-document-listener/listener.html">listener</a> on each event.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-575660593%2FClasslikes%2F769193423" anchor-label="SimpleJBDocumentListener" id="-575660593%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-simple-j-b-document-listener/index.html"><span>Simple</span><wbr><span>JBDocument</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-575660593%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-simple-j-b-document-listener/index.html">SimpleJBDocumentListener</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>listener<span class="token operator">: </span><span class="token punctuation">(</span><span data-unresolved-link="com.intellij.openapi.editor.event/DocumentEvent///PointingToDeclaration/">DocumentEvent</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="com.intellij.openapi.editor.event/DocumentListener///PointingToDeclaration/">DocumentListener</span></div><div class="brief "><p class="paragraph">A <span data-unresolved-link="com.intellij.openapi.editor.event/DocumentListener///PointingToDeclaration/">JBDocumentListener</span> that invokes <a href="-simple-j-b-document-listener/listener.html">listener</a> on each event.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1506430093%2FClasslikes%2F769193423" anchor-label="SimpleTreeModelListener" id="1506430093%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-simple-tree-model-listener/index.html"><span>Simple</span><wbr><span>Tree</span><wbr><span>Model</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1506430093%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-simple-tree-model-listener/index.html">SimpleTreeModelListener</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>listener<span class="token operator">: </span><span class="token punctuation">(</span><span data-unresolved-link="javax.swing.event/TreeModelEvent///PointingToDeclaration/">TreeModelEvent</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="javax.swing.event/TreeModelListener///PointingToDeclaration/">TreeModelListener</span></div><div class="brief "><p class="paragraph">A <span data-unresolved-link="javax.swing.event/TreeModelListener///PointingToDeclaration/">TreeModelListener</span> that invokes <a href="-simple-tree-model-listener/listener.html">listener</a> on each event.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1237540609%2FClasslikes%2F769193423" anchor-label="UIConstants" id="-1237540609%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-u-i-constants/index.html"><span><span>UIConstants</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1237540609%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-u-i-constants/index.html">UIConstants</a></div><div class="brief "><p class="paragraph">Holds constants for UI elements.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1832778693%2FFunctions%2F769193423" anchor-label="addChangeListenerTo" id="-1832778693%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-change-listener-to.html"><span>add</span><wbr><span>Change</span><wbr><span>Listener</span><wbr><span><span>To</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1832778693%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="add-change-listener-to.html"><span class="token function">addChangeListenerTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>components<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="token punctuation">, </span></span><span class="parameter ">listener<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds <a href="add-change-listener-to.html">listener</a> to each of <a href="add-change-listener-to.html">components</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-101731567%2FFunctions%2F769193423" anchor-label="bindCurrentText" id="-101731567%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bind-current-text.html"><span>bind</span><wbr><span>Current</span><wbr><span><span>Text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-101731567%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><span data-unresolved-link="com.intellij.openapi.ui/ComboBox///PointingToDeclaration/">ComboBox</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="bind-current-text.html"><span class="token function">bindCurrentText</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">property<span class="token operator">: </span><span data-unresolved-link="kotlin.reflect/KMutableProperty0///PointingToDeclaration/">KMutableProperty0</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><span data-unresolved-link="com.intellij.openapi.ui/ComboBox///PointingToDeclaration/">ComboBox</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Binds the current possibly-non-committed value of the <span data-unresolved-link="com.intellij.openapi.ui/ComboBox///PointingToDeclaration/">ComboBox</span> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> to <a href="bind-current-text.html">property</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-419138502%2FFunctions%2F769193423" anchor-label="bindDateTimeLongValue" id="-419138502%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bind-date-time-long-value.html"><span>bind</span><wbr><span>Date</span><wbr><span>Time</span><wbr><span>Long</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-419138502%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="-j-date-time-field/index.html">JDateTimeField</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="bind-date-time-long-value.html"><span class="token function">bindDateTimeLongValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">property<span class="token operator">: </span><span data-unresolved-link="kotlin.reflect/KMutableProperty0///PointingToDeclaration/">KMutableProperty0</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="-j-date-time-field/index.html">JDateTimeField</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Binds the <span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span> representation of the value of the <a href="-j-date-time-field/index.html">JDateTimeField</a> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> to <a href="bind-date-time-long-value.html">property</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1205533826%2FFunctions%2F769193423" anchor-label="bindIntValue" id="1205533826%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bind-int-value.html"><span>bind</span><wbr><span>Int</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1205533826%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="-j-int-spinner/index.html">JIntSpinner</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="bind-int-value.html"><span class="token function">bindIntValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">property<span class="token operator">: </span><span data-unresolved-link="kotlin.reflect/KMutableProperty0///PointingToDeclaration/">KMutableProperty0</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="-j-int-spinner/index.html">JIntSpinner</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Binds the value of the <a href="-j-int-spinner/index.html">JIntSpinner</a> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> to <a href="bind-int-value.html">property</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="262427677%2FFunctions%2F769193423" anchor-label="bindLongValue" id="262427677%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bind-long-value.html"><span>bind</span><wbr><span>Long</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="262427677%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="-j-long-spinner/index.html">JLongSpinner</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="bind-long-value.html"><span class="token function">bindLongValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">property<span class="token operator">: </span><span data-unresolved-link="kotlin.reflect/KMutableProperty0///PointingToDeclaration/">KMutableProperty0</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="-j-long-spinner/index.html">JLongSpinner</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Binds the value of the <a href="-j-long-spinner/index.html">JLongSpinner</a> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> to <a href="bind-long-value.html">property</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1243906785%2FFunctions%2F769193423" anchor-label="bindSpinners" id="-1243906785%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bind-spinners.html"><span>bind</span><wbr><span><span>Spinners</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1243906785%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="bind-spinners.html"><span class="token function">bindSpinners</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">min<span class="token operator">: </span><span data-unresolved-link="javax.swing/JSpinner///PointingToDeclaration/">JSpinner</span><span class="token punctuation">, </span></span><span class="parameter ">max<span class="token operator">: </span><span data-unresolved-link="javax.swing/JSpinner///PointingToDeclaration/">JSpinner</span><span class="token punctuation">, </span></span><span class="parameter ">maxRange<span class="token operator">: </span><span data-unresolved-link="kotlin/Double///PointingToDeclaration/">Double</span><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Binds two spinners that form a range of valid values together.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-402974322%2FFunctions%2F769193423" anchor-label="decoratedRowRange" id="-402974322%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="decorated-row-range.html"><span>decorated</span><wbr><span>Row</span><wbr><span><span>Range</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-402974322%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Panel///PointingToDeclaration/">Panel</span><span class="token punctuation">.</span><a href="decorated-row-range.html"><span class="token function">decoratedRowRange</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">title<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">indent<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token punctuation">, </span></span><span class="parameter ">init<span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Panel///PointingToDeclaration/">Panel</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/RowsRange///PointingToDeclaration/">RowsRange</span></div><div class="brief "><p class="paragraph">Creates and returns a range of rows from <a href="decorated-row-range.html">init</a>, headed by an underlined <a href="decorated-row-range.html">title</a> if and only if <a href="decorated-row-range.html">title</a> is not <code class="lang-kotlin">null</code>, and indented if and only if <a href="decorated-row-range.html">indent</a> is <code class="lang-kotlin">true</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-84807839%2FFunctions%2F769193423" anchor-label="disableMnemonic" id="-84807839%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="disable-mnemonic.html"><span>disable</span><wbr><span><span>Mnemonic</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-84807839%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="disable-mnemonic.html">T</a><span class="token operator"> : </span><span data-unresolved-link="javax.swing/AbstractButton///PointingToDeclaration/">AbstractButton</span><span class="token operator">&gt; </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="disable-mnemonic.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="disable-mnemonic.html"><span class="token function">disableMnemonic</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="disable-mnemonic.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Removes the mnemonic from the <span data-unresolved-link="javax.swing/AbstractButton/text/#/PointingToDeclaration/">AbstractButton.text</span> of the <span data-unresolved-link="javax.swing/AbstractButton///PointingToDeclaration/">AbstractButton</span> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="836899535%2FFunctions%2F769193423" anchor-label="hasValue" id="836899535%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-value.html"><span>has</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="836899535%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-j-int-spinner/index.html">JIntSpinner</a><span class="token punctuation">.</span><a href="has-value.html"><span class="token function">hasValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">lambda<span class="token operator">: </span><span class="token punctuation">(</span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.layout/ComponentPredicate///PointingToDeclaration/">ComponentPredicate</span></div><div class="brief "><p class="paragraph">Returns a <span data-unresolved-link="com.intellij.ui.layout/ComponentPredicate///PointingToDeclaration/">ComponentPredicate</span> that evaluates <a href="has-value.html">lambda</a> on the value of this <a href="-j-int-spinner/index.html">JIntSpinner</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-16699947%2FFunctions%2F769193423" anchor-label="isEditable" id="-16699947%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-editable.html"><span>is</span><wbr><span><span>Editable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-16699947%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="is-editable.html">E</a><span class="token operator">&gt; </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><span data-unresolved-link="com.intellij.openapi.ui/ComboBox///PointingToDeclaration/">ComboBox</span><span class="token operator">&lt;</span><a href="is-editable.html">E</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="is-editable.html"><span class="token function">isEditable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">editable<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><span data-unresolved-link="com.intellij.openapi.ui/ComboBox///PointingToDeclaration/">ComboBox</span><span class="token operator">&lt;</span><a href="is-editable.html">E</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Sets whether the editor of the <span data-unresolved-link="com.intellij.openapi.ui/ComboBox///PointingToDeclaration/">ComboBox</span> in this <a href="is-editable.html">Cell</a>, and returns <code class="lang-kotlin">this</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1315528791%2FFunctions%2F769193423" anchor-label="loadMnemonic" id="1315528791%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="load-mnemonic.html"><span>load</span><wbr><span><span>Mnemonic</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1315528791%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="load-mnemonic.html">T</a><span class="token operator"> : </span><span data-unresolved-link="javax.swing/AbstractButton///PointingToDeclaration/">AbstractButton</span><span class="token operator">&gt; </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="load-mnemonic.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="load-mnemonic.html"><span class="token function">loadMnemonic</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="load-mnemonic.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Loads the mnemonic for the <span data-unresolved-link="javax.swing/AbstractButton///PointingToDeclaration/">AbstractButton</span> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> based on its <span data-unresolved-link="javax.swing/AbstractButton/text/#/PointingToDeclaration/">AbstractButton.text</span>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1838250799%2FFunctions%2F769193423" anchor-label="ofConstant" id="-1838250799%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="of-constant.html"><span>of</span><wbr><span><span>Constant</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1838250799%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.intellij.ui.layout/ComponentPredicate.Companion///PointingToDeclaration/">ComponentPredicate.Companion</span><span class="token punctuation">.</span><a href="of-constant.html"><span class="token function">ofConstant</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">constant<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.layout/ComponentPredicate///PointingToDeclaration/">ComponentPredicate</span></div><div class="brief "><p class="paragraph">Returns a predicate that always returns <a href="of-constant.html">constant</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-950289730%2FFunctions%2F769193423" anchor-label="onResetThis" id="-950289730%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-reset-this.html"><span>on</span><wbr><span>Reset</span><wbr><span><span>This</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-950289730%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="on-reset-this.html">T</a><span class="token operator"> : </span><span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span><span class="token operator">&gt; </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="on-reset-this.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="on-reset-this.html"><span class="token function">onResetThis</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><span class="token punctuation">(</span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="on-reset-this.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="on-reset-this.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Registers the <a href="on-reset-this.html">callback</a> to be invoked on the <span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> when the dialog is reset, and returns <code class="lang-kotlin">this</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-331535273%2FFunctions%2F769193423" anchor-label="setFixedHeight" id="-331535273%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-fixed-height.html"><span>set</span><wbr><span>Fixed</span><wbr><span><span>Height</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-331535273%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span><span class="token punctuation">.</span><a href="set-fixed-height.html"><span class="token function">setFixedHeight</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">height<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Forces this <span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span> to be <a href="set-fixed-height.html">height</a> pixels high.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2108797752%2FFunctions%2F769193423" anchor-label="setFixedWidth" id="-2108797752%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-fixed-width.html"><span>set</span><wbr><span>Fixed</span><wbr><span><span>Width</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2108797752%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span><span class="token punctuation">.</span><a href="set-fixed-width.html"><span class="token function">setFixedWidth</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">width<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Forces this <span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span> to be <a href="set-fixed-width.html">width</a> pixels wide.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1266357077%2FFunctions%2F769193423" anchor-label="toEpochMilli" id="1266357077%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-epoch-milli.html"><span>to</span><wbr><span>Epoch</span><wbr><span><span>Milli</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1266357077%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="java.time/LocalDateTime///PointingToDeclaration/">LocalDateTime</span><span class="token punctuation">.</span><a href="to-epoch-milli.html"><span class="token function">toEpochMilli</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span></div><div class="brief "><p class="paragraph">Converts this <span data-unresolved-link="java.time/LocalDateTime///PointingToDeclaration/">LocalDateTime</span> to an epoch millisecond timestamp.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1335368525%2FFunctions%2F769193423" anchor-label="toLocalDateTime" id="1335368525%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-local-date-time.html"><span>to</span><wbr><span>Local</span><wbr><span>Date</span><wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1335368525%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token punctuation">.</span><a href="to-local-date-time.html"><span class="token function">toLocalDateTime</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.time/LocalDateTime///PointingToDeclaration/">LocalDateTime</span></div><div class="brief "><p class="paragraph">Converts an epoch millisecond timestamp to a <span data-unresolved-link="java.time/LocalDateTime///PointingToDeclaration/">LocalDateTime</span> object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1408374015%2FFunctions%2F769193423" anchor-label="withDocument" id="1408374015%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="with-document.html"><span>with</span><wbr><span><span>Document</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1408374015%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="with-document.html">T</a><span class="token operator"> : </span><span data-unresolved-link="javax.swing/JTextField///PointingToDeclaration/">JTextField</span><span class="token operator">&gt; </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="with-document.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="with-document.html"><span class="token function">withDocument</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">document<span class="token operator">: </span><span data-unresolved-link="javax.swing.text/Document///PointingToDeclaration/">Document</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="with-document.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Sets the <a href="with-document.html">document</a> of the <span data-unresolved-link="javax.swing/JTextField///PointingToDeclaration/">JTextField</span> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> and returns <code class="lang-kotlin">this</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1487359190%2FFunctions%2F769193423" anchor-label="withFilter" id="1487359190%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="with-filter.html"><span>with</span><wbr><span><span>Filter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1487359190%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="with-filter.html">E</a><span class="token operator">&gt; </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><span data-unresolved-link="com.intellij.openapi.ui/ComboBox///PointingToDeclaration/">ComboBox</span><span class="token operator">&lt;</span><a href="with-filter.html">E</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="with-filter.html"><span class="token function">withFilter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">filter<span class="token operator">: </span><span data-unresolved-link="javax.swing.text/DocumentFilter///PointingToDeclaration/">DocumentFilter</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><span data-unresolved-link="com.intellij.openapi.ui/ComboBox///PointingToDeclaration/">ComboBox</span><span class="token operator">&lt;</span><a href="with-filter.html">E</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Sets the <a href="with-filter.html">filter</a> on the document of the <span data-unresolved-link="com.intellij.openapi.ui/ComboBox///PointingToDeclaration/">ComboBox</span> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span>, and returns <code class="lang-kotlin">this</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-843065419%2FFunctions%2F769193423" anchor-label="withFixedHeight" id="-843065419%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="with-fixed-height.html"><span>with</span><wbr><span>Fixed</span><wbr><span><span>Height</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-843065419%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="with-fixed-height.html">T</a><span class="token operator"> : </span><span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span><span class="token operator">&gt; </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="with-fixed-height.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="with-fixed-height.html"><span class="token function">withFixedHeight</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">height<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="with-fixed-height.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Forces the <span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> to be <a href="with-fixed-height.html">height</a> pixels high, and returns <code class="lang-kotlin">this</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-787691514%2FFunctions%2F769193423" anchor-label="withFixedWidth" id="-787691514%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="with-fixed-width.html"><span>with</span><wbr><span>Fixed</span><wbr><span><span>Width</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-787691514%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="with-fixed-width.html">T</a><span class="token operator"> : </span><span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span><span class="token operator">&gt; </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="with-fixed-width.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="with-fixed-width.html"><span class="token function">withFixedWidth</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">width<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="with-fixed-width.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Forces the <span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> to be <a href="with-fixed-width.html">width</a> pixels wide, and returns <code class="lang-kotlin">this</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1096738357%2FFunctions%2F769193423" anchor-label="withName" id="1096738357%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="with-name.html"><span>with</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1096738357%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="with-name.html">T</a><span class="token operator"> : </span><span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span><span class="token operator">&gt; </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="with-name.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="with-name.html"><span class="token function">withName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span><span class="token operator">&lt;</span><a href="with-name.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Sets the <a href="with-name.html">name</a> of the <span data-unresolved-link="javax.swing/JComponent///PointingToDeclaration/">JComponent</span> in this <span data-unresolved-link="com.intellij.ui.dsl.builder/Cell///PointingToDeclaration/">Cell</span> and returns <code class="lang-kotlin">this</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Florine&nbsp;W.&nbsp;Dekker</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

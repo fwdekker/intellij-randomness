@@ -1,7 +1,6 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:com.fwdekker.randomness.affix////PointingToDeclaration/-randomness/com.fwdekker.randomness.affix/index.html
-$dokka.location:com.fwdekker.randomness.affix//camelConcat/#kotlin.String#kotlin.String/PointingToDeclaration/-randomness/com.fwdekker.randomness.affix/camel-concat.html
 $dokka.location:com.fwdekker.randomness.affix/AffixDecorator.Companion///PointingToDeclaration/-randomness/com.fwdekker.randomness.affix/-affix-decorator/-companion/index.html
 $dokka.location:com.fwdekker.randomness.affix/AffixDecorator.Companion/DEFAULT_DESCRIPTOR/#/PointingToDeclaration/-randomness/com.fwdekker.randomness.affix/-affix-decorator/-companion/-d-e-f-a-u-l-t_-d-e-s-c-r-i-p-t-o-r.html
 $dokka.location:com.fwdekker.randomness.affix/AffixDecorator.Companion/DEFAULT_ENABLED/#/PointingToDeclaration/-randomness/com.fwdekker.randomness.affix/-affix-decorator/-companion/-d-e-f-a-u-l-t_-e-n-a-b-l-e-d.html
@@ -633,6 +632,9 @@ $dokka.location:com.fwdekker.randomness.word/WordSchemeEditor/WordSchemeEditor/#
 $dokka.location:com.fwdekker.randomness.word/WordSchemeEditor/rootComponent/#/PointingToDeclaration/-randomness/com.fwdekker.randomness.word/-word-scheme-editor/root-component.html
 $dokka.location:com.fwdekker.randomness////PointingToDeclaration/-randomness/com.fwdekker.randomness/index.html
 $dokka.location:com.fwdekker.randomness//addProperty/org.jdom.Element#kotlin.String#kotlin.String?/PointingToDeclaration/-randomness/com.fwdekker.randomness/add-property.html
+$dokka.location:com.fwdekker.randomness//camelPlus/kotlin.String#kotlin.String/PointingToDeclaration/-randomness/com.fwdekker.randomness/camel-plus.html
+$dokka.location:com.fwdekker.randomness//getDecorators/org.jdom.Element#/PointingToDeclaration/-randomness/com.fwdekker.randomness/get-decorators.html
+$dokka.location:com.fwdekker.randomness//getMod/kotlin.collections.List[TypeParam(bounds=[kotlin.Any?])]#kotlin.Int/PointingToDeclaration/-randomness/com.fwdekker.randomness/get-mod.html
 $dokka.location:com.fwdekker.randomness//getMultiProperty/org.jdom.Element#kotlin.String/PointingToDeclaration/-randomness/com.fwdekker.randomness/get-multi-property.html
 $dokka.location:com.fwdekker.randomness//getProperty/org.jdom.Element#kotlin.String/PointingToDeclaration/-randomness/com.fwdekker.randomness/get-property.html
 $dokka.location:com.fwdekker.randomness//getPropertyByPath/org.jdom.Element#kotlin.Array[kotlin.String?]/PointingToDeclaration/-randomness/com.fwdekker.randomness/get-property-by-path.html
@@ -640,14 +642,17 @@ $dokka.location:com.fwdekker.randomness//getPropertyValue/org.jdom.Element#kotli
 $dokka.location:com.fwdekker.randomness//getSchemes/org.jdom.Element#/PointingToDeclaration/-randomness/com.fwdekker.randomness/get-schemes.html
 $dokka.location:com.fwdekker.randomness//getTemplateList/org.jdom.Element#/PointingToDeclaration/-randomness/com.fwdekker.randomness/get-template-list.html
 $dokka.location:com.fwdekker.randomness//getTemplates/org.jdom.Element#/PointingToDeclaration/-randomness/com.fwdekker.randomness/get-templates.html
+$dokka.location:com.fwdekker.randomness//lowerCaseFirst/kotlin.String#/PointingToDeclaration/-randomness/com.fwdekker.randomness/lower-case-first.html
 $dokka.location:com.fwdekker.randomness//matchesFormat/kotlin.String#kotlin.String#kotlin.Array[kotlin.String]/PointingToDeclaration/-randomness/com.fwdekker.randomness/matches-format.html
 $dokka.location:com.fwdekker.randomness//registerModifierActions/com.intellij.ui.popup.list.ListPopupImpl#kotlin.Function1[java.awt.event.ActionEvent?,kotlin.String]/PointingToDeclaration/-randomness/com.fwdekker.randomness/register-modifier-actions.html
+$dokka.location:com.fwdekker.randomness//removeProperty/org.jdom.Element#kotlin.String/PointingToDeclaration/-randomness/com.fwdekker.randomness/remove-property.html
 $dokka.location:com.fwdekker.randomness//renameProperty/org.jdom.Element#kotlin.String#kotlin.String/PointingToDeclaration/-randomness/com.fwdekker.randomness/rename-property.html
 $dokka.location:com.fwdekker.randomness//setAll/kotlin.collections.MutableCollection[TypeParam(bounds=[kotlin.Any?])]#kotlin.collections.Collection[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/-randomness/com.fwdekker.randomness/set-all.html
 $dokka.location:com.fwdekker.randomness//setPropertyValue/org.jdom.Element#kotlin.String#kotlin.String/PointingToDeclaration/-randomness/com.fwdekker.randomness/set-property-value.html
 $dokka.location:com.fwdekker.randomness//times/kotlin.collections.List[kotlin.collections.List[TypeParam(bounds=[kotlin.Any?])]]#kotlin.collections.List[kotlin.collections.List[TypeParam(bounds=[kotlin.Any?])]]/PointingToDeclaration/-randomness/com.fwdekker.randomness/times.html
 $dokka.location:com.fwdekker.randomness//toRandomCase/kotlin.Char#kotlin.random.Random/PointingToDeclaration/-randomness/com.fwdekker.randomness/to-random-case.html
 $dokka.location:com.fwdekker.randomness//toSentenceCase/kotlin.String#/PointingToDeclaration/-randomness/com.fwdekker.randomness/to-sentence-case.html
+$dokka.location:com.fwdekker.randomness//upperCaseFirst/kotlin.String#/PointingToDeclaration/-randomness/com.fwdekker.randomness/upper-case-first.html
 $dokka.location:com.fwdekker.randomness/Box///PointingToDeclaration/-randomness/com.fwdekker.randomness/-box/index.html
 $dokka.location:com.fwdekker.randomness/Box/Box/#kotlin.Function0[TypeParam(bounds=[kotlin.Any])]#TypeParam(bounds=[kotlin.Any])?/PointingToDeclaration/-randomness/com.fwdekker.randomness/-box/-box.html
 $dokka.location:com.fwdekker.randomness/Box/generator/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-box/generator.html
@@ -775,12 +780,13 @@ $dokka.location:com.fwdekker.randomness/OverlayedIcon/validate/#/PointingToDecla
 $dokka.location:com.fwdekker.randomness/OverlayedIcon/validated/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-overlayed-icon/validated.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings.Companion///PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/-companion/index.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings.Companion/CURRENT_VERSION/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/-companion/-c-u-r-r-e-n-t_-v-e-r-s-i-o-n.html
+$dokka.location:com.fwdekker.randomness/PersistentSettings.Companion/UPGRADES/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/-companion/-u-p-g-r-a-d-e-s.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings///PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/index.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings/PersistentSettings/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/-persistent-settings.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings/getState/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/get-state.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings/loadState/#org.jdom.Element/PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/load-state.html
 $dokka.location:com.fwdekker.randomness/PersistentSettings/settings/#/PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/settings.html
-$dokka.location:com.fwdekker.randomness/PersistentSettings/upgrade/#org.jdom.Element/PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/upgrade.html
+$dokka.location:com.fwdekker.randomness/PersistentSettings/upgrade/#org.jdom.Element#java.lang.module.ModuleDescriptor.Version/PointingToDeclaration/-randomness/com.fwdekker.randomness/-persistent-settings/upgrade.html
 $dokka.location:com.fwdekker.randomness/PopupAction.Companion///PointingToDeclaration/-randomness/com.fwdekker.randomness/-popup-action/-companion/index.html
 $dokka.location:com.fwdekker.randomness/PopupAction.Companion/indexToMnemonic/#kotlin.Int/PointingToDeclaration/-randomness/com.fwdekker.randomness/-popup-action/-companion/index-to-mnemonic.html
 $dokka.location:com.fwdekker.randomness/PopupAction.PopupGroup///PointingToDeclaration/-randomness/com.fwdekker.randomness/-popup-action/-popup-group/index.html
