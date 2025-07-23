@@ -1,0 +1,330 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ArrayDecorator</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<link href="../../../styles/multimodule.css" rel="Stylesheet">
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Randomness
+                    </a>
+            </div>
+            <div class="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;-randomness/com.fwdekker.randomness.array/-array-decorator/index.html&quot;}"><div class="versions-dropdown">
+  <div class="versions-dropdown-button">v3.3.3</div>
+  <div class="versions-dropdown-data"><a href="../../../../../-randomness/com.fwdekker.randomness.array/-array-decorator/index.html">v3.3.4</a><a href="index.html">v3.3.3</a><a href="../../../../v3.3.2/-randomness/com.fwdekker.randomness.array/-array-decorator/index.html">v3.3.2</a><a href="../../../../v3.3.1/-randomness/com.fwdekker.randomness.array/-array-decorator/index.html">v3.3.1</a><a href="../../../../v3.3.0/-randomness/com.fwdekker.randomness.array/-array-decorator/index.html">v3.3.0</a><a href="../../../../v3.2.0/-randomness/com.fwdekker.randomness.array/-array-decorator/index.html">v3.2.0</a><a href="../../../../v3.1.0/-randomness/com.fwdekker.randomness.array/-array-decorator/index.html">v3.1.0</a><a href="../../../../../not-found-version.html?v=v3.0.0">v3.0.0</a><a href="../../../../../not-found-version.html?v=v2.7.7">v2.7.7</a><a href="../../../../../not-found-version.html?v=v2.7.6">v2.7.6</a><a href="../../../../../not-found-version.html?v=v2.7.5">v2.7.5</a><a href="../../../../../not-found-version.html?v=v2.7.4">v2.7.4</a><a href="../../../../../not-found-version.html?v=v2.7.3">v2.7.3</a><a href="../../../../../not-found-version.html?v=v2.7.2">v2.7.2</a><a href="../../../../../not-found-version.html?v=v2.7.1">v2.7.1</a><a href="../../../../../not-found-version.html?v=v2.7.0">v2.7.0</a><a href="../../../../../not-found-version.html?v=v2.6.1">v2.6.1</a><a href="../../../../../not-found-version.html?v=v2.6.0">v2.6.0</a><a href="../../../../../not-found-version.html?v=v2.5.1">v2.5.1</a><a href="../../../../../not-found-version.html?v=v2.5.0">v2.5.0</a><a href="../../../../../not-found-version.html?v=v2.4.1">v2.4.1</a><a href="../../../../../not-found-version.html?v=v2.4.0">v2.4.0</a><a href="../../../../../not-found-version.html?v=v2.3.0">v2.3.0</a><a href="../../../../../not-found-version.html?v=v2.2.0">v2.2.0</a><a href="../../../../../not-found-version.html?v=v2.1.0">v2.1.0</a><a href="../../../../../not-found-version.html?v=v2.0.0">v2.0.0</a><a href="../../../../../not-found-version.html?v=v1.6.1">v1.6.1</a><a href="../../../../../not-found-version.html?v=v1.6.0">v1.6.0</a><a href="../../../../../not-found-version.html?v=v1.5.2">v1.5.2</a><a href="../../../../../not-found-version.html?v=v1.5.1">v1.5.1</a><a href="../../../../../not-found-version.html?v=v1.5.0">v1.5.0</a><a href="../../../../../not-found-version.html?v=v1.4.0">v1.4.0</a><a href="../../../../../not-found-version.html?v=v1.3.2">v1.3.2</a><a href="../../../../../not-found-version.html?v=v1.3.1">v1.3.1</a><a href="../../../../../not-found-version.html?v=v1.3.0">v1.3.0</a><a href="../../../../../not-found-version.html?v=v1.2.0">v1.2.0</a><a href="../../../../../not-found-version.html?v=v1.1.0">v1.1.0</a><a href="../../../../../not-found-version.html?v=v1.0.1">v1.0.1</a><a href="../../../../../not-found-version.html?v=v1.0.0">v1.0.0</a></div>
+</div>
+</dokka-template-command>            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="Randomness::com.fwdekker.randomness.array/ArrayDecorator///PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../../index.html">Randomness</a><span class="delimiter">/</span><a href="../index.html">com.fwdekker.randomness.array</a><span class="delimiter">/</span><span class="current">ArrayDecorator</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Array</span><wbr><span><span>Decorator</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">ArrayDecorator</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">var </span>enabled<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator"> = </span>DEFAULT_ENABLED<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>minCount<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator"> = </span>DEFAULT_MIN_COUNT<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>maxCount<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator"> = </span>DEFAULT_MAX_COUNT<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>separatorEnabled<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator"> = </span>DEFAULT_SEPARATOR_ENABLED<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>separator<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator"> = </span>DEFAULT_SEPARATOR<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>affixDecorator<span class="token operator">: </span><a href="../../com.fwdekker.randomness.affix/-affix-decorator/index.html">AffixDecorator</a><span class="token operator"> = </span>DEFAULT_AFFIX_DECORATOR</span></span><span class="token punctuation">)</span> : <a href="../../com.fwdekker.randomness/-decorator-scheme/index.html">DecoratorScheme</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/FWDekker/intellij-randomness/tree/v3.3.3/src/main/kotlin/com/fwdekker/randomness/array/ArrayDecorator.kt#L20">source</a>)</span></span></div><p class="paragraph">The user-configurable collection of schemes applicable to generating arrays.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-1568761834%2FConstructors%2F769193423" anchor-label="ArrayDecorator" id="-1568761834%2FConstructors%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-array-decorator.html"><span>Array</span><wbr><span><span>Decorator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1568761834%2FConstructors%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">enabled<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator"> = </span>DEFAULT_ENABLED<span class="token punctuation">, </span></span><span class="parameter ">minCount<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator"> = </span>DEFAULT_MIN_COUNT<span class="token punctuation">, </span></span><span class="parameter ">maxCount<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator"> = </span>DEFAULT_MAX_COUNT<span class="token punctuation">, </span></span><span class="parameter ">separatorEnabled<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator"> = </span>DEFAULT_SEPARATOR_ENABLED<span class="token punctuation">, </span></span><span class="parameter ">separator<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator"> = </span>DEFAULT_SEPARATOR<span class="token punctuation">, </span></span><span class="parameter ">affixDecorator<span class="token operator">: </span><a href="../../com.fwdekker.randomness.affix/-affix-decorator/index.html">AffixDecorator</a><span class="token operator"> = </span>DEFAULT_AFFIX_DECORATOR</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-1195416855%2FClasslikes%2F769193423" anchor-label="Companion" id="-1195416855%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1195416855%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div><div class="brief "><p class="paragraph">Holds constants.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-6265075%2FProperties%2F769193423" anchor-label="affixDecorator" id="-6265075%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="affix-decorator.html"><span>affix</span><wbr><span><span>Decorator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-6265075%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="affix-decorator.html">affixDecorator</a><span class="token operator">: </span><a href="../../com.fwdekker.randomness.affix/-affix-decorator/index.html">AffixDecorator</a></div><div class="brief "><p class="paragraph">The affixation to apply to the generated values.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1895620064%2FProperties%2F769193423" anchor-label="decorators" id="1895620064%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="decorators.html"><span><span>decorators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1895620064%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="decorators.html">decorators</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><a href="../../com.fwdekker.randomness.affix/-affix-decorator/index.html">AffixDecorator</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Additional logic that determines how strings are generated.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="882882241%2FProperties%2F769193423" anchor-label="enabled" id="882882241%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="enabled.html"><span><span>enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="882882241%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="enabled.html">enabled</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">true</code> if and only if arrays should be generated instead of singular values.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1072785503%2FProperties%2F769193423" anchor-label="icon" id="1072785503%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="icon.html"><span><span>icon</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1072785503%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="icon.html">icon</a><span class="token operator">: </span><a href="../../com.fwdekker.randomness/-overlayed-icon/index.html">OverlayedIcon</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The icon signifying this scheme in its entirety, or <code class="lang-kotlin">null</code> if it does not have an icon.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2068605643%2FProperties%2F769193423" anchor-label="isEnabled" id="2068605643%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-enabled.html"><span>is</span><wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2068605643%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">protected </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="is-enabled.html">isEnabled</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Whether this decorator is enabled, or whether any invocation of <span data-unresolved-link="com.fwdekker.randomness.array/ArrayDecorator/generateStrings/#kotlin.Int/PointingToDeclaration/">generateStrings</span> should be passed directly to the <span data-unresolved-link="com.fwdekker.randomness.array/ArrayDecorator/generator/#/PointingToDeclaration/">generator</span>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1426210189%2FProperties%2F769193423" anchor-label="maxCount" id="1426210189%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="max-count.html"><span>max</span><wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1426210189%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="max-count.html">maxCount</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></div><div class="brief "><p class="paragraph">The maximum number of elements to generate, inclusive.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-982750725%2FProperties%2F769193423" anchor-label="minCount" id="-982750725%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="min-count.html"><span>min</span><wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-982750725%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="min-count.html">minCount</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></div><div class="brief "><p class="paragraph">The minimum number of elements to generate, inclusive.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1449606515%2FProperties%2F769193423" anchor-label="name" id="-1449606515%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="name.html"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1449606515%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="name.html">name</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">The name of the scheme as shown to the user.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1933358499%2FProperties%2F769193423" anchor-label="separator" id="-1933358499%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="separator.html"><span><span>separator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1933358499%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="separator.html">separator</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">The string to place between generated elements.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-914735844%2FProperties%2F769193423" anchor-label="separatorEnabled" id="-914735844%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="separator-enabled.html"><span>separator</span><wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-914735844%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="separator-enabled.html">separatorEnabled</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Whether to separate elements using <a href="separator.html">separator</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1694261028%2FFunctions%2F769193423" anchor-label="deepCopy" id="-1694261028%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="deep-copy.html"><span>deep</span><wbr><span><span>Copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1694261028%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="deep-copy.html"><span class="token function">deepCopy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">retainUuid<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ArrayDecorator</a></div><div class="brief "><p class="paragraph">Returns a deep copy, retaining the <span data-unresolved-link="com.fwdekker.randomness.array/ArrayDecorator/uuid/#/PointingToDeclaration/">uuid</span> if and only if <a href="deep-copy.html">retainUuid</a> is <code class="lang-kotlin">true</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="501616343%2FFunctions%2F769193423" anchor-label="doValidate" id="501616343%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="do-validate.html"><span>do</span><wbr><span><span>Validate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="501616343%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="do-validate.html"><span class="token function">doValidate</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Validates the state, and indicates whether and why it is invalid.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-85509379%2FFunctions%2F769193423" anchor-label="generateUndecoratedStrings" id="-85509379%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="generate-undecorated-strings.html"><span>generate</span><wbr><span>Undecorated</span><wbr><span><span>Strings</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-85509379%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">protected </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="generate-undecorated-strings.html"><span class="token function">generateUndecoratedStrings</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">count<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Generates <a href="generate-undecorated-strings.html">count</a> random data according to the settings in this scheme, ignoring settings from decorators.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Florine&nbsp;W.&nbsp;Dekker</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
