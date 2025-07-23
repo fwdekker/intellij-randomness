@@ -1,14 +1,23 @@
 # Changelog
-## 9.9.9-unreleased
-Delete this sentence. And improve these logs.
+## 3.4.0 -- 2025-07-21
+### Breaking changes
+* Minimum IDE version has been increased to 2024.2. This helps avert compatibility issues with future versions. ([#553](https://github.com/fwdekker/intellij-randomness/issues/553)) ([#554](https://github.com/fwdekker/intellij-randomness/issues/554)) ([#555](https://github.com/fwdekker/intellij-randomness/issues/555)) ([#556](https://github.com/fwdekker/intellij-randomness/issues/556)) ([#562](https://github.com/fwdekker/intellij-randomness/pull/562))
 
 ### Changed
+* UUID schemes can now use a custom range of date-times. ([#566](https://github.com/fwdekker/intellij-randomness/pull/566)) ([#592](https://github.com/fwdekker/intellij-randomness/pull/592))
+* Date-time inputs for date-time schemes and for UUID schemes now support the special `NOW` keyword to use the date and time at the moment at which the scheme is inserted. ([#594](https://github.com/fwdekker/intellij-randomness/pull/594)) ([#596](https://github.com/fwdekker/intellij-randomness/pull/596))
 * Date-time inputs are now slightly wider, to ensure the entire input is visible while typing.
-* Invalid date-time inputs are now not thrown away in favour of the old input. Instead, the invalid input is kept, and a warning is shown. This way, when you make a mistake, you can just correct it instead of having to try it again.
-* Entering the settings of a template from the popup will now automatically jump to that template's first scheme, since that's what you're most likely looking for anyway.
+* Random arrays can now optionally insert the element indices as well, in a format that is fully customisable. ([#582](https://github.com/fwdekker/intellij-randomness/issues/582)) ([#585](https://github.com/fwdekker/intellij-randomness/pull/585))
+* Input validation is now done on a per-input basis. Validation errors are shown directly alongside the faulty input. This makes it much easier to see what is invalid and how to fix it. ([#588](https://github.com/fwdekker/intellij-randomness/pull/588))
+* All icons are now rendered using IntelliJ's internal icon classes. This improves icon performance, caching, accessibility, and compatibility. ([#565](https://github.com/fwdekker/intellij-randomness/pull/565))
+* After opening the settings window from the Randomness popup, the selected template's first scheme is now shown instead of the template itself. ([#571](https://github.com/fwdekker/intellij-randomness/pull/571)) ([#576](https://github.com/fwdekker/intellij-randomness/pull/576))
+* Bug reports of exceptions while parsing settings now attach the user's settings file to the bug report. The user can choose to exclude their settings file in the dialog through which the bug report is sent. The goal of this feature is to help debug [#R41](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/41). ([#586](https://github.com/fwdekker/intellij-randomness/pull/586))
+* The Randomness release procedure has been semi-automated. ([#516](https://github.com/fwdekker/intellij-randomness/pull/516)) ([#593](https://github.com/fwdekker/intellij-randomness/pull/593))
 
 ### Fixed
-* Pressing <kbd>Enter</kbd> while writing a date-time without losing focus first now correctly saves the newly entered date-time; and validates it if required.
+* In date-time schemes, invalid date-time inputs are now not thrown away in favour of the old input. Instead, the invalid input is kept and a warning is shown. This way, when you make a mistake, you can just correct it instead of having to type it all over again. ([#569](https://github.com/fwdekker/intellij-randomness/pull/569)) ([#573](https://github.com/fwdekker/intellij-randomness/pull/573))
+* In decimal schemes, the default value for "Surround with" is now `@f` instead of `f@`. ([#595](https://github.com/fwdekker/intellij-randomness/pull/595)) ([#597](https://github.com/fwdekker/intellij-randomness/pull/597))
+* In word schemes, the custom word list no longer contains raw HTML in the dropdown menu. ([#589](https://github.com/fwdekker/intellij-randomness/pull/589)) ([#590](https://github.com/fwdekker/intellij-randomness/pull/590)) ([#597](https://github.com/fwdekker/intellij-randomness/pull/597))
 
 
 ## 3.3.6 -- 2025-02-15
@@ -39,6 +48,9 @@ Delete this sentence. And improve these logs.
 
 
 ## 3.3.2 -- 2024-09-28
+### Breaking changes
+* Minimum IDE version has been increased to 2023.3.
+
 ### Added
 * Added even more debug info for future reports relating to issue [#R1](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/1).
 
@@ -80,6 +92,9 @@ Delete this sentence. And improve these logs.
 
 
 ## 3.1.0 -- 2023-12-08
+### Breaking changes
+* Minimum IDE version has been increased to 2023.1.
+
 ### Added
 * Added ability to generate non-matching strings.
   ([#447](https://github.com/FWDekker/intellij-randomness/issues/447))
@@ -88,15 +103,15 @@ Delete this sentence. And improve these logs.
 * When inserting arrays at multiple carets, the number of elements per array is now independently chosen for each array.
   ([#450](https://github.com/FWDekker/intellij-randomness/issues/450))
 
-### Deprecated
-* Minimum IDE version has been increased to 2023.1.
-
 
 ## 3.0.0 -- 2023-11-17
 This release brings a major overhaul of how data is generated, allowing you to create your own data types such as IP
 addresses or entire JSON objects.
 At the same time, it remains just as easy to generate plain numbers.
 Check the plugin description for more details and animated usage examples.
+
+### Breaking changes
+* Minimum IDE version has been increased to 2022.3.
 
 ### Added
 * Each time you insert an array your demands will be slightly different, so when you insert an array a dialog is shown
@@ -121,9 +136,6 @@ Check the plugin description for more details and animated usage examples.
 * Invalid settings are now easier to correct with more specific error messages.
 * All strings have been internationalised, to make future translation easier.
 * Changelogs are now kept in [keep a changelog](https://keepachangelog.com/en/1.0.0/) style.
-
-### Deprecated
-* Minimum IDE version has been increased to 2022.3.
 
 ### Fixed
 * The settings-only popup is now also shown when editing a read-only file.
