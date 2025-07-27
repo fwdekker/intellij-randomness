@@ -12,10 +12,16 @@
         <!-- Persistence -->
         <applicationService serviceImplementation="com.fwdekker.randomness.PersistentSettings" />
 
-        <!-- Settings window -->
+        <!-- Settings windows -->
+        <!-- TODO: Group these together under a single group, "Randomness" -->
         <applicationConfigurable parentId="tools"
                                  instance="com.fwdekker.randomness.template.TemplateListConfigurable"
                                  id="com.fwdekker.randomness.template.TemplateListConfigurable"
+                                 bundle="randomness"
+                                 key="randomness" />
+        <applicationConfigurable parentId="tools"
+                                 instance="com.fwdekker.randomness.word.WordListListConfigurable"
+                                 id="com.fwdekker.randomness.word.WordListListConfigurable"
                                  bundle="randomness"
                                  key="randomness" />
 

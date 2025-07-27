@@ -172,7 +172,7 @@ class TemplateListEditor(
     /**
      * Returns `true` if and only if the editor contains modifications relative to the last saved state.
      */
-    fun isModified() = originalTemplateList != currentTemplateList
+    fun isModified(): Boolean = originalTemplateList != currentTemplateList
 
     /**
      * Saves the editor's state into [originalTemplateList].
