@@ -54,7 +54,7 @@ internal class TemplateListConfigurable : Configurable, Disposable {
     /**
      * Returns `true` if the settings were modified since they were loaded or they are invalid.
      */
-    override fun isModified() = editor.isModified() || editor.doValidate() != null
+    override fun isModified(): Boolean = editor.isModified() || editor.doValidate() != null
 
     /**
      * Saves the changes in the settings component to the default settings object, and updates template shortcuts.

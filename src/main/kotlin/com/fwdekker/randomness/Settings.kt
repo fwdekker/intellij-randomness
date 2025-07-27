@@ -5,6 +5,7 @@ import com.fwdekker.randomness.PersistentSettings.Companion.UPGRADES
 import com.fwdekker.randomness.template.Template
 import com.fwdekker.randomness.template.TemplateList
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
+import com.fwdekker.randomness.word.WordListList
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.SettingsCategory
@@ -30,6 +31,8 @@ data class Settings(
     var version: String = CURRENT_VERSION.toString(),
     @OptionTag
     val templateList: TemplateList = TemplateList(),
+    @OptionTag
+    val wordListList: WordListList = WordListList(),
 ) : State() {
     override val validators = validators { include(::templateList) }
 
