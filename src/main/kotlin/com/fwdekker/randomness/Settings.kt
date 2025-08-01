@@ -64,14 +64,14 @@ data class Settings(
          * The persistent [Settings] instance.
          */
         val DEFAULT: Settings
-            get() = service<PersistentSettings>().settings
+            get() = service<PersistentSettings>().settings ?: Settings()
     }
 }
 
 /**
  * The persistent [Settings] instance, stored as an [Element] to allow custom conversion for backwards compatibility.
  *
- * @see Settings.DEFAULT Preferred method of accessing the persistent settings instance.
+ * @see Settings.DEFAULT Preferred method of accessing the persistent [Settings] instance.
  */
 @JBState(
     name = "Randomness",
@@ -82,18 +82,22 @@ data class Settings(
     category = SettingsCategory.PLUGINS,
 )
 internal class PersistentSettings : PersistentStateComponent<Element> {
+    private var loadedState: Element? = null
+
     /**
      * The [Settings] that should be persisted.
      *
      * @see Settings.DEFAULT Preferred method of accessing the persistent settings instance.
      */
-    var settings = Settings()
+    // TODO: Document what `null` means
+    var settings: Settings? = Settings()
 
 
     /**
      * Returns the [settings] as an [Element].
      */
-    override fun getState(): Element = serialize(settings)
+    // TODO: Document what it means when `loadedState` is returned
+    override fun getState(): Element? = settings?.let { serialize(it) } ?: loadedState
 
     /**
      * Deserializes [element] into a [Settings] instance, which is then stored in [settings].
@@ -102,9 +106,26 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
     override fun loadState(element: Element) {
         try {
             settings = deserialize(upgrade(element), Settings::class.java)
+            loadedState = null
+            println(">>> loadState: Normal")
+        } catch (_: FutureSettingsException) {
+            settings = null
+            loadedState = element
+            println(">>> loadState: FutureSettingsException")
         } catch (exception: Exception) {
-            throw SettingsException("Failed to parse or upgrade settings file.", exception)
+            settings = null
+            loadedState = element
+            println(">>> loadState: Exception")
+            throw ParseSettingsException("Failed to parse or upgrade settings file.", exception)
         }
+    }
+
+    override fun noStateLoaded() {
+        super.noStateLoaded()
+
+        // TODO: Show dialog to user
+
+        println(">>> noStateLoaded")
     }
 
 
@@ -118,7 +139,8 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
 
         val elementVersion = element.getPropertyValue("version")?.let { Version.parse(it) }
         requireNotNull(elementVersion) { "Missing version number in Randomness settings." }
-        require(elementVersion >= Version.parse("3.0.0")) { "Unsupported Randomness config version $elementVersion." }
+        require(elementVersion >= Version.parse("3.0.0")) { "Unsupported old Randomness config version $elementVersion." }
+        if (elementVersion > Version.parse(CURRENT_VERSION)) throw FutureSettingsException(elementVersion)
 
         if (targetVersion <= elementVersion) return element
 
@@ -175,9 +197,9 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
 
 
 /**
- * Indicates that settings could not be parsed correctly.
+ * Indicates that settings could not be parsed for one reason or another.
  */
-class SettingsException(message: String? = null, cause: Throwable? = null) :
+class ParseSettingsException(message: String? = null, cause: Throwable? = null) :
     IllegalArgumentException(message, cause), ExceptionWithAttachments {
     /**
      * Returns the user's Randomness settings file as an attachment, if it can be read.
@@ -189,3 +211,11 @@ class SettingsException(message: String? = null, cause: Throwable? = null) :
         return arrayOf(Attachment("randomness3.xml", contents))
     }
 }
+
+/**
+ * Indicates that settings could not be parsed correctly because settings from a future release of Randomness were
+ * loaded.
+ *
+ * @property futureVersion The version from the future that Randomness tried to load.
+ */
+class FutureSettingsException(val futureVersion: Version) : Exception()
