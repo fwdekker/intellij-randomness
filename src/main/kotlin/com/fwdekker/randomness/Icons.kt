@@ -106,6 +106,13 @@ object Icons {
  * a function that implements only the [get] function. However, this would result in a loss of metadata. For example,
  * with [TypeIcon], the returned [LayeredIcon] does not tell you what the original [TypeIcon.text] and [TypeIcon.colors]
  * are, making a function such as [TypeIcon.combine] a real mess to implement.
+ *
+ * Before [get] is called, the graphics context for [Icon]s has not been fully initialised yet. Therefore, implementing
+ * classes must not validate or otherwise access [Icon]-related properties before [get] is called. Violating this
+ * principle, for example by checking whether an [Icon] passed in the constructor is square, will result in exceptions;
+ * see for example [#R13](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/13) and
+ * [#R44](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/44). Such validation must be deferred to when
+ * [get] is called for the first time.
  */
 interface IconDescriptor {
     /**
@@ -123,7 +130,6 @@ interface IconDescriptor {
  */
 data class TypeIcon(val base: Icon, val text: String, val colors: List<Color>) : IconDescriptor {
     init {
-        require(base.iconWidth == base.iconHeight) { "Base must be square." }
         require(colors.isNotEmpty()) { "At least one color must be defined." }
     }
 
@@ -132,6 +138,9 @@ data class TypeIcon(val base: Icon, val text: String, val colors: List<Color>) :
         SizedIcon(icon, width, icon.iconHeight)
 
     override fun get(): Icon {
+        // Must not be checked in constructor, see documentation of [IconDescriptor]
+        require(base.iconWidth == base.iconHeight) { "Base must be square." }
+
         val component = object : Component() {}
         val baseSize = base.iconWidth
         val filter = RadialColorReplacementFilter(colors, Pair(baseSize / 2, baseSize / 2))
@@ -184,15 +193,15 @@ data class TypeIcon(val base: Icon, val text: String, val colors: List<Color>) :
  * @property fill A filled-in version of the [base]; must be the exact same size as the [base].
  */
 data class OverlayIcon(val base: Icon, val fill: Icon = base) : IconDescriptor {
-    init {
+    override fun get(): Icon {
+        // Must not be checked in constructor, see documentation of [IconDescriptor]
         require(base.iconWidth == base.iconHeight) { "Base must be square." }
         require(fill.iconWidth == base.iconWidth && fill.iconHeight == base.iconHeight) {
-            "Shadow must have same size as base."
+            "Fill must have same size as base."
         }
+
+        return base
     }
-
-
-    override fun get(): Icon = base
 
 
     /**

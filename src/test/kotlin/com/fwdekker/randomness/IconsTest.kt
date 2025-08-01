@@ -34,10 +34,10 @@ object TypeIconTest : FunSpec({
 
 
     context("constructor") {
-        test("fails if the base is not square") {
+        test("fails if the base is not square (validation deferred to `get()` invocation)") {
             val base = ColorIcon(32, 30, 32, 30, Color.BLACK, false)
 
-            shouldThrow<IllegalArgumentException> { TypeIcon(base, "text", emptyList()) }
+            shouldThrow<IllegalArgumentException> { TypeIcon(base, "text", listOf(Color.ORANGE)).get() }
                 .message shouldBe "Base must be square."
         }
 
@@ -48,7 +48,7 @@ object TypeIconTest : FunSpec({
     }
 
 
-    context("get").config(tags = emptySet()) {
+    context("get").config(tags = setOf(Tags.SWING, Tags.IDEA_FIXTURE)) {
         useEdtViolationDetection(addTags = false)
         useBareIdeaFixture(addTags = false)
 
@@ -137,6 +137,23 @@ object OverlayIconTest : FunSpec({
     tags(Tags.PLAIN)
 
 
+    context("constructor") {
+        test("fails if the base is not square (validation deferred to `get()` invocation)") {
+            val base = ColorIcon(32, 30, 32, 30, Color.BLUE, false)
+
+            shouldThrow<IllegalArgumentException> { OverlayIcon(base, base).get() }
+                .message shouldBe "Base must be square."
+        }
+        test("fails if the fill has different dimensions than the base (validation deferred to `get()` invocation)") {
+            val base = ColorIcon(32, 32, Color.ORANGE, false)
+            val fill = ColorIcon(30, 30, Color.WHITE, false)
+
+            shouldThrow<IllegalArgumentException> { OverlayIcon(base, fill).get() }
+                .message shouldBe "Fill must have same size as base."
+        }
+    }
+
+
     context("get") {
         test("returns the base icon") {
             val base = ColorIcon(32, Color.YELLOW)
@@ -155,7 +172,7 @@ object OverlayedIconTest : FunSpec({
     tags(Tags.PLAIN)
 
 
-    context("validation") {
+    context("constructor") {
         test("fails if there are more overlays than supported") {
             val overlays = listOf(OverlayIcon.ARRAY, OverlayIcon.REFERENCE, OverlayIcon.REPEAT)
 
@@ -190,7 +207,7 @@ object OverlayedIconTest : FunSpec({
     }
 
 
-    context("get").config(tags = emptySet()) {
+    context("get").config(tags = setOf(Tags.SWING, Tags.IDEA_FIXTURE)) {
         useEdtViolationDetection(addTags = false)
         useBareIdeaFixture(addTags = false)
 
