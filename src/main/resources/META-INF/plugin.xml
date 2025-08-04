@@ -25,9 +25,12 @@
 
         <!-- Manages notifications -->
         <notificationGroup displayType="STICKY_BALLOON"
+                           id="com.fwdekker.randomness.settings_errors"
+                           key="notifications.groups.settings_errors.display_name"/>
+        <notificationGroup displayType="STICKY_BALLOON"
                            id="com.fwdekker.randomness.updates"
                            key="notifications.groups.updates.display_name"/>
-        <postStartupActivity implementation="com.fwdekker.randomness.StartupNotifier" id="com.fwdekker.randomness.StartupNotifier"/>
+        <postStartupActivity implementation="com.fwdekker.randomness.StartupNotifier" id="com.fwdekker.randomness.Notifier"/>
     </extensions>
 
     <!-- Non-dynamic actions -->

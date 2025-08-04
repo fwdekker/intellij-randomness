@@ -4,6 +4,7 @@ import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.shouldMatchXml
 import com.intellij.openapi.util.JDOMUtil
+import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
@@ -36,7 +37,24 @@ object PersistentSettingsTest : FunSpec({
     }
 
 
-    context("version upgrades") {
+    context("loadState") {
+        test("does not throw an exception if the stored config's version is newer than is supported") {
+            val stored = JDOMUtil.load("""<component><option name="version" value="9.9.9"/></component>""")
+
+            shouldNotThrow<Exception> { settings.loadState(stored) }
+        }
+
+        test("throws a ParseSettingsException if the XML cannot be deserialized") {
+            val stored = JDOMUtil.load("""<component><option name="version" value="1"/></component>""")
+
+            shouldThrow<ParseSettingsException> { settings.loadState(stored) }
+                .message shouldBe "Failed to parse or upgrade settings file."
+        }
+
+        // TODO: Check if `oldState` is set to non-null value
+    }
+
+    context("upgrade") {
         context("input validation") {
             test("fails if the target version is below v3.0.0") {
                 val stored = JDOMUtil.load("""<component><option name="version" value="3.0.0"/></component>""")
@@ -45,11 +63,18 @@ object PersistentSettingsTest : FunSpec({
                     .message shouldStartWith "Unsupported upgrade target version"
             }
 
-            test("fails if the stored version below v3.0.0") {
+            test("fails if the stored version is below v3.0.0") {
                 val stored = JDOMUtil.load("""<component><option name="version" value="2.0.0"/></component>""")
 
                 shouldThrow<IllegalArgumentException> { settings.upgrade(stored) }
-                    .message shouldStartWith "Unsupported Randomness config version"
+                    .message shouldStartWith "Unsupported old version"
+            }
+
+            test("fails if the stored version is newer than the current version") {
+                val stored = JDOMUtil.load("""<component><option name="version" value="9.9.9"/></component>""")
+
+                shouldThrow<FutureSettingsException> { settings.upgrade(stored) }
+                    .message shouldStartWith "Unsupported future version"
             }
 
             test("fails if the stored version is missing") {
@@ -62,19 +87,19 @@ object PersistentSettingsTest : FunSpec({
 
         context("generic behaviour") {
             test("bumps the version number if the target version is higher than the stored version") {
-                val stored = JDOMUtil.load("""<component><option name="version" value="9.9.8"/></component>""")
-                stored.getPropertyValue("version") shouldBe "9.9.8"
+                val stored = JDOMUtil.load("""<component><option name="version" value="3.1.0"/></component>""")
+                stored.getPropertyValue("version") shouldBe "3.1.0"
 
-                val patched = settings.upgrade(stored, Version.parse("9.9.9"))
-                patched.getPropertyValue("version") shouldBe "9.9.9"
+                val patched = settings.upgrade(stored, Version.parse("3.2.0"))
+                patched.getPropertyValue("version") shouldBe "3.2.0"
             }
 
             test("does not bump the version number if the target version is lower than the stored version") {
-                val stored = JDOMUtil.load("""<component><option name="version" value="9.9.8"/></component>""")
-                stored.getPropertyValue("version") shouldBe "9.9.8"
+                val stored = JDOMUtil.load("""<component><option name="version" value="3.1.0"/></component>""")
+                stored.getPropertyValue("version") shouldBe "3.1.0"
 
-                val patched = settings.upgrade(stored, Version.parse("9.9.7"))
-                patched.getPropertyValue("version") shouldBe "9.9.8"
+                val patched = settings.upgrade(stored, Version.parse("3.0.0"))
+                patched.getPropertyValue("version") shouldBe "3.1.0"
             }
 
             test("applies multiple upgrades in sequence if needed") {
@@ -119,7 +144,7 @@ object PersistentSettingsTest : FunSpec({
                 nameFn = { "v${it.a} to v${it.b} (${it.c})" },
                 row("3.1.0", "3.2.0", "renames `type` to `version` for UUIDs"),
                 row("3.3.4", "3.3.5", "removes `generator` fields"),
-                row("3.3.6", "3.4.0", "patches epochs to `Timestamp` objects"),
+                row("3.3.6", "3.4.0", "patches epochs to timestamp strings"),
             ) { (from, to, _) ->
                 val unpatched = JDOMUtil.load(getTestConfig("/settings-upgrades/v$from-v$to-before.xml"))
 

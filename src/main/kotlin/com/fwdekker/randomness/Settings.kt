@@ -12,6 +12,7 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.Attachment
 import com.intellij.openapi.diagnostic.ExceptionWithAttachments
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.util.xmlb.XmlSerializer.deserialize
 import com.intellij.util.xmlb.XmlSerializer.serialize
 import com.intellij.util.xmlb.annotations.OptionTag
@@ -23,7 +24,7 @@ import com.intellij.openapi.components.State as JBState
 /**
  * Contains references to various [State] objects.
  *
- * @property version The version of Randomness with which these settings were created.
+ * @property version The oldest version of Randomness with which these settings are compatible.
  * @property templateList The template list.
  */
 data class Settings(
@@ -62,6 +63,9 @@ data class Settings(
     companion object {
         /**
          * The persistent [Settings] instance.
+         *
+         * If the user's settings file could not be loaded, this will instead return a default [Settings] object,
+         * changes to which will not be persisted in the settings file.
          */
         val DEFAULT: Settings
             get() = service<PersistentSettings>().settings ?: Settings()
@@ -82,22 +86,31 @@ data class Settings(
     category = SettingsCategory.PLUGINS,
 )
 internal class PersistentSettings : PersistentStateComponent<Element> {
-    private var loadedState: Element? = null
+    /**
+     * Contains the state passed to [loadState] if [loadState] failed to deserialize or upgrade the given state, and
+     * contains `null` otherwise.
+     *
+     * @see getState
+     */
+    private var oldState: Element? = null
 
     /**
-     * The [Settings] that should be persisted.
+     * The [Settings] that should be persisted, or `null` if [loadState] failed to deserialize or upgrade the given
+     * state.
      *
      * @see Settings.DEFAULT Preferred method of accessing the persistent settings instance.
      */
-    // TODO: Document what `null` means
     var settings: Settings? = Settings()
 
 
     /**
      * Returns the [settings] as an [Element].
+     *
+     * If [loadState] succeeded, this returns the serialization of [settings], including any changes made by the user.
+     * However, if [loadState] was not successful, then user changes are truncated, and the original state that was
+     * passed to [loadState] is returned instead.
      */
-    // TODO: Document what it means when `loadedState` is returned
-    override fun getState(): Element? = settings?.let { serialize(it) } ?: loadedState
+    override fun getState(): Element = settings?.let { serialize(it) } ?: oldState!!
 
     /**
      * Deserializes [element] into a [Settings] instance, which is then stored in [settings].
@@ -106,31 +119,33 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
     override fun loadState(element: Element) {
         try {
             settings = deserialize(upgrade(element), Settings::class.java)
-            loadedState = null
-            println(">>> loadState: Normal")
-        } catch (_: FutureSettingsException) {
+            oldState = null
+
+            LOG.debug("Successfully loaded state.")
+        } catch (exception: FutureSettingsException) {
             settings = null
-            loadedState = element
-            println(">>> loadState: FutureSettingsException")
+            oldState = element
+
+            LOG.debug("Failed to load state: FutureSettingsException.")
+            Notifier.showFutureSettingsErrorNotification(exception.version)
         } catch (exception: Exception) {
             settings = null
-            loadedState = element
-            println(">>> loadState: Exception")
+            oldState = element
+
+            LOG.debug("Failed to load state: Exception.", exception)
+            Notifier.showParseSettingsErrorNotification()
             throw ParseSettingsException("Failed to parse or upgrade settings file.", exception)
         }
     }
 
-    override fun noStateLoaded() {
-        super.noStateLoaded()
-
-        // TODO: Show dialog to user
-
-        println(">>> noStateLoaded")
+    fun resetState() {
+        oldState = null
+        settings = Settings()
     }
 
 
     /**
-     * Upgrades the format of the settings contained in [element] to the format of the [targetVersion].
+     * Upgrades the format of the settings contained in [element] to the newest format compatible with [targetVersion].
      *
      * @see UPGRADES
      */
@@ -138,17 +153,23 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
         require(targetVersion >= Version.parse("3.0.0")) { "Unsupported upgrade target version $targetVersion." }
 
         val elementVersion = element.getPropertyValue("version")?.let { Version.parse(it) }
-        requireNotNull(elementVersion) { "Missing version number in Randomness settings." }
-        require(elementVersion >= Version.parse("3.0.0")) { "Unsupported old Randomness config version $elementVersion." }
-        if (elementVersion > Version.parse(CURRENT_VERSION)) throw FutureSettingsException(elementVersion)
-
-        if (targetVersion <= elementVersion) return element
+        requireNotNull(elementVersion) { "Missing version number in Randomness settings file." }
+        require(elementVersion >= Version.parse("3.0.0")) {
+            "Unsupported old version $elementVersion in Randomness settings file."
+        }
+        if (elementVersion > UPGRADES.keys.max())
+            throw FutureSettingsException(
+                elementVersion,
+                "Unsupported future version $targetVersion in Randomness settings file."
+            )
 
         UPGRADES
             .filterKeys { elementVersion < it && targetVersion >= it }
-            .forEach { (_, it) -> it(element) }
+            .forEach { (version, it) ->
+                it(element)
+                element.setPropertyValue("version", version.toString())
+            }
 
-        element.setPropertyValue("version", targetVersion.toString())
         return element
     }
 
@@ -158,7 +179,14 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
      */
     companion object {
         /**
+         * The logger to log events to.
+         */
+        val LOG: Logger = Logger.getInstance(PersistentSettings::class.java)
+
+        /**
          * The currently-running version of Randomness.
+         *
+         * Update this value *only* if something has changed in the serialization format of the settings.
          */
         const val CURRENT_VERSION: String = "3.4.0" // Synchronize this with the version in `gradle.properties`
 
@@ -216,6 +244,6 @@ class ParseSettingsException(message: String? = null, cause: Throwable? = null) 
  * Indicates that settings could not be parsed correctly because settings from a future release of Randomness were
  * loaded.
  *
- * @property futureVersion The version from the future that Randomness tried to load.
+ * @property version The version from the future that was encountered.
  */
-class FutureSettingsException(val futureVersion: Version) : Exception()
+class FutureSettingsException(val version: Version, message: String? = null) : Exception(message)
