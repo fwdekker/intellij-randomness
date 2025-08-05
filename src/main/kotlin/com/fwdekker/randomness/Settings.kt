@@ -12,7 +12,6 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.Attachment
 import com.intellij.openapi.diagnostic.ExceptionWithAttachments
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.util.xmlb.XmlSerializer.deserialize
 import com.intellij.util.xmlb.XmlSerializer.serialize
 import com.intellij.util.xmlb.annotations.OptionTag
@@ -120,24 +119,23 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
         try {
             settings = deserialize(upgrade(element), Settings::class.java)
             oldState = null
-
-            LOG.debug("Successfully loaded state.")
         } catch (exception: FutureSettingsException) {
             settings = null
             oldState = element
 
-            LOG.debug("Failed to load state: FutureSettingsException.")
-            Notifier.showFutureSettingsErrorNotification(exception.version)
+            Notifier.showFutureSettingsError(exception.version)
         } catch (exception: Exception) {
             settings = null
             oldState = element
 
-            LOG.debug("Failed to load state: Exception.", exception)
-            Notifier.showParseSettingsErrorNotification()
+            Notifier.showParseSettingsError()
             throw ParseSettingsException("Failed to parse or upgrade settings file.", exception)
         }
     }
 
+    /**
+     * Resets all settings, including any embedded invalidity states.
+     */
     fun resetState() {
         oldState = null
         settings = Settings()
@@ -178,11 +176,6 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
      * Holds constants.
      */
     companion object {
-        /**
-         * The logger to log events to.
-         */
-        val LOG: Logger = Logger.getInstance(PersistentSettings::class.java)
-
         /**
          * The currently-running version of Randomness.
          *
@@ -226,6 +219,9 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
 
 /**
  * Indicates that settings could not be parsed for one reason or another.
+ *
+ * @param message the detail message
+ * @param cause the cause
  */
 class ParseSettingsException(message: String? = null, cause: Throwable? = null) :
     IllegalArgumentException(message, cause), ExceptionWithAttachments {
@@ -245,5 +241,6 @@ class ParseSettingsException(message: String? = null, cause: Throwable? = null) 
  * loaded.
  *
  * @property version The version from the future that was encountered.
+ * @param message the detail message
  */
 class FutureSettingsException(val version: Version, message: String? = null) : Exception(message)

@@ -50,8 +50,6 @@ object PersistentSettingsTest : FunSpec({
             shouldThrow<ParseSettingsException> { settings.loadState(stored) }
                 .message shouldBe "Failed to parse or upgrade settings file."
         }
-
-        // TODO: Check if `oldState` is set to non-null value
     }
 
     context("upgrade") {
