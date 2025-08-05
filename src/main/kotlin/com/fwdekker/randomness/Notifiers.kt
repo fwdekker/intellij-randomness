@@ -58,8 +58,10 @@ internal object Notifier {
      * @param project the project in which the error notification should be displayed
      */
     fun showFutureSettingsError(futureVersion: Version, project: Project? = null) {
+        val group = "com.fwdekker.randomness.settings_errors"
         val key = "notifications.settings_error.future_error"
-        showRepairNotification(project, Bundle("$key.title"), Bundle("$key.message", futureVersion.toString()))
+
+        showRepairNotification(project, group, Bundle("$key.title"), Bundle("$key.message", futureVersion.toString()))
     }
 
     /**
@@ -69,8 +71,10 @@ internal object Notifier {
      * @param project the project in which the error notification should be displayed
      */
     fun showParseSettingsError(project: Project? = null) {
+        val group = "com.fwdekker.randomness.settings_errors"
         val key = "notifications.settings_error.parse_error"
-        showRepairNotification(project, Bundle("$key.title"), Bundle("$key.message"))
+
+        showRepairNotification(project, group, Bundle("$key.title"), Bundle("$key.message"))
     }
 }
 

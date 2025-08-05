@@ -368,6 +368,7 @@ private class IssueData(
                 Bundle("reporter.issue.body.version.title") to
                     """
                     - Randomness version: ${pluginDescriptor.version ?: "_Unknown_"}
+                    - Randomness settings version: ${PersistentSettings.CURRENT_VERSION}
                     - IDE version: ${ApplicationInfo.getInstance().apiVersion}
                     - Operating system: ${SystemInfo.OS_NAME}
                     """.trimIndent()

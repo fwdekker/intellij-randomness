@@ -27,7 +27,7 @@ import com.intellij.openapi.components.State as JBState
  * @property templateList The template list.
  */
 data class Settings(
-    var version: String = CURRENT_VERSION,
+    var version: String = CURRENT_VERSION.toString(),
     @OptionTag
     val templateList: TemplateList = TemplateList(),
 ) : State() {
@@ -91,7 +91,7 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
      *
      * @see getState
      */
-    private var oldState: Element? = null
+    private var loadedState: Element? = null
 
     /**
      * The [Settings] that should be persisted, or `null` if [loadState] failed to deserialize or upgrade the given
@@ -103,30 +103,21 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
 
 
     /**
-     * Returns the [settings] as an [Element].
-     *
-     * If [loadState] succeeded, this returns the serialization of [settings], including any changes made by the user.
-     * However, if [loadState] was not successful, then user changes are truncated, and the original state that was
-     * passed to [loadState] is returned instead.
-     */
-    override fun getState(): Element = settings?.let { serialize(it) } ?: oldState!!
-
-    /**
      * Deserializes [element] into a [Settings] instance, which is then stored in [settings].
      */
     @Suppress("detekt:TooGenericExceptionCaught") // All exceptions should be wrapped
     override fun loadState(element: Element) {
         try {
             settings = deserialize(upgrade(element), Settings::class.java)
-            oldState = null
+            loadedState = null
         } catch (exception: FutureSettingsException) {
             settings = null
-            oldState = element
+            loadedState = element
 
             Notifier.showFutureSettingsError(exception.version)
         } catch (exception: Exception) {
             settings = null
-            oldState = element
+            loadedState = element
 
             Notifier.showParseSettingsError()
             throw ParseSettingsException("Failed to parse or upgrade settings file.", exception)
@@ -134,10 +125,21 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
     }
 
     /**
+     * Returns the [settings] as an [Element].
+     *
+     * If [loadState] succeeded, this returns the serialization of [settings], including any changes made by the user.
+     * However, if [loadState] was not successful, then user changes are truncated, and the original state that was
+     * passed to [loadState] is returned instead.
+     *
+     * You should not modify the returned value. To modify settings, use [settings] instead.
+     */
+    override fun getState(): Element = settings?.let { serialize(it) } ?: loadedState!!
+
+    /**
      * Resets all settings, including any embedded invalidity states.
      */
     fun resetState() {
-        oldState = null
+        loadedState = null
         settings = Settings()
     }
 
@@ -147,19 +149,16 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
      *
      * @see UPGRADES
      */
-    internal fun upgrade(element: Element, targetVersion: Version = Version.parse(CURRENT_VERSION)): Element {
-        require(targetVersion >= Version.parse("3.0.0")) { "Unsupported upgrade target version $targetVersion." }
+    internal fun upgrade(element: Element, targetVersion: Version = CURRENT_VERSION): Element {
+        require(targetVersion >= Version.parse("3.0.0")) { "Unsupported old upgrade target version $targetVersion." }
+        require(targetVersion <= CURRENT_VERSION) { "Unsupported future upgrade target version $targetVersion." }
 
         val elementVersion = element.getPropertyValue("version")?.let { Version.parse(it) }
         requireNotNull(elementVersion) { "Missing version number in Randomness settings file." }
         require(elementVersion >= Version.parse("3.0.0")) {
             "Unsupported old version $elementVersion in Randomness settings file."
         }
-        if (elementVersion > UPGRADES.keys.max())
-            throw FutureSettingsException(
-                elementVersion,
-                "Unsupported future version $targetVersion in Randomness settings file."
-            )
+        if (elementVersion > CURRENT_VERSION) throw FutureSettingsException(elementVersion)
 
         UPGRADES
             .filterKeys { elementVersion < it && targetVersion >= it }
@@ -176,13 +175,6 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
      * Holds constants.
      */
     companion object {
-        /**
-         * The currently-running version of Randomness.
-         *
-         * Update this value *only* if something has changed in the serialization format of the settings.
-         */
-        const val CURRENT_VERSION: String = "3.4.0" // Synchronize this with the version in `gradle.properties`
-
         /**
          * The upgrade functions to apply to configuration [Element]s in the [upgrade] method.
          *
@@ -213,6 +205,11 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
                             }
                     },
             )
+
+        /**
+         * The settings format version of Randomness.
+         */
+        val CURRENT_VERSION: Version = UPGRADES.keys.max()
     }
 }
 
@@ -241,6 +238,6 @@ class ParseSettingsException(message: String? = null, cause: Throwable? = null) 
  * loaded.
  *
  * @property version The version from the future that was encountered.
- * @param message the detail message
  */
-class FutureSettingsException(val version: Version, message: String? = null) : Exception(message)
+class FutureSettingsException(val version: Version) :
+    Exception("Unsupported future version $version in Randomness settings file.")

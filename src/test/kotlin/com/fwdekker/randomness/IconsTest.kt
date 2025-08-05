@@ -48,7 +48,7 @@ object TypeIconTest : FunSpec({
     }
 
 
-    context("get").config(tags = emptySet()) {
+    context("get").config(tags = setOf(Tags.SWING, Tags.IDEA_FIXTURE)) {
         useEdtViolationDetection(addTags = false)
         useBareIdeaFixture(addTags = false)
 
@@ -190,7 +190,7 @@ object OverlayedIconTest : FunSpec({
     }
 
 
-    context("get").config(tags = emptySet()) {
+    context("get").config(tags = setOf(Tags.SWING, Tags.IDEA_FIXTURE)) {
         useEdtViolationDetection(addTags = false)
         useBareIdeaFixture(addTags = false)
 

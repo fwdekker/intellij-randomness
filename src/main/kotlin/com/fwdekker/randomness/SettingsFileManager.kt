@@ -1,8 +1,9 @@
 package com.fwdekker.randomness
 
-import com.fwdekker.randomness.SettingsFileManager.backUpConfigTo
+import com.fwdekker.randomness.SettingsFileManager.PERSISTENCE
+import com.fwdekker.randomness.SettingsFileManager.SETTINGS_FILE
+import com.fwdekker.randomness.SettingsFileManager.backUpTo
 import com.fwdekker.randomness.SettingsFileManager.deleteSettings
-import com.fwdekker.randomness.SettingsFileManager.settingsFile
 import com.fwdekker.randomness.ui.SimpleDialogAction
 import com.fwdekker.randomness.ui.SimpleNotificationAction
 import com.fwdekker.randomness.ui.askYesNo
@@ -18,6 +19,7 @@ import com.intellij.openapi.fileChooser.FileSaverDescriptor
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogBuilder
+import com.intellij.openapi.util.JDOMUtil
 import com.intellij.ui.components.JBLabel
 import java.io.File
 import java.io.IOException
@@ -28,29 +30,36 @@ import java.io.IOException
  */
 internal object SettingsFileManager {
     /**
-     * The notification group to which notifications created by this class belong.
-     */
-    private const val GROUP = "com.fwdekker.randomness.settings_errors"
-
-    /**
      * Returns the underlying settings file.
      */
-    private val settingsFile: File get() = PathManager.getOptionsFile("randomness3")
+    internal val SETTINGS_FILE: File get() = PathManager.getOptionsFile("randomness3")
+
+    /**
+     * The persistent settings instance.
+     */
+    internal val PERSISTENCE: PersistentSettings = service<PersistentSettings>()
 
 
     /**
-     * Copies the [settingsFile] to [target].
+     * Copies the [SETTINGS_FILE] to [target].
      */
-    internal fun backUpConfigTo(target: File) {
-        settingsFile.copyTo(target, overwrite = true)
+    internal fun backUpTo(target: File) {
+        SETTINGS_FILE.copyTo(target, overwrite = true)
     }
 
     /**
-     * Deletes the [settingsFile] and resets [PersistentSettings] to its default state.
+     * Restores settings into [PERSISTENCE] from the given [source] file.
+     */
+    internal fun restoreFrom(source: File) {
+        PERSISTENCE.loadState(JDOMUtil.load(source))
+    }
+
+    /**
+     * Deletes the [SETTINGS_FILE] and resets [PersistentSettings] to its default state.
      */
     internal fun deleteSettings() {
-        settingsFile.delete()
-        service<PersistentSettings>().resetState()
+        SETTINGS_FILE.delete()
+        PERSISTENCE.resetState()
     }
 
 
@@ -58,16 +67,17 @@ internal object SettingsFileManager {
      * Shows a notification through which users can troubleshoot issues with their settings file.
      *
      * @param project the project in which the error notification should be displayed
+     * @param group the notification group to use for the notification
      * @param title the title to show in the notification
      * @param message the message to display in the notification
      */
-    fun showRepairNotification(project: Project? = null, title: String, message: String) {
+    fun showRepairNotification(project: Project? = null, group: String, title: String, message: String) {
         val key = "notifications.settings_error.notification"
 
         showNotification(
             project,
             NotificationType.ERROR,
-            GROUP,
+            group,
             title,
             message,
             SimpleNotificationAction(Bundle("$key.open_plugin_manager")) { _, _ ->
@@ -106,7 +116,7 @@ internal object SettingsFileManager {
     }
 
     /**
-     * Runs a dialog-based interface around [backUpConfigTo].
+     * Runs a dialog-based interface around [backUpTo].
      */
     private fun showBackupDialog(project: Project?) {
         val key = "notifications.settings_error.backup"
@@ -118,7 +128,7 @@ internal object SettingsFileManager {
         if (target == null) return
 
         try {
-            backUpConfigTo(target.file)
+            backUpTo(target.file)
             showDialogMessage(project, "", Bundle("$key.success"), General.SuccessDialog)
         } catch (exception: IOException) {
             showDialogMessage(project, "", Bundle("$key.error", exception.message), General.ErrorDialog)
