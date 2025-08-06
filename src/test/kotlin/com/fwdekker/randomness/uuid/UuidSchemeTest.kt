@@ -1,5 +1,7 @@
 package com.fwdekker.randomness.uuid
 
+import com.fasterxml.uuid.impl.UUIDUtil
+import com.fasterxml.uuid.impl.UUIDUtil.extractTimestamp
 import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
@@ -36,21 +38,27 @@ object UuidSchemeTest : FunSpec({
             }
         }
 
-        test("uses the specified date-time") {
-            val timestamp = Timestamp("2023-04-07 08:36:29")
-            val scheme = UuidScheme(version = 1, minDateTime = timestamp, maxDateTime = timestamp)
+        context("uses the specified date-time") {
+            withData(UuidScheme.TIME_BASED_VERSIONS) { version ->
+                withData(listOf("0113-01-28 14:14:42", "2023-04-07 08:36:29", "9840-03-16 06:17:54")) { dateTime ->
+                    val timestamp = Timestamp(dateTime)
+                    val scheme = UuidScheme(version = version, minDateTime = timestamp, maxDateTime = timestamp)
 
-            UUID.fromString(scheme.generateStrings()[0]).epochMilli() shouldBe timestamp.epochMilli
+                    extractTimestamp(UUID.fromString(scheme.generateStrings()[0])) shouldBe timestamp.epochMilli
+                }
+            }
         }
 
-        test("generates in the specified date-time range") {
-            val min = Timestamp("1851-11-25 22:38:21")
-            val max = Timestamp("3244-03-22 19:10:44")
-            val scheme = UuidScheme(version = 1, minDateTime = min, maxDateTime = max)
+        context("generates in the specified date-time range") {
+            withData(UuidScheme.TIME_BASED_VERSIONS) { version ->
+                val min = Timestamp("1851-11-25 22:38:21")
+                val max = Timestamp("3244-03-22 19:10:44")
+                val scheme = UuidScheme(version = version, minDateTime = min, maxDateTime = max)
 
-            val epoch = UUID.fromString(scheme.generateStrings()[0]).epochMilli()
-            epoch shouldBeGreaterThanOrEqualTo min.epochMilli!!
-            epoch shouldBeLessThanOrEqualTo max.epochMilli!!
+                val epoch = extractTimestamp(UUID.fromString(scheme.generateStrings()[0]))
+                epoch shouldBeGreaterThanOrEqualTo min.epochMilli!!
+                epoch shouldBeLessThanOrEqualTo max.epochMilli!!
+            }
         }
 
         test("returns uppercase string") {
@@ -105,9 +113,3 @@ object UuidSchemeTest : FunSpec({
 
     include(stateSerializationTestFactory { UuidScheme() })
 })
-
-/**
- * Converts the UUID timestamp (expressed in 100ns increments since 1582-10-15) to its UNIX millisecond epoch
- * representation.
- */
-private fun UUID.epochMilli(): Long = timestamp() / 10_000L - 12_219_292_800_000L
