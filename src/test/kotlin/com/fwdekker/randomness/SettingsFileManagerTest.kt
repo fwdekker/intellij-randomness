@@ -8,13 +8,17 @@ import com.fwdekker.randomness.testhelpers.serializeToXmlString
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.intellij.configurationStore.StoreUtil
 import com.intellij.openapi.application.ApplicationManager
+import io.kotest.assertions.throwables.shouldNotThrowAny
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.engine.spec.tempfile
 import io.kotest.matchers.file.exist
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
 import io.kotest.matchers.shouldNotBe
 import java.io.File
+import java.io.IOException
 
 
 /**
@@ -47,6 +51,21 @@ object SettingsFileManagerTest : FunSpec({
 
             Settings.from(file) shouldBe oldSettings
         }
+
+        test("overwrites the target if a file already exists there") {
+            file.writeText("shirt banana")
+            SettingsFileManager.SETTINGS_FILE should exist()
+
+            SettingsFileManager.backUpTo(file)
+
+            file.readText() shouldNotBe "shirt banana"
+        }
+
+        test("throws an exception if the internal settings file does not exist") {
+            SettingsFileManager.SETTINGS_FILE.delete()
+
+            shouldThrow<IOException> { SettingsFileManager.backUpTo(file) }
+        }
     }
 
     context("restoreFrom") {
@@ -58,6 +77,13 @@ object SettingsFileManagerTest : FunSpec({
             SettingsFileManager.restoreFrom(file)
 
             Settings.DEFAULT shouldBe settings
+        }
+
+        test("throws an exception if the target file does not exist") {
+            val file = File("/does-not-exist.xml")
+            file shouldNot exist()
+
+            shouldThrow<IOException> { SettingsFileManager.restoreFrom(file) }
         }
     }
 
@@ -85,6 +111,12 @@ object SettingsFileManagerTest : FunSpec({
 
             val newSettings = Settings.DEFAULT
             newSettings shouldNotBe oldSettings
+        }
+
+        test("does not fail if the settings file does not exist") {
+            SettingsFileManager.SETTINGS_FILE shouldNot exist()
+
+            shouldNotThrowAny { SettingsFileManager.deleteSettings() }
         }
     }
 })

@@ -233,6 +233,14 @@ object PersistentSettingsTest : FunSpec({
                 patched.getPropertyValue("version") shouldBe "3.1.0"
             }
 
+            test("bumps the version number only if there is a corresponding format change") {
+                val stored = """<component><option name="version" value="3.1.0"/></component>""".parseXml()
+                stored.getPropertyValue("version") shouldBe "3.1.0"
+
+                val patched = persistent.upgrade(stored, Version.parse("3.2.1"))
+                patched.getPropertyValue("version") shouldBe "3.2.0"
+            }
+
             test("applies multiple upgrades in sequence if needed") {
                 val stored = getTestConfig("/settings-upgrades/v3.1.0-v3.3.5.xml").parseXml()
                 stored.getSchemes().single().run {

@@ -4,7 +4,6 @@ import com.fwdekker.randomness.Settings
 import com.intellij.openapi.util.JDOMUtil
 import com.intellij.util.xmlb.XmlSerializer
 import org.jdom.Element
-import org.jdom.output.XMLOutputter
 import java.io.File
 import java.net.URL
 
@@ -19,7 +18,7 @@ fun Any.serialize(): Element = XmlSerializer.serialize(this)
 /**
  * Returns the XML representation of this serialized [Element] object.
  */
-fun Element.toXmlString(): String = XMLOutputter().outputString(this)
+fun Element.toXmlString(): String = JDOMUtil.write(this)
 
 /**
  * Returns the XML representation of `this` object.

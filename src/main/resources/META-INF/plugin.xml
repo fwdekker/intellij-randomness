@@ -30,7 +30,8 @@
         <notificationGroup displayType="STICKY_BALLOON"
                            id="com.fwdekker.randomness.updates"
                            key="notifications.groups.updates.display_name"/>
-        <postStartupActivity implementation="com.fwdekker.randomness.StartupNotifier" id="com.fwdekker.randomness.Notifier"/>
+        <postStartupActivity implementation="com.fwdekker.randomness.StartupNotifier"
+                             id="com.fwdekker.randomness.StartupNotifier"/>
     </extensions>
 
     <!-- Non-dynamic actions -->
