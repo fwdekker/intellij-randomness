@@ -9,7 +9,8 @@ assignees: FWDekker
 
 ## Documentation
 * [ ] The version number has been bumped according to [Semantic Versioning](https://semver.org/).  
-  Check that all version numbers are updated in all locations. Re-read and re-check all the relevant notes.
+  * [ ] Relevant settings upgrade converters have been implemented and tested.
+* [ ] Dependency version numbers have been updated in multiple locations where appropriate. Re-read and re-check all the relevant notes.
 * [ ] `README.md` is up to date.
   * [ ] The acknowledgements are up to date.
 * [ ] `CHANGELOG.md` is up to date.

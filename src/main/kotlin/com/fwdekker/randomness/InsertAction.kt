@@ -67,7 +67,7 @@ abstract class InsertAction(
 
         configurable?.also {
             SettingsDialogFactory.getInstance()
-                .create(project, text, it, false, false)
+                .create(project, text, it, showApplyButton = false, showResetButton = false)
                 .showAndGet()
                 .also { pressedOK -> if (!pressedOK) return }
         }
