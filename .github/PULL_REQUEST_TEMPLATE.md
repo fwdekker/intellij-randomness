@@ -4,6 +4,6 @@
 ### Additional context
 <!-- If there's anything else that's important or relevant to your pull request, mention that here. This could include screenshots or questions about things you weren't sure about.
 
-If your pull request affects documentation or any non-code changes, please check the [contribution guidelines](https://github.com/FWDekker/intellij-randomness/.github/CONTRIBUTING.md).
+If your pull request affects documentation or any non-code changes, please check the [contribution guidelines](https://github.com/fwdekker/intellij-randomness/.github/CONTRIBUTING.md).
 
 Thanks for contributing to Randomness! -->

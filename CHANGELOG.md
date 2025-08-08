@@ -1,14 +1,14 @@
 # Changelog
 ## 3.4.1 -- 2025-08-08
 ### Added
-* Graceful settings corruption handling. When settings fail to load, users receive a notification from which they can update Randomness, create a backup of their settings, or reset their settings to the default. This does not directly solve [#R46](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/46), but at least allows users to easily recover from situations in which they'd be stuck otherwise. ([#R41](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/41)) ([#602](https://github.com/fwdekker/intellij-randomness/pull/602)) ([#604](https://github.com/fwdekker/intellij-randomness/pull/604))
+* Graceful settings corruption handling. When settings fail to load, users receive a notification from which they can update Randomness, create a backup of their settings, or reset their settings to the default. This does not directly solve [#R46](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/46), but at least allows users to easily recover from situations in which they'd be stuck otherwise. ([#R41](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/41)) ([#602](https://github.com/fwdekker/intellij-randomness/pull/602)) ([#604](https://github.com/fwdekker/intellij-randomness/pull/604))
 
 ### Changed
 * Randomness settings files no longer track the current version of Randomness, only the latest version in which the settings file format was modified.  ([#602](https://github.com/fwdekker/intellij-randomness/pull/602)) ([#604](https://github.com/fwdekker/intellij-randomness/pull/604))
 
 ### Fixed
-* Fixed "Cannot deserialize class com.fwdekker.randomness.Settings" and "Cannot init component state" exceptions. These exceptions occured when the Randomness settings format changes, and an updated settings file is loaded in an older version of Randomness. This typically happens inadvertently due to settings synchronisation across computers. The solution was and still is to update Randomness to the same version on all machines. This situation is now made clear with an informative notification in the IDE. This notification appears only when an update to Randomness changes the settings format. ([#R46](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/46)) ([#602](https://github.com/fwdekker/intellij-randomness/pull/602)) ([#604](https://github.com/fwdekker/intellij-randomness/pull/604))
-* Fixed "Must be not computed before that call" exception. The exception did not adversely affect the plugin's functioning, other than resulting in annoying exception notifications. ([#R44](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/44)) ([#603](https://github.com/fwdekker/intellij-randomness/pull/603))
+* Fixed "Cannot deserialize class com.fwdekker.randomness.Settings" and "Cannot init component state" exceptions. These exceptions occured when the Randomness settings format changes, and an updated settings file is loaded in an older version of Randomness. This typically happens inadvertently due to settings synchronisation across computers. The solution was and still is to update Randomness to the same version on all machines. This situation is now made clear with an informative notification in the IDE. This notification appears only when an update to Randomness changes the settings format. ([#R46](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/46)) ([#602](https://github.com/fwdekker/intellij-randomness/pull/602)) ([#604](https://github.com/fwdekker/intellij-randomness/pull/604))
+* Fixed "Must be not computed before that call" exception. The exception did not adversely affect the plugin's functioning, other than resulting in annoying exception notifications. ([#R44](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/44)) ([#603](https://github.com/fwdekker/intellij-randomness/pull/603))
 
 
 ## 3.4.0 -- 2025-07-21
@@ -23,7 +23,7 @@
 * Input validation is now done on a per-input basis. Validation errors are shown directly alongside the faulty input. This makes it much easier to see what is invalid and how to fix it. ([#588](https://github.com/fwdekker/intellij-randomness/pull/588))
 * All icons are now rendered using IntelliJ's internal icon classes. This improves icon performance, caching, accessibility, and compatibility. ([#565](https://github.com/fwdekker/intellij-randomness/pull/565))
 * After opening the settings window from the Randomness popup, the selected template's first scheme is now shown instead of the template itself. ([#571](https://github.com/fwdekker/intellij-randomness/pull/571)) ([#576](https://github.com/fwdekker/intellij-randomness/pull/576))
-* Bug reports of exceptions while parsing settings now attach the user's settings file to the bug report. The user can choose to exclude their settings file in the dialog through which the bug report is sent. The goal of this feature is to help debug [#R41](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/41). ([#586](https://github.com/fwdekker/intellij-randomness/pull/586))
+* Bug reports of exceptions while parsing settings now attach the user's settings file to the bug report. The user can choose to exclude their settings file in the dialog through which the bug report is sent. The goal of this feature is to help debug [#R41](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/41). ([#586](https://github.com/fwdekker/intellij-randomness/pull/586))
 * The Randomness release procedure has been semi-automated. ([#516](https://github.com/fwdekker/intellij-randomness/pull/516)) ([#593](https://github.com/fwdekker/intellij-randomness/pull/593))
 
 ### Fixed
@@ -34,20 +34,20 @@
 
 ## 3.3.6 -- 2025-02-15
 ### Fixed
-* Fixed exception when submitting bug report without Internet connection. ([#R40](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/40)) ([#560](https://github.com/FWDekker/intellij-randomness/pull/560))
+* Fixed exception when submitting bug report without Internet connection. ([#R40](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/40)) ([#560](https://github.com/fwdekker/intellij-randomness/pull/560))
 
 
 ## 3.3.5 -- 2025-01-27
 ### Fixed
-* Fixed corrupted settings resulting in error messages after enabling "Array", "Fixed Length", or "Surround With" in any template or scheme. With this update, corrupted settings are patched back into a working state automatically. To prevent similar bugs in the future, unit tests have been added that automatically detect bugs resulting in corrupt settings. ([#R37](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/37)) ([#558](https://github.com/FWDekker/intellij-randomness/pull/558))
+* Fixed corrupted settings resulting in error messages after enabling "Array", "Fixed Length", or "Surround With" in any template or scheme. With this update, corrupted settings are patched back into a working state automatically. To prevent similar bugs in the future, unit tests have been added that automatically detect bugs resulting in corrupt settings. ([#R37](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/37)) ([#558](https://github.com/fwdekker/intellij-randomness/pull/558))
 
 
 ## 3.3.4 -- 2025-01-17
 ### Changed
-* Refreshed (encrypted) bug reporter token. ([#548](https://github.com/FWDekker/intellij-randomness/issues/548))
+* Refreshed (encrypted) bug reporter token. ([#548](https://github.com/fwdekker/intellij-randomness/issues/548))
 
 ### Fixed
-* Fixed specific settings resetting after IDE restart. Specifically, for any scheme, "Array", "Fixed Length", and "Surround With" would reset. ([#549](https://github.com/FWDekker/intellij-randomness/issues/549))
+* Fixed specific settings resetting after IDE restart. Specifically, for any scheme, "Array", "Fixed Length", and "Surround With" would reset. ([#549](https://github.com/fwdekker/intellij-randomness/issues/549))
 
 
 ## 3.3.3 -- 2024-10-16
@@ -55,7 +55,7 @@
 * In template icons, change the order of scheme colors to be clockwise starting from the top, instead of counterclockwise starting on the right.
 
 ### Fixed
-* (Hopefully) fix "Must be not computed before that call" bug by deferring icon validation to painting. ([#R1](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/1)) ([#R13](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/13)) ([IJPL-163887](https://youtrack.jetbrains.com/issue/IJPL-163887/))
+* (Hopefully) fix "Must be not computed before that call" bug by deferring icon validation to painting. ([#R1](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/1)) ([#R13](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/13)) ([IJPL-163887](https://youtrack.jetbrains.com/issue/IJPL-163887/))
 * Fixed bug reporter to also check closed issues when checking for duplicates.
 
 
@@ -64,40 +64,40 @@
 * Minimum IDE version has been increased to 2023.3.
 
 ### Added
-* Added even more debug info for future reports relating to issue [#R1](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/1).
+* Added even more debug info for future reports relating to issue [#R1](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/1).
 
 ### Changed
-* Changed icon instantiation to be more in line with guidelines, hopefully fixing [#R13](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/13).
+* Changed icon instantiation to be more in line with guidelines, hopefully fixing [#R13](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/13).
 * Updated various dependencies, especially those related to tooling.
 
 
 ## 3.3.1 -- 2024-05-06
 ### Added
-* Added additional debug info for future reports relating to issue [#R1](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/1).
+* Added additional debug info for future reports relating to issue [#R1](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/1).
 
 ### Fixed
-* Fixed an exception when a `StringScheme` contains a matching pattern containing `[]{1,3}`. ([#R2](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/2))
+* Fixed an exception when a `StringScheme` contains a matching pattern containing `[]{1,3}`. ([#R2](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/2))
 
 
 ## 3.3.0 -- 2024-04-16
 ### Added
-* Added support for [character classes](https://www.regular-expressions.info/unicode.html#category) (e.g. `\p{Letter}`) in strings by updating [RgxGen](https://github.com/curious-odd-man/RgxGen) to v2.0. ([#530](https://github.com/FWDekker/intellij-randomness/issues/530))
+* Added support for [character classes](https://www.regular-expressions.info/unicode.html#category) (e.g. `\p{Letter}`) in strings by updating [RgxGen](https://github.com/curious-odd-man/RgxGen) to v2.0. ([#530](https://github.com/fwdekker/intellij-randomness/issues/530))
 
 ### Changed
-* Rewrote error reporter from scratch, now ensuring all relevant data is included, and allowing non-GitHub users to report issues. ([#455](https://github.com/FWDekker/intellij-randomness/issues/455))
-* Significantly reduced plugin size by removing unnecessary dependencies. ([#526](https://github.com/FWDekker/intellij-randomness/issues/526))
+* Rewrote error reporter from scratch, now ensuring all relevant data is included, and allowing non-GitHub users to report issues. ([#455](https://github.com/fwdekker/intellij-randomness/issues/455))
+* Significantly reduced plugin size by removing unnecessary dependencies. ([#526](https://github.com/fwdekker/intellij-randomness/issues/526))
 
 ### Removed
-* Disabled dynamic reloading of the plugin until a stable fix can be deployed. ([#522](https://github.com/FWDekker/intellij-randomness/pull/522))
+* Disabled dynamic reloading of the plugin until a stable fix can be deployed. ([#522](https://github.com/fwdekker/intellij-randomness/pull/522))
 
 ### Fixed
-* Fixed various incorrect uses of the platform API. ([#526](https://github.com/FWDekker/intellij-randomness/issues/526))
+* Fixed various incorrect uses of the platform API. ([#526](https://github.com/fwdekker/intellij-randomness/issues/526))
 
 
 ## 3.2.0 -- 2024-01-10
 ### Added
-* Added support for UUID versions 6, 7, and 8. ([#513](https://github.com/FWDekker/intellij-randomness/issues/513))
-* Added button to visit template's target. ([#495](https://github.com/FWDekker/intellij-randomness/issues/495))
+* Added support for UUID versions 6, 7, and 8. ([#513](https://github.com/fwdekker/intellij-randomness/issues/513))
+* Added button to visit template's target. ([#495](https://github.com/fwdekker/intellij-randomness/issues/495))
 
 ### Fixed
 * Disabled uppercase option for integers when base is 10 or lower.
@@ -109,11 +109,11 @@
 
 ### Added
 * Added ability to generate non-matching strings.
-  ([#447](https://github.com/FWDekker/intellij-randomness/issues/447))
+  ([#447](https://github.com/fwdekker/intellij-randomness/issues/447))
 
 ### Changed
 * When inserting arrays at multiple carets, the number of elements per array is now independently chosen for each array.
-  ([#450](https://github.com/FWDekker/intellij-randomness/issues/450))
+  ([#450](https://github.com/fwdekker/intellij-randomness/issues/450))
 
 
 ## 3.0.0 -- 2023-11-17
@@ -159,8 +159,8 @@ Minimum IDE version has been increased to 2022.2.
 
 ### Fixes
 Resolve compatibility issues with upcoming IDE versions.
-([#459](https://github.com/FWDekker/intellij-randomness/issues/459))
-([#460](https://github.com/FWDekker/intellij-randomness/issues/460))
+([#459](https://github.com/fwdekker/intellij-randomness/issues/459))
+([#460](https://github.com/fwdekker/intellij-randomness/issues/460))
 
 
 ## 2.7.6 -- 2022-12-14
@@ -183,25 +183,25 @@ Minimum IDE version has been increased to 2021.2.
 ## 2.7.4 -- 2021-12-10
 ### Fixes
 Custom action shortcuts should use current configuration.
-([#423](https://github.com/FWDekker/intellij-randomness/issues/423))
+([#423](https://github.com/fwdekker/intellij-randomness/issues/423))
 
 
 ## 2.7.3 -- 2021-10-01
 ### Breaking changes
 Minimum IDE version has been increased to 2020.3.
-([#358](https://github.com/FWDekker/intellij-randomness/issues/358))
-([#386](https://github.com/FWDekker/intellij-randomness/issues/386))
+([#358](https://github.com/fwdekker/intellij-randomness/issues/358))
+([#386](https://github.com/fwdekker/intellij-randomness/issues/386))
 
 ### Fixes
 * Shorter error messages in preview window.
 * Resolved critical UI error in upcoming 2021.3 IDEs as result of using incorrect factory.
-  ([#418](https://github.com/FWDekker/intellij-randomness/issues/418))
+  ([#418](https://github.com/fwdekker/intellij-randomness/issues/418))
 
 
 ## 2.7.2 -- 2021-07-07
 ### Fixes
 Prevent symbol set settings from being truncated after restarting IDE.
-([#382](https://github.com/FWDekker/intellij-randomness/issues/382))
+([#382](https://github.com/fwdekker/intellij-randomness/issues/382))
 
 
 ## 2.7.1 -- 2021-07-05
@@ -210,19 +210,19 @@ Minimum IDE version has been increased to 2020.2.  (#375)
 
 ### New features
 * Remove limit on difference between minimum and maximum integer.
-  ([#367](https://github.com/FWDekker/intellij-randomness/issues/367))
+  ([#367](https://github.com/fwdekker/intellij-randomness/issues/367))
 * Add "byte" integer type to generate integers from -127 to 128.
-  ([#368](https://github.com/FWDekker/intellij-randomness/issues/368))
+  ([#368](https://github.com/fwdekker/intellij-randomness/issues/368))
 * Input field widths now reflect the expected input sizes.
-  ([#374](https://github.com/FWDekker/intellij-randomness/issues/374))
+  ([#374](https://github.com/fwdekker/intellij-randomness/issues/374))
 * Significantly improved performance when generating long strings.
-  ([#373](https://github.com/FWDekker/intellij-randomness/issues/373))
+  ([#373](https://github.com/fwdekker/intellij-randomness/issues/373))
 * Generator timeout prevents IntelliJ from freezing when using excessively complex inputs.
-  ([#373](https://github.com/FWDekker/intellij-randomness/issues/373))
+  ([#373](https://github.com/fwdekker/intellij-randomness/issues/373))
 
 ### Fixes
 Prevent overflows when using a large range with integers.
-([#370](https://github.com/FWDekker/intellij-randomness/issues/370))
+([#370](https://github.com/fwdekker/intellij-randomness/issues/370))
 
 
 ## 2.7.0 -- 2020-12-30
@@ -230,35 +230,35 @@ This plugin is also available on the [plugin repository](https://plugins.jetbrai
 
 ### Breaking changes
 * Minimum IDE version has been increased to 2020.1.
-  ([#209](https://github.com/FWDekker/intellij-randomness/issues/209),
-  [#345](https://github.com/FWDekker/intellij-randomness/issues/345),
-  [#361](https://github.com/FWDekker/intellij-randomness/issues/361))
+  ([#209](https://github.com/fwdekker/intellij-randomness/issues/209),
+  [#345](https://github.com/fwdekker/intellij-randomness/issues/345),
+  [#361](https://github.com/fwdekker/intellij-randomness/issues/361))
 
 * Extended English dictionary (<tt>english_extended.dic</tt>) has been removed to improve performance and reduce plugin
   size.
-  ([#352](https://github.com/FWDekker/intellij-randomness/issues/352))
+  ([#352](https://github.com/fwdekker/intellij-randomness/issues/352))
 
 ### New features
 * **🔠 Integer capitalization**.\
   Option to change capitalization of Integers with base greater than 10.
   For example, generate <tt>0xFF</tt> instead of <tt>0xff</tt>.
-  ([#346](https://github.com/FWDekker/intellij-randomness/issues/346))
+  ([#346](https://github.com/fwdekker/intellij-randomness/issues/346))
 * Short inline explanation of how dictionaries work in the Words settings dialog.
-  ([#347](https://github.com/FWDekker/intellij-randomness/issues/347))
+  ([#347](https://github.com/fwdekker/intellij-randomness/issues/347))
 * Improved support for drag-and-drop of dictionary files into dictionary table.
-  ([#350](https://github.com/FWDekker/intellij-randomness/issues/350))
+  ([#350](https://github.com/fwdekker/intellij-randomness/issues/350))
 * Improved error messages for IO failures with dictionaries.
-  ([#354](https://github.com/FWDekker/intellij-randomness/issues/354))
+  ([#354](https://github.com/fwdekker/intellij-randomness/issues/354))
 * Natural column widths in dictionary table.
-  ([#354](https://github.com/FWDekker/intellij-randomness/issues/354))
+  ([#354](https://github.com/fwdekker/intellij-randomness/issues/354))
 * Changes to dictionary contents are detected directly while in the Words settings dialog.
-  ([#354](https://github.com/FWDekker/intellij-randomness/issues/354))
+  ([#354](https://github.com/fwdekker/intellij-randomness/issues/354))
 * Invalid settings are marked as modified even if settings have not been changed.
-  ([#354](https://github.com/FWDekker/intellij-randomness/issues/354))
+  ([#354](https://github.com/fwdekker/intellij-randomness/issues/354))
 
 ### Fixes
 Listing of data types in Randomness settings dialog has been fixed.
-([#341](https://github.com/FWDekker/intellij-randomness/issues/341))
+([#341](https://github.com/fwdekker/intellij-randomness/issues/341))
 
 
 ## 2.6.1 -- 2020-06-24

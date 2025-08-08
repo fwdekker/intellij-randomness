@@ -1,6 +1,6 @@
 # Contribution guidelines
 Thank you for considering contributing!
-[All contributions of any size are much appreciated!](https://github.com/FWDekker/intellij-randomness#-acknowledgements)
+[All contributions of any size are much appreciated!](https://github.com/fwdekker/intellij-randomness#-acknowledgements)
 
 You can contribute in many ways, whether it's submitting an issue, opening a pull request, or leaving a comment somewhere.
 This page provides some guidelines on contributing to Randomness.
@@ -11,7 +11,7 @@ Did you find a **bug**?
 Do you have a **question**?
 Are you missing a **feature**?
 Do you have ideas for **improvement**?
-Please [submit an issue](https://github.com/FWDekker/intellij-randomness/issues/new/choose).
+Please [submit an issue](https://github.com/fwdekker/intellij-randomness/issues/new/choose).
 Several templates are provided to help you structure your issue.
 
 

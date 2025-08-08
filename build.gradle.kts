@@ -155,7 +155,7 @@ tasks {
     }
 
     changelog {
-        repositoryUrl = "https://github.com/FWDekker/intellij-randomness"
+        repositoryUrl = "https://github.com/fwdekker/intellij-randomness"
         itemPrefix = "*"
         unreleasedTerm = "9.9.9-unreleased"
     }
@@ -243,7 +243,7 @@ tasks {
 
                 sourceLink {
                     localDirectory = file("src/main/kotlin")
-                    remoteUrl = URI("https://github.com/FWDekker/intellij-randomness/tree/v${properties("version")}/src/main/kotlin").toURL()
+                    remoteUrl = URI("https://github.com/fwdekker/intellij-randomness/tree/v${properties("version")}/src/main/kotlin").toURL()
                     remoteLineSuffix = "#L"
                 }
             }

@@ -110,8 +110,8 @@ object Icons {
  * Before [get] is called, the graphics context for [Icon]s has not been fully initialised yet. Therefore, implementing
  * classes must not validate or otherwise access [Icon]-related properties before [get] is called. Violating this
  * principle, for example by checking whether an [Icon] passed in the constructor is square, will result in exceptions;
- * see for example [#R13](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/13) and
- * [#R44](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/44). Such validation must be deferred to when
+ * see for example [#R13](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/13) and
+ * [#R44](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/44). Such validation must be deferred to when
  * [get] is called for the first time.
  */
 interface IconDescriptor {
@@ -413,7 +413,7 @@ class SubtractionFilter(icon: Icon) : RGBImageFilter() {
  * Applies the given [filter] to the given [base].
  *
  * This method is not nice and should really not exist. However, IntelliJ's API is not ready for that yet. See also
- * [#552](https://github.com/FWDekker/intellij-randomness/issues/552) and
+ * [#552](https://github.com/fwdekker/intellij-randomness/issues/552) and
  * [IJPL-5285](https://youtrack.jetbrains.com/issue/IJPL-5285/).
  *
  * @see IconUtil.filterIcon

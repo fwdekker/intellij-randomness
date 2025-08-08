@@ -186,7 +186,7 @@ private class GitHubReporter {
         /**
          * The name of the user that owns the repo to report errors in.
          */
-        private const val GIT_REPO_USER = "FWDekkerBot"
+        private const val GIT_REPO_USER = "fwdekkerbot"
 
         /**
          * The repository to report errors in.
@@ -245,7 +245,7 @@ private object GitHubScrambler {
      * The URL at which a newer token may be available.
      */
     private val URL =
-        URI("https://raw.githubusercontent.com/FWDekker/intellij-randomness/main/src/main/resources/reporter/token.bin")
+        URI("https://raw.githubusercontent.com/fwdekker/intellij-randomness/main/src/main/resources/reporter/token.bin")
             .toURL()
 
 
