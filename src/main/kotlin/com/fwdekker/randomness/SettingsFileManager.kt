@@ -37,7 +37,7 @@ internal object SettingsFileManager {
     /**
      * The persistent settings instance.
      */
-    internal val PERSISTENCE: PersistentSettings = service<PersistentSettings>()
+    internal val PERSISTENCE: PersistentSettings get() = service<PersistentSettings>()
 
 
     /**
