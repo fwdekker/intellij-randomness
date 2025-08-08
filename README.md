@@ -167,7 +167,7 @@ In chronological order of contribution:
 * Thanks to [Vitaly Provodin](https://github.com/vprovodin) for [also reporting that compatibility issue](https://github.com/FWDekker/intellij-randomness/issues/460)!
 * Thanks to [Juraj Jurčo](https://github.com/JiangHongTiao) for [suggesting adding support for newer UUID versions](https://github.com/FWDekker/intellij-randomness/issues/513)!
 * Thanks to [iKa1ns](https://github.com/iKa1ns) for [reporting a bug with resetting settings](https://github.com/FWDekker/intellij-randomness/issues/549)!
-* Thanks to [Czajka667](https://github.com/Czajka667) for requesting generating UUIDs based on the current time!
+* Thanks to [Czajka667](https://github.com/Czajka667) for [requesting generating UUIDs based on the current time](https://github.com/fwdekker/intellij-randomness/issues/566)!
 * Thanks to [Reeck Mondal](https://github.com/TheRGuy9201) for [implementing generating arrays including element indices](https://github.com/fwdekker/intellij-randomness/pull/585)!
 * Thanks to [everyone who clicked "see details and submit report" and sent an anonymous bug report](https://github.com/FWDekkerBot/intellij-randomness-issues/issues)!
 
