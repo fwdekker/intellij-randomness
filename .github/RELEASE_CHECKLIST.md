@@ -1,12 +1,3 @@
----
-name: ⛙ Release
-about: An update for Randomness to be released
-title: ''
-labels: release
-assignees: FWDekker
-
----
-
 ## Documentation
 * [ ] The version number has been bumped according to [Semantic Versioning](https://semver.org/).  
   * [ ] Relevant settings upgrade converters have been implemented and tested.
