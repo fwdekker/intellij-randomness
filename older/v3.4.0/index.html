@@ -1,0 +1,325 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Randomness</title>
+    <link href="images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="scripts/sourceset_dependencies.js" async></script>
+<link href="styles/style.css" rel="Stylesheet">
+<link href="styles/main.css" rel="Stylesheet">
+<link href="styles/prism.css" rel="Stylesheet">
+<link href="styles/logo-styles.css" rel="Stylesheet">
+<link href="styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="scripts/clipboard.js" async></script>
+<script type="text/javascript" src="scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="scripts/main.js" defer></script>
+<script type="text/javascript" src="scripts/prism.js" async></script>
+<script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<link href="styles/multimodule.css" rel="Stylesheet">
+<link href="images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="index.html">
+                            Randomness
+                    </a>
+            </div>
+            <div class="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;index.html&quot;}"><div class="versions-dropdown">
+  <div class="versions-dropdown-button">v3.4.0</div>
+  <div class="versions-dropdown-data"><a href="../../index.html">v3.4.1</a><a href="index.html">v3.4.0</a><a href="../v3.3.6/index.html">v3.3.6</a><a href="../v3.3.5/index.html">v3.3.5</a><a href="../v3.3.4/index.html">v3.3.4</a><a href="../v3.3.3/index.html">v3.3.3</a><a href="../v3.3.2/index.html">v3.3.2</a><a href="../v3.3.1/index.html">v3.3.1</a><a href="../v3.3.0/index.html">v3.3.0</a><a href="../v3.2.0/index.html">v3.2.0</a><a href="../v3.1.0/index.html">v3.1.0</a><a href="../v3.0.0/index.html">v3.0.0</a><a href="../v2.7.7/index.html">v2.7.7</a><a href="../v2.7.6/index.html">v2.7.6</a><a href="../v2.7.5/index.html">v2.7.5</a><a href="../v2.7.4/index.html">v2.7.4</a><a href="../v2.7.3/index.html">v2.7.3</a><a href="../v2.7.2/index.html">v2.7.2</a><a href="../v2.7.1/index.html">v2.7.1</a><a href="../v2.7.0/index.html">v2.7.0</a><a href="../v2.6.1/index.html">v2.6.1</a><a href="../v2.6.0/index.html">v2.6.0</a><a href="../v2.5.1/index.html">v2.5.1</a><a href="../v2.5.0/index.html">v2.5.0</a><a href="../v2.4.1/index.html">v2.4.1</a><a href="../v2.4.0/index.html">v2.4.0</a><a href="../v2.3.0/index.html">v2.3.0</a><a href="../v2.2.0/index.html">v2.2.0</a><a href="../v2.1.0/index.html">v2.1.0</a><a href="../v2.0.0/index.html">v2.0.0</a><a href="../v1.6.1/index.html">v1.6.1</a><a href="../v1.6.0/index.html">v1.6.0</a><a href="../v1.5.2/index.html">v1.5.2</a><a href="../v1.5.1/index.html">v1.5.1</a><a href="../v1.5.0/index.html">v1.5.0</a><a href="../v1.4.0/index.html">v1.4.0</a><a href="../v1.3.2/index.html">v1.3.2</a><a href="../v1.3.1/index.html">v1.3.1</a><a href="../v1.3.0/index.html">v1.3.0</a><a href="../v1.2.0/index.html">v1.2.0</a><a href="../v1.1.0/index.html">v1.1.0</a><a href="../v1.0.1/index.html">v1.0.1</a><a href="../v1.0.0/index.html">v1.0.0</a></div>
+</div>
+</dokka-template-command>            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" id="content" pageids="Randomness::////PointingToDeclaration//769193423">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Randomness</span></span></h1>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="1876812478%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness" id="1876812478%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness/index.html">com.fwdekker.randomness</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1876812478%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="1876812478%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness" id="1876812478%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Entry point of the plugin. Contains main classes, shared classes, and helper classes.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="303740320%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.affix" id="303740320%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.affix/index.html">com.fwdekker.randomness.affix</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="303740320%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="303740320%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.affix" id="303740320%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Decorator for surrounding a value with constant strings such as quotation marks and braces.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="-1128641303%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.array" id="-1128641303%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.array/index.html">com.fwdekker.randomness.array</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1128641303%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="-1128641303%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.array" id="-1128641303%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Decorator for generating multiple values each time.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="-2037505297%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.datetime" id="-2037505297%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.datetime/index.html">com.fwdekker.randomness.datetime</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2037505297%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="-2037505297%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.datetime" id="-2037505297%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Scheme for random dates and times.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="1100686433%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.decimal" id="1100686433%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.decimal/index.html">com.fwdekker.randomness.decimal</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1100686433%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="1100686433%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.decimal" id="1100686433%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Scheme for random decimal numbers.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="437058602%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.fixedlength" id="437058602%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.fixedlength/index.html">com.fwdekker.randomness.fixedlength</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="437058602%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="437058602%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.fixedlength" id="437058602%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Decorator for forcing values to a specified length.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="76665870%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.integer" id="76665870%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.integer/index.html">com.fwdekker.randomness.integer</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="76665870%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="76665870%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.integer" id="76665870%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Scheme for random non-decimal numbers.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="-1871379323%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.string" id="-1871379323%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.string/index.html">com.fwdekker.randomness.string</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1871379323%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="-1871379323%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.string" id="-1871379323%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Scheme for random and non-random strings.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="-1033182418%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.template" id="-1033182418%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.template/index.html">com.fwdekker.randomness.template</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1033182418%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="-1033182418%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.template" id="-1033182418%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Scheme consisting of other schemes.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="1247411784%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.ui" id="1247411784%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.ui/index.html">com.fwdekker.randomness.ui</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1247411784%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="1247411784%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.ui" id="1247411784%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Custom or specialized UI components.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="649823279%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.uuid" id="649823279%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.uuid/index.html">com.fwdekker.randomness.uuid</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="649823279%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="649823279%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.uuid" id="649823279%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Scheme for random UUIDs.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="-1483816258%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.word" id="-1483816258%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+    <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-randomness/com.fwdekker.randomness.word/index.html">com.fwdekker.randomness.word</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1483816258%2FPackages%2F769193423"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="-1483816258%2FPackages%2F769193423" anchor-label="com.fwdekker.randomness.word" id="-1483816258%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Scheme for random words selected from word lists.</p>
+          </span></div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Florine&nbsp;W.&nbsp;Dekker</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
