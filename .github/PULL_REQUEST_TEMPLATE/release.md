@@ -37,8 +37,8 @@ assignees: FWDekker
        2. "Optimize Transparency" with 2% fuzz
        3. "Lossy GIF" with compression level 30
   -->
-* [ ] `./gradlew dokka` runs without warnings or errors.  
-  There is no need to update the GitHub pages, this is done automatically after triggering the `cd.yml` workflow.
+* [ ] `./gradlew dokkaHtml` runs without warnings or errors.  
+  There is no need to update the GitHub pages, this is done automatically during the `cd.yml` workflow.
   Check that the build action does not fail!
 
 ## Verification

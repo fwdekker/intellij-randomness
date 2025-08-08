@@ -1,4 +1,16 @@
 # Changelog
+## 3.4.1 -- 2025-08-08
+### Added
+* Graceful settings corruption handling. When settings fail to load, users receive a notification from which they can update Randomness, create a backup of their settings, or reset their settings to the default. This does not directly solve [#R46](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/46), but at least allows users to easily recover from situations in which they'd be stuck otherwise. ([#R41](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/41)) ([#602](https://github.com/fwdekker/intellij-randomness/pull/602)) ([#604](https://github.com/fwdekker/intellij-randomness/pull/604))
+
+### Changed
+* Randomness settings files no longer track the current version of Randomness, only the latest version in which the settings file format was modified.  ([#602](https://github.com/fwdekker/intellij-randomness/pull/602)) ([#604](https://github.com/fwdekker/intellij-randomness/pull/604))
+
+### Fixed
+* Fixed "Cannot deserialize class com.fwdekker.randomness.Settings" and "Cannot init component state" exceptions. These exceptions occured when the Randomness settings format changes, and an updated settings file is loaded in an older version of Randomness. This can even happen inadvertently due to settings synchronisation across computers. The solution was and still is to update Randomness to the same version on all machines. This situation is now made clear with an informative notification in the IDE. This notification appears only when an update to Randomness changes the settings format. ([#R46](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/46)) ([#602](https://github.com/fwdekker/intellij-randomness/pull/602)) ([#604](https://github.com/fwdekker/intellij-randomness/pull/604))
+* Fixed "Must be not computed before that call" exception. The exception did not adversely affect the plugin's functioning, other than resulting in annoying exception notifications. ([#R44](https://github.com/FWDekkerBot/intellij-randomness-issues/issues/44)) ([#603](https://github.com/fwdekker/intellij-randomness/pull/603))
+
+
 ## 3.4.0 -- 2025-07-21
 ### Breaking changes
 * Minimum IDE version has been increased to 2024.2. This helps avert compatibility issues with future versions. ([#553](https://github.com/fwdekker/intellij-randomness/issues/553)) ([#554](https://github.com/fwdekker/intellij-randomness/issues/554)) ([#555](https://github.com/fwdekker/intellij-randomness/issues/555)) ([#556](https://github.com/fwdekker/intellij-randomness/issues/556)) ([#562](https://github.com/fwdekker/intellij-randomness/pull/562))

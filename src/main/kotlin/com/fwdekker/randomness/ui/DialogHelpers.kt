@@ -90,6 +90,11 @@ class SimpleDialogAction(
     private val name: String,
     private val action: (ActionEvent, DialogWrapper) -> Unit,
 ) : DialogBuilder.ActionDescriptor {
+    /**
+     * Returns the action that should be run from the dialog button.
+     *
+     * @param dialog the dialog on which to run the action
+     */
     override fun getAction(dialog: DialogWrapper): Action =
         object : AbstractAction(name) {
             override fun actionPerformed(event: ActionEvent) =
@@ -107,6 +112,12 @@ class SimpleNotificationAction(
     name: String,
     private val action: (AnActionEvent, Notification) -> Unit,
 ) : NotificationAction(name) {
+    /**
+     * Runs the [action].
+     *
+     * @param event the event that triggered this action to run
+     * @param notification the notification on which the action is run
+     */
     override fun actionPerformed(event: AnActionEvent, notification: Notification) =
         action(event, notification)
 }
