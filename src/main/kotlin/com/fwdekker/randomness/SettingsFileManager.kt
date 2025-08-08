@@ -10,7 +10,7 @@ import com.fwdekker.randomness.ui.askYesNo
 import com.fwdekker.randomness.ui.showDialogMessage
 import com.fwdekker.randomness.ui.showNotification
 import com.intellij.icons.AllIcons.General
-import com.intellij.ide.plugins.PluginManagerConfigurable
+import com.intellij.ide.IdeBundle
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.components.service
@@ -37,7 +37,7 @@ internal object SettingsFileManager {
     /**
      * The persistent settings instance.
      */
-    internal val PERSISTENCE: PersistentSettings = service<PersistentSettings>()
+    internal val PERSISTENCE: PersistentSettings get() = service<PersistentSettings>()
 
 
     /**
@@ -81,7 +81,7 @@ internal object SettingsFileManager {
             title,
             message,
             SimpleNotificationAction(Bundle("$key.open_plugin_manager")) { _, _ ->
-                ShowSettingsUtil.getInstance().showSettingsDialog(project, PluginManagerConfigurable::class.java)
+                ShowSettingsUtil.getInstance().showSettingsDialog(project, IdeBundle.message("title.plugins"))
             },
             SimpleNotificationAction(Bundle("$key.backup_and_reset")) { _, notification ->
                 showRepairDialog { notification.hideBalloon() }

@@ -1,7 +1,7 @@
 <idea-plugin require-restart="true">
     <id>com.fwdekker.randomness</id>
     <name>Randomness</name>
-    <vendor email="florine@fwdekker.com" url="https://fwdekker.com/">FWDekker</vendor>
+    <vendor email="florine@fwdekker.com" url="https://fwdekker.com/">Florine W. Dekker</vendor>
     <resource-bundle>randomness</resource-bundle>
 
     <depends>com.intellij.modules.platform</depends>

@@ -1,12 +1,3 @@
----
-name: ⛙ Release
-about: An update for Randomness to be released
-title: ''
-labels: release
-assignees: FWDekker
-
----
-
 ## Documentation
 * [ ] The version number has been bumped according to [Semantic Versioning](https://semver.org/).  
   * [ ] Relevant settings upgrade converters have been implemented and tested.
@@ -37,8 +28,8 @@ assignees: FWDekker
        2. "Optimize Transparency" with 2% fuzz
        3. "Lossy GIF" with compression level 30
   -->
-* [ ] `./gradlew dokka` runs without warnings or errors.  
-  There is no need to update the GitHub pages, this is done automatically after triggering the `cd.yml` workflow.
+* [ ] `./gradlew dokkaHtml` runs without warnings or errors.  
+  There is no need to update the GitHub pages, this is done automatically during the `cd.yml` workflow.
   Check that the build action does not fail!
 
 ## Verification

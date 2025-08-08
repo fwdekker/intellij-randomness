@@ -162,7 +162,7 @@ jobs:
         if: ${{ github.event.inputs.dry_run == 'false' }}
         working-directory: gh-pages/
         run: |
-          git config --global user.name "FWDekkerBot"
+          git config --global user.name "fwdekkerbot"
           git config --global user.email "bot@fwdekker.com"
           git add --all
           git commit -m "Update for $MY_VERSION"
