@@ -38,6 +38,7 @@
 * [ ] The plugin verifier completes successfully.
   * [ ] The plugin verifier uses the latest versions.
 * [ ] Settings from the previous version have been manually verified to load into the new version without errors.
+* [ ] During the manual tests above, the logs do not contain exceptions with Randomness as the "Plugin to blame". You must actually check the log, not just the in-IDE exception notifications.
 
 ## How to deploy
 Trigger the [`cd.yml` workflow](https://github.com/fwdekker/intellij-randomness/actions/workflows/cd.yml).
