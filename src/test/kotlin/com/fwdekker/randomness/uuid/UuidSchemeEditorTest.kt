@@ -57,20 +57,20 @@ object UuidSchemeEditorTest : FunSpec({
             val min = runEdt { frame.find(matcher(JDateTimeField::class.java, matcher = { it.name == "minDateTime" })) }
 
             runEdt {
-                min.text = "1956"
+                min.text = "1982"
                 min.commitEdit()
             }
 
-            runEdt { min.value.value } shouldBe "1956-01-01 00:00:00.000"
+            runEdt { min.value.value } shouldBe "1982-01-01 00:00:00.000"
         }
 
         test("binds the minimum and maximum times") {
-            runEdt { frame.textBox("minDateTime").timestampProp().set(Timestamp("5970")) }
+            runEdt { frame.textBox("minDateTime").timestampProp().set(Timestamp("4970")) }
 
-            runEdt { frame.textBox("maxDateTime").timestampProp().set(Timestamp("4972")) }
+            runEdt { frame.textBox("maxDateTime").timestampProp().set(Timestamp("3972")) }
 
-            runEdt { frame.textBox("minDateTime").timestampProp().get() } shouldBe Timestamp("4972")
-            runEdt { frame.textBox("maxDateTime").timestampProp().get() } shouldBe Timestamp("4972")
+            runEdt { frame.textBox("minDateTime").timestampProp().get() } shouldBe Timestamp("3972")
+            runEdt { frame.textBox("maxDateTime").timestampProp().get() } shouldBe Timestamp("3972")
         }
     }
 
@@ -106,14 +106,14 @@ object UuidSchemeEditorTest : FunSpec({
                     row(
                         frame.textBox("minDateTime").timestampProp(),
                         editor.scheme::minDateTime.prop(),
-                        Timestamp("0489-03-30 13:36:32"),
+                        Timestamp("1989-03-30 13:36:32"),
                     )
                 },
                 "maxDateTime" to {
                     row(
                         frame.textBox("maxDateTime").timestampProp(),
                         editor.scheme::maxDateTime.prop(),
-                        Timestamp("1656-11-05 20:58:41"),
+                        Timestamp("3656-11-05 20:58:41"),
                     )
                 },
                 "affixDecorator" to {

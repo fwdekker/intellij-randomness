@@ -99,6 +99,11 @@ class Timestamp(value: String = "1970-01-01 00:00:00.000") : State() {
         return thisEpoch < thatEpoch
     }
 
+    /**
+     * @see isBefore
+     */
+    fun isAfter(that: Timestamp): Boolean = this != that && that.isBefore(this)
+
 
     /**
      * Returns `true` if and only if `this` and [other] refer to the exact same moment in time.

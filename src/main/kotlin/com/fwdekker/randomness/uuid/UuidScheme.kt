@@ -54,9 +54,24 @@ data class UuidScheme(
     override val decorators get() = listOf(affixDecorator, arrayDecorator)
     override val validators = validators {
         of(::version).check({ it in SUPPORTED_VERSIONS }, { Bundle("uuid.error.unknown_version", it) })
-        include(::minDateTime)
-        include(::maxDateTime)
-        of(::maxDateTime).check({ !it.isBefore(minDateTime) }, { Bundle("datetime.error.min_datetime_above_max") })
+        case({ version in TIME_BASED_VERSIONS }) {
+            include(::minDateTime)
+            include(::maxDateTime)
+            of(::minDateTime)
+                .check(
+                    { !it.isBefore(MIN_MIN_DATE_TIME) },
+                    { Bundle("timestamp.error.too_old", MIN_MIN_DATE_TIME.value) }
+                )
+            of(::maxDateTime)
+                .check(
+                    { !it.isAfter(MAX_MAX_DATE_TIME) },
+                    { Bundle("timestamp.error.too_new", MAX_MAX_DATE_TIME.value) }
+                )
+                .check(
+                    { !it.isBefore(minDateTime) },
+                    { Bundle("datetime.error.min_datetime_above_max") }
+                )
+        }
         include(::affixDecorator)
         include(::arrayDecorator)
     }
@@ -131,14 +146,30 @@ data class UuidScheme(
         const val DEFAULT_ADD_DASHES = true
 
         /**
+         * The minimum valid value of [minDateTime].
+         *
+         * This is a limitation of the underlying library, not of the UUID standard itself. See also
+         * https://github.com/cowtowncoder/java-uuid-generator/issues/133.
+         */
+        val MIN_MIN_DATE_TIME: Timestamp = Timestamp("1970-01-01 00:00:00.000")
+
+        /**
          * The default value of the [minDateTime] field.
          */
-        val DEFAULT_MIN_DATE_TIME: Timestamp = Timestamp("0001-01-01 00:00:00.000")
+        val DEFAULT_MIN_DATE_TIME: Timestamp = MIN_MIN_DATE_TIME
+
+        /**
+         * The maximum valid value of [maxDateTime].
+         *
+         * This is a limitation of the underlying library, not of the UUID standard itself. See also
+         * https://github.com/cowtowncoder/java-uuid-generator/issues/133.
+         */
+        val MAX_MAX_DATE_TIME: Timestamp = Timestamp("5236-03-31 21:21:00.684")
 
         /**
          * The default value of the [maxDateTime] field.
          */
-        val DEFAULT_MAX_DATE_TIME: Timestamp = Timestamp("9999-12-31 23:59:59.999")
+        val DEFAULT_MAX_DATE_TIME: Timestamp = MAX_MAX_DATE_TIME
 
         /**
          * The preset values for the [affixDecorator] field.
@@ -155,6 +186,42 @@ data class UuidScheme(
          */
         val DEFAULT_ARRAY_DECORATOR get() = ArrayDecorator()
     }
+}
+
+/**
+ * Constants about UUIDs.
+ */
+@Suppress("unused") // Useful to keep for future reference
+object UuidMeta {
+    /**
+     * The epoch of UUIDv1 timestamps, expressed as a Unix millisecond epoch.
+     */
+    const val V1_TIMESTAMP_EPOCH: Long = -0xB1D069B5400L
+
+    /**
+     * The modulo under which UUIDv1 timestamps are stored.
+     */
+    const val V1_TIMESTAMP_MODULO: Long = 0x1000000000000000L
+
+    /**
+     * The epoch of UUIDv6 timestamps, expressed as a Unix millisecond epoch.
+     */
+    const val V6_TIMESTAMP_EPOCH: Long = V1_TIMESTAMP_EPOCH
+
+    /**
+     * The modulo under which UUIDv1 timestamps are stored.
+     */
+    const val V6_TIMESTAMP_MODULO: Long = V1_TIMESTAMP_MODULO
+
+    /**
+     * The epoch of UUIDv7 timestamps, expressed as a Unix millisecond epoch.
+     */
+    const val V7_TIMESTAMP_EPOCH: Long = 0L
+
+    /**
+     * The modulo under which UUIDv1 timestamps are stored.
+     */
+    const val V7_TIMESTAMP_MODULO: Long = 0x1000000000000L
 }
 
 

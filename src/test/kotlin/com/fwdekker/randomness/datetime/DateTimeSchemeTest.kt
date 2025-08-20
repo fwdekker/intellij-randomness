@@ -6,7 +6,6 @@ import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.shouldValidateAsBundle
 import com.fwdekker.randomness.testhelpers.stateDeepCopyTestFactory
 import com.fwdekker.randomness.testhelpers.stateSerializationTestFactory
-import com.fwdekker.randomness.uuid.UuidScheme
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
@@ -44,9 +43,9 @@ object DateTimeSchemeTest : FunSpec({
             mapOf(
                 "succeeds for default state" to row(DateTimeScheme(), null),
                 "fails for invalid min date-time" to
-                    row(UuidScheme(minDateTime = Timestamp("invalid")), "timestamp.error.parse"),
+                    row(DateTimeScheme(minDateTime = Timestamp("invalid")), "timestamp.error.parse"),
                 "fails for invalid max date-time" to
-                    row(UuidScheme(minDateTime = Timestamp("invalid")), "timestamp.error.parse"),
+                    row(DateTimeScheme(maxDateTime = Timestamp("invalid")), "timestamp.error.parse"),
                 "fails if min date-time is above max date-time" to
                     row(
                         DateTimeScheme(minDateTime = Timestamp("4434"), maxDateTime = Timestamp("1853")),
