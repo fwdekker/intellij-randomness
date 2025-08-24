@@ -1,5 +1,7 @@
 package com.fwdekker.randomness.ui
 
+import com.fwdekker.randomness.DecoratorScheme
+import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.Tags
@@ -115,19 +117,11 @@ object ValidatorDslTest : FunSpec({
 
 
     context("of") {
-        lateinit var scheme: DummyScheme
-
-
-        beforeNonContainer {
-            scheme = DummyScheme()
-        }
-
-
         context("info") {
             test("returns `null` if the given message is `null`") {
-                var theInfo: ValidationInfo? = ValidationInfo(scheme, scheme::valid, "wrong")
+                var theInfo: ValidationInfo? = ValidationInfo(scheme, scheme::name, "wrong")
 
-                scheme.validators { theInfo = of(scheme::valid).info(null) }
+                scheme.validators { theInfo = of(scheme::name).info(null) }
 
                 theInfo shouldBe null
             }
@@ -135,7 +129,7 @@ object ValidatorDslTest : FunSpec({
             test("returns `ValidationInfo` with the DSL's configured `state` and `property`") {
                 var theInfo: ValidationInfo? = null
 
-                scheme.validators { theInfo = of(scheme::valid).info("expected") }
+                scheme.validators { theInfo = of(scheme::name).info("expected") }
 
                 theInfo?.message shouldBe "expected"
             }
@@ -149,9 +143,9 @@ object ValidatorDslTest : FunSpec({
             }
 
             test("adds the created validator to the outer DSL's return value") {
-                val info = ValidationInfo(scheme, scheme::valid, scheme.name)
+                val info = ValidationInfo(scheme, scheme::name, scheme.name)
 
-                val validators = scheme.validators { of(scheme::valid).check { info } }
+                val validators = scheme.validators { of(scheme::name).check { info } }
 
                 validators.single().validate() shouldBeSameInstanceAs info
             }
@@ -171,14 +165,15 @@ object ValidatorDslTest : FunSpec({
             }
 
             test("checks the condition and message at the moment of invocation") {
-                val validators = scheme.validators { of(scheme::valid).check({ it }, { scheme.name }) }
+                var message = "expected"
+                val validators = scheme.validators { of(scheme::base).check({ it == 15 }, { message }) }
 
-                scheme.valid = true
+                scheme.base = 15
                 validators.single().validate() shouldBe null
 
-                scheme.name = "expected"
-                scheme.valid = false
-                validators.single().validate()?.message shouldBe "expected"
+                message = "new expected"
+                scheme.base = 14
+                validators.single().validate()?.message shouldBe "new expected"
             }
 
             test("creates a validator that succeeds when the condition is true") {
@@ -242,6 +237,31 @@ object ValidatorDslTest : FunSpec({
 
             isValidated = true
             validators.validate() shouldNotBe null
+        }
+
+        test("returns ValidationInfo that refers to the outer state") {
+            val validators = scheme.validators { include(scheme::arrayDecorator) }
+
+            scheme.arrayDecorator.apply { maxCount = -1 }
+            validators.validate()!!.state shouldBe scheme
+        }
+
+        test("returns ValidationInfo that refers to the outer state even at arbitrary nesting levels") {
+            class MyScheme(override val name: String, val nested: Scheme) : Scheme() {
+                override val decorators = emptyList<DecoratorScheme>()
+                override val validators = validators { include(::nested) }
+                override fun generateUndecoratedStrings(count: Int): List<String> = List(count) { "" }
+                override fun deepCopy(retainUuid: Boolean) = this
+            }
+
+            val inner = MyScheme("inner", scheme)
+            val middle = MyScheme("middle", inner)
+            val outer = MyScheme("outer", middle)
+
+            scheme.arrayDecorator.maxCount = -1
+            inner.doValidate()!!.state shouldBeSameInstanceAs inner
+            middle.doValidate()!!.state shouldBeSameInstanceAs middle
+            outer.doValidate()!!.state shouldBeSameInstanceAs outer
         }
     }
 

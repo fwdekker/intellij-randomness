@@ -76,7 +76,10 @@ class ValidatorDsl private constructor(
      * Includes all [Validator]s of the given [property], but skips them during validation when [condition] is `false`.
      */
     fun <S : State> include(property: KProperty<S>, condition: () -> Boolean = TRUE) {
-        validator(property) { if (condition()) property.getter.call().doValidate() else null }
+        validator(property) {
+            if (condition()) property.getter.call().doValidate()?.copy(state = state)
+            else null
+        }
     }
 
     /**
