@@ -5,6 +5,7 @@
 * [ ] `README.md` is up to date.
   * [ ] The acknowledgements are up to date.
 * [ ] `CHANGELOG.md` is up to date.
+  * [ ] Contributors who have opened issues or pull requests are acknowledged explicitly where appropriate.
   * [ ] The change notes look fine when viewed in the IDE after loading the plugin.
   * [ ] All subsections use bullet points, even those with only one entry. (Otherwise, the subsection does not show up when viewed in the IDE.)
 * [ ] `description.html` (in `src/main/resources/META-INF/`) is up to date.
@@ -39,6 +40,7 @@
   * [ ] The plugin verifier uses the latest versions.
 * [ ] Settings from the previous version have been manually verified to load into the new version without errors.
 * [ ] During the manual tests above, the logs do not contain exceptions with Randomness as the "Plugin to blame". You must actually check the log, not just the in-IDE exception notifications.
+* [ ] The `cd.yml` workflow completes without issues in dry-run mode.
 
 ## How to deploy
 Trigger the [`cd.yml` workflow](https://github.com/fwdekker/intellij-randomness/actions/workflows/cd.yml).
