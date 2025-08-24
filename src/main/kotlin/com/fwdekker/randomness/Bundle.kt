@@ -38,7 +38,7 @@ object Bundle {
  * @throws java.util.MissingFormatArgumentException if [args] has fewer arguments than required for [format]
  */
 fun String.matchesFormat(format: String, vararg args: String) =
-    Regex("%[0-9]+\\\$[Ssd]").findAll(format)
+    Regex("%[0-9]+\\$[Ssd]").findAll(format)
         .toList()
         .asReversed()
         .fold(format) { acc, match ->

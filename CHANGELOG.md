@@ -1,7 +1,12 @@
 # Changelog
-## 3.4.2 -- 2025-08-17
+## 3.4.2 -- 2025-08-25
+### Changed
+* Invalid values in disabled fields are now ignored. ([#609](https://github.com/fwdekker/intellij-randomness/pull/609))
+
 ### Fixed
-* Reproduced and (hopefully) fully fixed "Must be not computed before that call" exception. ([#R44](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/44))
+* Reproduced and (hopefully) fully fixed "Must be not computed before that call" exception. Thanks to the many anonymous issue reporters! ([#R44](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/44))
+* Limited UUID date-times to be between 1970-01-01 and 5236-03-31 because date-times outside of this range were not generated correctly due to limitations in the underlying UUID generator library. Thanks to [Czajka667](https://github.com/Czajka667) for reporting the issue. ([#606](https://github.com/fwdekker/intellij-randomness/pull/606)) ([#609](https://github.com/fwdekker/intellij-randomness/pull/609))
+* Fixed settings not jumping to invalid field if that field is part of a decorator (i.e. array, fixed length, or surround with). ([#610](https://github.com/fwdekker/intellij-randomness/pull/610))
 
 
 ## 3.4.1 -- 2025-08-08
@@ -22,9 +27,9 @@
 
 ### Changed
 * UUID schemes can now use a custom range of date-times. ([#566](https://github.com/fwdekker/intellij-randomness/pull/566)) ([#592](https://github.com/fwdekker/intellij-randomness/pull/592))
-* Date-time inputs for date-time schemes and UUID schemes now support the special `NOW` keyword to use the date and time at the moment at which the scheme is inserted. ([#594](https://github.com/fwdekker/intellij-randomness/pull/594)) ([#596](https://github.com/fwdekker/intellij-randomness/pull/596))
+* Date-time inputs for date-time schemes and UUID schemes now support the special `NOW` keyword to use the date and time at the moment at which the scheme is inserted. Thanks to [Czajka667](https://github.com/Czajka667) for the suggestion! ([#594](https://github.com/fwdekker/intellij-randomness/pull/594)) ([#596](https://github.com/fwdekker/intellij-randomness/pull/596))
 * Date-time inputs are now slightly wider, to ensure the entire input is visible while typing.
-* Random arrays can now optionally insert the element indices as well, in a format that is fully customisable. ([#582](https://github.com/fwdekker/intellij-randomness/issues/582)) ([#585](https://github.com/fwdekker/intellij-randomness/pull/585))
+* Random arrays can now optionally insert the element indices as well, in a format that is fully customisable. Thanks to [Reeck Mondal](https://github.com/TheRGuy9201) for helping with the implementation! ([#582](https://github.com/fwdekker/intellij-randomness/issues/582)) ([#585](https://github.com/fwdekker/intellij-randomness/pull/585))
 * Input validation is now done on a per-input basis. Validation errors are shown directly alongside the faulty input. This makes it much easier to see what is invalid and how to fix it. ([#588](https://github.com/fwdekker/intellij-randomness/pull/588))
 * All icons are now rendered using IntelliJ's internal icon classes. This improves icon performance, caching, accessibility, and compatibility. ([#565](https://github.com/fwdekker/intellij-randomness/pull/565))
 * After opening the settings window from the Randomness popup, the selected template's first scheme is now shown instead of the template itself. ([#571](https://github.com/fwdekker/intellij-randomness/pull/571)) ([#576](https://github.com/fwdekker/intellij-randomness/pull/576))

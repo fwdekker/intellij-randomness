@@ -53,7 +53,12 @@ jobs:
           expr "$MY_VERSION" : '^v[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+$' >/dev/null
       - name: "Check: Version is listed in changelog"
         if: ${{ github.event.inputs.dry_run == 'false' }}
-        run: grep -qF "## ${MY_VERSION#v} -- " CHANGELOG.md
+        run: |
+          grep -qF "## ${MY_VERSION#v} -- " CHANGELOG.md
+      - name: "Check: Changelog does not contain string 'TODO'"
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        run: |
+          ! grep -qF "TODO" CHANGELOG.md
       - name: "Check: Release does not already exist"
         if: ${{ github.event.inputs.dry_run == 'false' }}
         # Using `fetch-tags` option of `actions/checkout` does not work properly

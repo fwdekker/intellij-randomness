@@ -376,7 +376,7 @@ class TemplateJTree(
 
         if (name.matches(Regex(".* \\([1-9][0-9]*\\)"))) {
             i = name.substring(name.lastIndexOf('(') + 1, name.lastIndexOf(')')).toInt()
-            name = name.substring(0, name.lastIndexOf('(') - 1)
+            name = name.take(name.lastIndexOf('(') - 1)
         }
 
         while ("$name ($i)" in templateNames) i++
