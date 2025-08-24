@@ -22,7 +22,7 @@ import io.kotest.matchers.shouldBe
  * Unit tests for [InsertAction].
  */
 object InsertActionTest : FunSpec({
-    tags(Tags.IDEA_FIXTURE)
+    tags(Tags.ACTION, Tags.IDEA_FIXTURE)
 
 
     lateinit var myFixture: CodeInsightTestFixture

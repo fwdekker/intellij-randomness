@@ -29,7 +29,7 @@ import javax.swing.JPanel
  * @see TemplateSettingsAction
  */
 class TemplateGroupAction(private val template: Template) :
-    ActionGroup(template.name, Bundle("template.description.default", template.name), template.icon?.get()) {
+    ActionGroup(template.name, Bundle("template.description.default", template.name), null) {
     /**
      * Returns the action that is appropriate for the given keyboard modifiers.
      *
@@ -56,6 +56,7 @@ class TemplateGroupAction(private val template: Template) :
 
         event.presentation.isPerformGroup = true
         event.presentation.isPopupGroup = true
+        event.presentation.icon = template.icon?.get()
     }
 
     /**
@@ -109,10 +110,12 @@ class TemplateInsertAction(
         array -> Bundle("template.description.array", template.name)
         else -> Bundle("template.description.default", template.name)
     },
-    icon = template.icon
-        ?.let { if (array) it.plusOverlay(OverlayIcon.ARRAY) else it }
-        ?.let { if (repeat) it.plusOverlay(OverlayIcon.REPEAT) else it }
-        ?.get()
+    icon = {
+        template.icon
+            ?.let { if (array) it.plusOverlay(OverlayIcon.ARRAY) else it }
+            ?.let { if (repeat) it.plusOverlay(OverlayIcon.REPEAT) else it }
+            ?.get()
+    }
 ) {
     override val configurable
         get() =
@@ -206,7 +209,7 @@ class TemplateSettingsAction(private val template: Template? = null) : AnAction(
     if (template == null) Bundle("template.name.settings")
     else Bundle("template.name.settings_suffix", template.name),
     template?.let { Bundle("template.description.settings", it.name) },
-    template?.icon?.plusOverlay(OverlayIcon.SETTINGS)?.get() ?: Icons.SETTINGS
+    null
 ) {
     /**
      * Opens the IntelliJ settings menu at the right location to adjust the template configurable.
@@ -218,4 +221,19 @@ class TemplateSettingsAction(private val template: Template? = null) : AnAction(
             .showSettingsDialog(event.project, TemplateListConfigurable::class.java) { configurable ->
                 configurable?.apply { schemeToSelect = template?.let { it.schemes.firstOrNull() ?: it }?.uuid }
             }
+
+
+    /**
+     * Specifies the thread in which [update] is invoked.
+     */
+    override fun getActionUpdateThread() = ActionUpdateThread.EDT
+
+    /**
+     * Sets the icon of this action.
+     *
+     * @param event carries contextual information
+     */
+    override fun update(event: AnActionEvent) {
+        event.presentation.icon = template?.icon?.plusOverlay(OverlayIcon.SETTINGS)?.get() ?: Icons.SETTINGS
+    }
 }

@@ -1,4 +1,9 @@
 # Changelog
+## 3.4.2 -- 2025-08-17
+### Fixed
+* Reproduced and (hopefully) fully fixed "Must be not computed before that call" exception. ([#R44](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/44))
+
+
 ## 3.4.1 -- 2025-08-08
 ### Added
 * Graceful settings corruption handling. When settings fail to load, users receive a notification from which they can update Randomness, create a backup of their settings, or reset their settings to the default. This does not directly solve [#R46](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/46), but at least allows users to easily recover from situations in which they'd be stuck otherwise. ([#R41](https://github.com/fwdekkerbot/intellij-randomness-issues/issues/41)) ([#602](https://github.com/fwdekker/intellij-randomness/pull/602)) ([#604](https://github.com/fwdekker/intellij-randomness/pull/604))

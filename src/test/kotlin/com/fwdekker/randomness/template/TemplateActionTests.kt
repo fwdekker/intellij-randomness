@@ -4,6 +4,7 @@ import com.fwdekker.randomness.Icons
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.TRANSPARENCY
+import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.getSouthColor
 import com.fwdekker.randomness.testhelpers.render
 import com.fwdekker.randomness.testhelpers.shouldBeSameIconAs
@@ -11,6 +12,9 @@ import com.fwdekker.randomness.testhelpers.shouldMatchBundle
 import com.fwdekker.randomness.testhelpers.shouldNotBeSameIconAs
 import com.fwdekker.randomness.testhelpers.typeIcon
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.util.ui.EmptyIcon
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
@@ -24,6 +28,9 @@ import java.awt.Color
  * Unit tests for [TemplateGroupAction].
  */
 object TemplateGroupActionTest : FunSpec({
+    tags(Tags.ACTION)
+
+
     useBareIdeaFixture()
 
 
@@ -36,7 +43,7 @@ object TemplateGroupActionTest : FunSpec({
 
             action.templatePresentation.text shouldBe template.name
             action.templatePresentation.description shouldBe "Inserts a(n) Name at all carets."
-            action.templatePresentation.icon shouldBeSameIconAs template.icon?.get()
+            action.getPresentation().icon shouldBeSameIconAs template.icon?.get()
         }
     }
 })
@@ -45,6 +52,9 @@ object TemplateGroupActionTest : FunSpec({
  * Unit tests for [TemplateInsertAction].
  */
 object TemplateInsertActionTest : FunSpec({
+    tags(Tags.ACTION)
+
+
     useBareIdeaFixture()
 
 
@@ -85,7 +95,7 @@ object TemplateInsertActionTest : FunSpec({
                 val action = TemplateInsertAction(template, repeat = false)
 
                 // Test if icon is fully transparent
-                val icon = action.templatePresentation.icon!!
+                val icon = action.getPresentation().icon!!
                 icon shouldBeSameIconAs EmptyIcon.create(icon)
             }
 
@@ -94,7 +104,7 @@ object TemplateInsertActionTest : FunSpec({
                 val action = TemplateInsertAction(template, repeat = true)
 
                 // Test if icon is not fully transparent
-                val icon = action.templatePresentation.icon!!
+                val icon = action.getPresentation().icon!!
                 icon shouldNotBeSameIconAs EmptyIcon.create(icon)
             }
         }
@@ -123,6 +133,9 @@ object TemplateInsertActionTest : FunSpec({
  * Unit tests for [TemplateSettingsAction].
  */
 object TemplateSettingsActionTest : FunSpec({
+    tags(Tags.ACTION)
+
+
     useBareIdeaFixture()
 
 
@@ -145,7 +158,7 @@ object TemplateSettingsActionTest : FunSpec({
             test("has no description of the template is null") {
                 val action = TemplateSettingsAction(template = null)
 
-                action.templatePresentation.description shouldBe null
+                action.getPresentation().description shouldBe null
             }
 
             test("uses the template's name to describe the action if the template is not null") {
@@ -159,7 +172,8 @@ object TemplateSettingsActionTest : FunSpec({
             test("uses a default icon if the template is null") {
                 val action = TemplateSettingsAction(template = null)
 
-                action.templatePresentation.icon shouldBe Icons.SETTINGS
+                val dinges = Icons.SETTINGS
+                action.getPresentation().icon shouldBe dinges
             }
 
             test("uses the template's icon if the template is not null") {
@@ -167,9 +181,20 @@ object TemplateSettingsActionTest : FunSpec({
                 val template = Template("subject", mutableListOf(DummyScheme().also { it.typeIcon = icon }))
                 val action = TemplateSettingsAction(template)
 
-                val image = action.templatePresentation.icon!!.render()
+                val image = action.getPresentation().icon!!.render()
                 image.getSouthColor(offset = 1) shouldBe Color.GREEN
             }
         }
     }
 })
+
+
+/**
+ * Returns an up-to-date [Presentation] of `this` [AnAction].
+ */
+@Suppress("OverrideOnly") // Irrelevant
+fun AnAction.getPresentation(): Presentation {
+    val presentation = Presentation()
+    update(AnActionEvent.createFromDataContext("", presentation) { null })
+    return presentation
+}

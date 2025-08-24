@@ -22,14 +22,14 @@ import javax.swing.Icon
  * @property repeat `true` if and only if the same value should be inserted at each caret.
  * @property text The text that identifies the action to the user.
  * @param description the optional description of the action
- * @param icon the icon that represents the action
+ * @param icon the icon that represents the action, or `null` if there should be no icon
  */
 abstract class InsertAction(
     val repeat: Boolean = false,
     val text: String,
     description: String? = null,
-    icon: Icon? = null,
-) : AnAction(text, description, icon) {
+    private val icon: (() -> Icon?)? = null,
+) : AnAction(text, description, null) {
     /**
      * The configurable to open as soon as the action is performed but before the strings are inserted.
      *
@@ -53,6 +53,7 @@ abstract class InsertAction(
         val editor = event.getData(CommonDataKeys.EDITOR)
 
         presentation.isEnabled = editor?.document?.isWritable == true
+        presentation.icon = this.icon?.invoke()
     }
 
     /**

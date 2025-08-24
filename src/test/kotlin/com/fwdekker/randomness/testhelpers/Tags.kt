@@ -11,6 +11,11 @@ import io.kotest.core.NamedTag
  */
 object Tags {
     /**
+     * Tests for [com.intellij.openapi.actionSystem.AnAction].
+     */
+    val ACTION = NamedTag("Action")
+
+    /**
      * Tests for [com.fwdekker.randomness.SchemeEditor]s.
      */
     val EDITOR = NamedTag("Editor")
