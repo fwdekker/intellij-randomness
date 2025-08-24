@@ -1,6 +1,7 @@
 package com.fwdekker.randomness.template
 
 import com.fwdekker.randomness.Bundle
+import com.fwdekker.randomness.Icons
 import com.fwdekker.randomness.InsertAction
 import com.fwdekker.randomness.OverlayIcon
 import com.fwdekker.randomness.Timely.generateTimely
@@ -28,7 +29,7 @@ import javax.swing.JPanel
  * @see TemplateSettingsAction
  */
 class TemplateGroupAction(private val template: Template) :
-    ActionGroup(template.name, Bundle("template.description.default", template.name), template.icon?.get()) {
+    ActionGroup(template.name, Bundle("template.description.default", template.name), null) {
     /**
      * Returns the action that is appropriate for the given keyboard modifiers.
      *
@@ -55,6 +56,7 @@ class TemplateGroupAction(private val template: Template) :
 
         event.presentation.isPerformGroup = true
         event.presentation.isPopupGroup = true
+        event.presentation.icon = template.icon?.get()
     }
 
     /**
@@ -232,6 +234,6 @@ class TemplateSettingsAction(private val template: Template? = null) : AnAction(
      * @param event carries contextual information
      */
     override fun update(event: AnActionEvent) {
-        event.presentation.icon = template?.icon?.plusOverlay(OverlayIcon.SETTINGS)?.get()
+        event.presentation.icon = template?.icon?.plusOverlay(OverlayIcon.SETTINGS)?.get() ?: Icons.SETTINGS
     }
 }
