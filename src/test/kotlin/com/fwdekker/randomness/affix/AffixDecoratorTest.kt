@@ -55,8 +55,8 @@ object AffixDecoratorTest : FunSpec({
                     row(AffixDecorator(enabled = true, descriptor = """\\"""), null),
                 "fails if descriptors has triple trailing backslash" to
                     row(AffixDecorator(enabled = true, descriptor = """\\\"""), "affix.error.trailing_escape"),
-                "fails for invalid settings even if disabled" to
-                    row(AffixDecorator(enabled = false, descriptor = """\"""), "affix.error.trailing_escape"),
+                "ignores invalid settings if disabled" to
+                    row(AffixDecorator(enabled = false, descriptor = """\"""), null),
             )
         ) { (scheme, validation) ->
             scheme.generator = { count -> List(count) { "[i$it]" } }

@@ -5,6 +5,7 @@ import com.fwdekker.randomness.testhelpers.DummyScheme
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
+import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.haveSize
@@ -104,15 +105,24 @@ object ValidatorDslTest : FunSpec({
     tags(Tags.PLAIN)
 
 
-    lateinit var scheme: DummyScheme
+    lateinit var scheme: IntegerScheme
 
 
     beforeNonContainer {
-        scheme = DummyScheme()
+        scheme = IntegerScheme()
+        scheme.arrayDecorator.enabled = true
     }
 
 
     context("of") {
+        lateinit var scheme: DummyScheme
+
+
+        beforeNonContainer {
+            scheme = DummyScheme()
+        }
+
+
         context("info") {
             test("returns `null` if the given message is `null`") {
                 var theInfo: ValidationInfo? = ValidationInfo(scheme, scheme::valid, "wrong")
@@ -200,14 +210,6 @@ object ValidatorDslTest : FunSpec({
     }
 
     context("include") {
-        lateinit var scheme: IntegerScheme
-
-
-        beforeNonContainer {
-            scheme = IntegerScheme()
-        }
-
-
         test("adds the property's validators to the list") {
             val validators = scheme.validators { include(scheme::arrayDecorator) }
             validators.validate() shouldBe null
@@ -227,22 +229,142 @@ object ValidatorDslTest : FunSpec({
             validators.validate() shouldBe null
         }
 
-        @Suppress("AssignedValueIsNeverRead") // False positive
         test("does not run validation if the condition is false") {
-            var enabled = true
-            val validators = scheme.validators { include(scheme::arrayDecorator) { enabled } }
+            var isValidated = true
+            val validators = scheme.validators { include(scheme::arrayDecorator) { isValidated } }
             validators.validate() shouldBe null
 
             scheme.arrayDecorator.apply { maxCount = -1 }
             validators.validate() shouldNotBe null
 
-            enabled = false
+            isValidated = false
             validators.validate() shouldBe null
 
-            enabled = true
+            isValidated = true
             validators.validate() shouldNotBe null
         }
     }
+
+    context("case") {
+        test("adds validators added in its body to the parent's list") {
+            val validators = scheme.validators { case({ true }) { of(scheme::name).check { null } } }
+
+            validators.single().property shouldBe scheme::name
+        }
+
+        test("adds validators added in its body to the parent's list, even if the condition is false") {
+            val validators = scheme.validators { case({ false }) { of(scheme::name).check { null } } }
+
+            validators.single().property shouldBe scheme::name
+        }
+
+        test("adds validators included in its body to the parent's list") {
+            val validators = scheme.validators { case({ true }) { of(scheme::name).check { null } } }
+
+            validators.single().property shouldBe scheme::name
+        }
+
+        test("adds validators included in its body to the parent's list, even if the condition is false") {
+            val validators = scheme.validators { case({ false }) { of(scheme::name).check { null } } }
+
+            validators.single().property shouldBe scheme::name
+        }
+
+        test("does not override the output of a validator when the condition is `true`") {
+            val validators = scheme.validators { case({ true }) { of(scheme::name).check { info("expected") } } }
+
+            validators.validate()?.message shouldBe "expected"
+        }
+
+        test("overrides the output of a validator to `null` when the condition is `false`") {
+            val validators = scheme.validators { case({ false }) { of(scheme::name).check { info("unexpected") } } }
+
+            validators.validate() shouldBe null
+        }
+
+        test("checks the condition only at validation time") {
+            var condition = false
+            val validators = scheme.validators { case({ condition }) { of(scheme::name).check { info("expected") } } }
+
+            condition = true
+            validators.validate()?.message shouldBe "expected"
+        }
+
+        test("does not affect validators created before the `case` block") {
+            val validators = scheme.validators {
+                of(scheme::name).check { info("outer") }
+                case({ false }) { of(scheme::name).check { info("inner") } }
+            }
+
+            validators.validate()?.message shouldBe "outer"
+        }
+
+        test("does not affect validators created after the `case` block") {
+            val validators = scheme.validators {
+                case({ false }) { of(scheme::name).check { info("inner") } }
+                of(scheme::name).check { info("outer") }
+            }
+
+            validators.validate()?.message shouldBe "outer"
+        }
+
+        test("can be nested to two levels conjunctively") {
+            var outer = false
+            var inner = false
+
+            val validators = scheme.validators {
+                case({ outer }) {
+                    case({ inner }) {
+                        of(scheme::name).check { info("message") }
+                    }
+                }
+            }
+
+            listOf(true, false).forEach { outer0 ->
+                listOf(true, false).forEach { inner0 ->
+                    outer = outer0
+                    inner = inner0
+
+                    withClue("($outer, $inner)") {
+                        if (outer && inner) validators.validate()?.message shouldBe "message"
+                        else validators.validate() shouldBe null
+                    }
+                }
+            }
+        }
+
+        test("can be nested to three levels conjunctively") {
+            var outer = false
+            var middle = false
+            var inner = false
+
+            val validators = scheme.validators {
+                case({ outer }) {
+                    case({ middle }) {
+                        case({ inner }) {
+                            of(scheme::name).check { info("message") }
+                        }
+                    }
+                }
+            }
+
+            listOf(true, false).forEach { outer0 ->
+                listOf(true, false).forEach { middle0 ->
+                    listOf(true, false).forEach { inner0 ->
+                        outer = outer0
+                        middle = middle0
+                        inner = inner0
+
+                        withClue("($outer, $middle, $inner)") {
+                            if (outer && middle && inner) validators.validate()?.message shouldBe "message"
+                            else validators.validate() shouldBe null
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     context("validators") {
         test("returns an empty list if the body is empty") {
@@ -252,14 +374,14 @@ object ValidatorDslTest : FunSpec({
         }
 
         test("does not include manually constructed `Validator` instances") {
-            val validators = scheme.validators { Validator(scheme::valid) { null } }
+            val validators = scheme.validators { Validator(scheme::name) { null } }
 
             validators should beEmpty()
         }
 
         test("includes all validators in a chain of `check` calls") {
             val validators = scheme.validators {
-                of(scheme::valid)
+                of(scheme::name)
                     .check { null }
                     .check { null }
                     .check { null }
@@ -270,12 +392,12 @@ object ValidatorDslTest : FunSpec({
 
         test("returns the created validators") {
             val validators = scheme.validators {
-                of(scheme::valid)
+                of(scheme::name)
                     .check { null }
                     .check { null }
                 of(scheme::name)
                     .check({ false }, { "Message" })
-                of(scheme::prefix)
+                of(scheme::base)
                     .check { info("Message") }
             }
 

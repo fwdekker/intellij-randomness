@@ -125,29 +125,44 @@ object TimestampTest : FunSpec({
     }
 
 
-    context("isBefore") {
-        withData(
-            mapOf(
-                "returns false for identical dates" to
-                    row(Timestamp("9510-12-27 23:51:18.556"), Timestamp("9510-12-27 23:51:18.556"), false),
-                "returns false if first date is after second date" to
-                    row(Timestamp("8552-08-29 08:33:35.784"), Timestamp("7588-07-06 08:48:00.539"), false),
-                "returns true if first date is before second date" to
-                    row(Timestamp("5494-07-30 01:55:03.144"), Timestamp("7783-01-03 03:33:44.932"), true),
-                "returns false if first date is invalid" to
-                    row(Timestamp("invalid"), Timestamp("7927-06-10 12:17:15.448"), false),
-                "returns false if second date is invalid" to
-                    row(Timestamp("8164-03-06 05:00:04.146"), Timestamp("invalid"), false),
-                "returns true if first date is before 'NOW'" to
-                    row(Timestamp("1714-01-26 01:15:40"), Timestamp(NOW), true),
-                "returns true if second date is after 'NOW'" to
-                    row(Timestamp(NOW), Timestamp("6379-06-15 14:40:39"), true),
-                "returns false if both dates are 'NOW'" to
-                    row(Timestamp(NOW), Timestamp(NOW), false),
-                "returns false if both dates are invalid" to
-                    row(Timestamp("invalid"), Timestamp("invalid"), false),
-            )
-        ) { (a, b, expected) -> a.isBefore(b) shouldBe expected }
+    context("isBefore/isAfter") {
+        context("strict and valid") {
+            withData(
+                mapOf(
+                    "returns false if first date is after second date" to
+                        row(Timestamp("8552-08-29 08:33:35.784"), Timestamp("7588-07-06 08:48:00.539"), false),
+                    "returns true if first date is before second date" to
+                        row(Timestamp("5494-07-30 01:55:03.144"), Timestamp("7783-01-03 03:33:44.932"), true),
+                    "returns true if first date is before 'NOW'" to
+                        row(Timestamp("1714-01-26 01:15:40"), Timestamp(NOW), true),
+                    "returns true if second date is after 'NOW'" to
+                        row(Timestamp(NOW), Timestamp("6379-06-15 14:40:39"), true),
+                )
+            ) { (a, b, expected) ->
+                a.isBefore(b) shouldBe expected
+                b.isAfter(a) shouldBe expected
+            }
+        }
+
+        context("equal or invalid") {
+            withData(
+                mapOf(
+                    "returns false for identical dates" to
+                        row(Timestamp("9510-12-27 23:51:18.556"), Timestamp("9510-12-27 23:51:18.556")),
+                    "returns false if both dates are 'NOW'" to
+                        row(Timestamp(NOW), Timestamp(NOW)),
+                    "returns false if first date is invalid" to
+                        row(Timestamp("invalid"), Timestamp("7927-06-10 12:17:15.448")),
+                    "returns false if second date is invalid" to
+                        row(Timestamp("8164-03-06 05:00:04.146"), Timestamp("invalid")),
+                    "returns false if both dates are invalid" to
+                        row(Timestamp("invalid"), Timestamp("invalid")),
+                )
+            ) { (a, b) ->
+                a.isBefore(b) shouldBe false
+                a.isAfter(b) shouldBe false
+            }
+        }
     }
 
     context("doValidate") {

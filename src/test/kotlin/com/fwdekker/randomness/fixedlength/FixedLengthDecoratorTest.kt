@@ -42,15 +42,17 @@ object FixedLengthDecoratorTest : FunSpec({
                 "succeeds for default state" to
                     row(FixedLengthDecorator(), null),
                 "succeeds for one length" to
-                    row(FixedLengthDecorator(length = 1), null),
+                    row(FixedLengthDecorator(enabled = true, length = 1), null),
                 "fails for zero length" to
-                    row(FixedLengthDecorator(length = 0), "fixed_length.error.length_too_low"),
+                    row(FixedLengthDecorator(enabled = true, length = 0), "fixed_length.error.length_too_low"),
                 "fails for negative length" to
-                    row(FixedLengthDecorator(length = -4), "fixed_length.error.length_too_low"),
+                    row(FixedLengthDecorator(enabled = true, length = -4), "fixed_length.error.length_too_low"),
                 "fails for empty filler" to
-                    row(FixedLengthDecorator(filler = ""), "fixed_length.error.filler_length"),
+                    row(FixedLengthDecorator(enabled = true, filler = ""), "fixed_length.error.filler_length"),
                 "fails for non-char filler" to
-                    row(FixedLengthDecorator(filler = "long"), "fixed_length.error.filler_length"),
+                    row(FixedLengthDecorator(enabled = true, filler = "long"), "fixed_length.error.filler_length"),
+                "ignores invalid settings if disabled" to
+                    row(FixedLengthDecorator(enabled = false, filler = "long"), null),
             )
         ) { (scheme, validation) ->
             scheme.generator = { List(it) { "[in]" } }

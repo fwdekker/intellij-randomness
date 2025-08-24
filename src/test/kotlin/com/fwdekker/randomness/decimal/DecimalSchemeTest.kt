@@ -81,9 +81,9 @@ object DecimalSchemeTest : FunSpec({
                 "fails if grouping separator is non-char" to
                     row(DecimalScheme(groupingSeparator = "long"), "decimal.error.grouping_separator_length"),
                 "fails if affix decorator is invalid" to
-                    row(DecimalScheme(affixDecorator = AffixDecorator(descriptor = """\""")), ""),
+                    row(DecimalScheme(affixDecorator = AffixDecorator(enabled = true, descriptor = """\""")), ""),
                 "fails if array decorator is invalid" to
-                    row(DecimalScheme(arrayDecorator = ArrayDecorator(minCount = -98)), ""),
+                    row(DecimalScheme(arrayDecorator = ArrayDecorator(enabled = true, minCount = -98)), ""),
             )
         ) { (scheme, validation) -> scheme shouldValidateAsBundle validation }
     }

@@ -47,19 +47,24 @@ fun List<Validator<*>>.validate(): ValidationInfo? = firstNotNullOfOrNull { it.v
  * A domain-specific language (DSL) for creating [Validator]s on a [State] object.
  *
  * @param state the [State] that this DSL creates [Validator]s for. This [State] is not modified by the DSL itself
+ * @param validators the list into which to store [Validator]s that are created in this DSL
+ * @param condition the pre-condition to apply to all [Validator]s created by this [DSL]. If [condition] returns `false`
+ * during validation, then the output of the [Validator]s is changed to `null`. The [condition] applies only to
+ * [Validator]s constructed at this level of nesting of the DSL, and not, for example, to those already in [validators]
+ * at construction time
  * @see Companion.validators to construct this DSL
  */
-class ValidatorDsl private constructor(private val state: State) {
-    /**
-     * The list of [Validator]s that has been created inside the DSL thus far.
-     */
-    private val validators = mutableListOf<Validator<*>>()
-
+class ValidatorDsl private constructor(
+    private val state: State,
+    private val validators: MutableList<Validator<*>> = mutableListOf(),
+    private val condition: (() -> Boolean) = TRUE,
+) {
     /**
      * Wraps around the default [Validator] constructor, but additionally adds the created [Validator] to [validators].
      */
     private fun <T : Any?> validator(property: KProperty<T>, validate: (T) -> ValidationInfo?): Validator<T> =
-        Validator(property, validate).also { validators += it }
+        Validator(property) { target -> if (condition()) validate(target) else null }
+            .also { validators += it }
 
 
     /**
@@ -70,9 +75,16 @@ class ValidatorDsl private constructor(private val state: State) {
     /**
      * Includes all [Validator]s of the given [property], but skips them during validation when [condition] is `false`.
      */
-    fun <S : State> include(property: KProperty<S>, condition: () -> Boolean = { true }) {
+    fun <S : State> include(property: KProperty<S>, condition: () -> Boolean = TRUE) {
         validator(property) { if (condition()) property.getter.call().doValidate() else null }
     }
+
+    /**
+     * Enters a DSL that is like the current one, but makes every [Validator] constructed inside [body] return `null`
+     * when [condition] returns `false` during validation.
+     */
+    fun case(condition: () -> Boolean, body: ValidatorDsl.() -> Unit) =
+        ValidatorDsl(state, validators) { this.condition() && condition() }.body()
 
 
     /**
@@ -141,6 +153,12 @@ class ValidatorDsl private constructor(private val state: State) {
      * Holds constants.
      */
     companion object {
+        /**
+         * Always returns `true`.
+         */
+        private val TRUE: () -> Boolean = { true }
+
+
         /**
          * Initiates the [ValidatorDsl] on `this` [State], and returns all [Validator]s that were created inside the DSL
          * using the DSL's own functions.

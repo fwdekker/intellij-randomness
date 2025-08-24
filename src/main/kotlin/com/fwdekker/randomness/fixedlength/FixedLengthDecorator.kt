@@ -21,8 +21,10 @@ data class FixedLengthDecorator(
     override val decorators = emptyList<DecoratorScheme>()
     override val isEnabled get() = enabled
     override val validators = validators {
-        of(::length).check({ it >= MIN_LENGTH }, { Bundle("fixed_length.error.length_too_low", MIN_LENGTH) })
-        of(::filler).check({ it.length == 1 }, { Bundle("fixed_length.error.filler_length") })
+        case({ enabled }) {
+            of(::length).check({ it >= MIN_LENGTH }, { Bundle("fixed_length.error.length_too_low", MIN_LENGTH) })
+            of(::filler).check({ it.length == 1 }, { Bundle("fixed_length.error.filler_length") })
+        }
     }
 
 

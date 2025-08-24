@@ -137,15 +137,25 @@ object ArrayDecoratorTest : FunSpec({
                 "succeeds for default state" to
                     row(ArrayDecorator(), null),
                 "fails for zero min count" to
-                    row(ArrayDecorator(minCount = 0), "array.error.min_count_too_low"),
+                    row(ArrayDecorator(enabled = true, minCount = 0), "array.error.min_count_too_low"),
                 "fails for negative min count" to
-                    row(ArrayDecorator(minCount = -23), "array.error.min_count_too_low"),
+                    row(ArrayDecorator(enabled = true, minCount = -23), "array.error.min_count_too_low"),
                 "succeeds for min count equals max count" to
-                    row(ArrayDecorator(minCount = 368, maxCount = 368), null),
+                    row(ArrayDecorator(enabled = true, minCount = 368, maxCount = 368), null),
                 "fails for min count above max count" to
-                    row(ArrayDecorator(minCount = 14, maxCount = 2), "array.error.min_count_above_max"),
+                    row(ArrayDecorator(enabled = true, minCount = 14, maxCount = 2), "array.error.min_count_above_max"),
                 "fails if affix decorator is invalid" to
-                    row(ArrayDecorator(affixDecorator = AffixDecorator(descriptor = """\""")), ""),
+                    row(
+                        ArrayDecorator(
+                            enabled = true,
+                            affixDecorator = AffixDecorator(enabled = true, descriptor = """\"""),
+                        ),
+                        ""
+                    ),
+                "ignores invalid settings if disabled" to
+                    row(ArrayDecorator(enabled = false, minCount = -23), null),
+                "ignores invalid affix decorator if that decorator is disabled" to
+                    row(ArrayDecorator(affixDecorator = AffixDecorator(enabled = false, descriptor = """\""")), null),
             )
         ) { (scheme, validation) ->
             scheme.generator = { count -> List(count) { "<i$it>" } }
