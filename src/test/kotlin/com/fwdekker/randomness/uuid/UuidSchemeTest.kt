@@ -138,9 +138,9 @@ object UuidSchemeTest : FunSpec({
                     "fails for unsupported version" to
                         row(UuidScheme(version = 14), "uuid.error.unknown_version"),
                     "fails if affix decorator is invalid" to
-                        row(UuidScheme(affixDecorator = AffixDecorator(descriptor = """\""")), ""),
+                        row(UuidScheme(affixDecorator = AffixDecorator(enabled = true, descriptor = """\""")), ""),
                     "fails if array decorator is invalid" to
-                        row(UuidScheme(arrayDecorator = ArrayDecorator(minCount = -539)), ""),
+                        row(UuidScheme(arrayDecorator = ArrayDecorator(enabled = true, minCount = -539)), ""),
                 )
             ) { (scheme, validation) -> scheme shouldValidateAsBundle validation }
         }

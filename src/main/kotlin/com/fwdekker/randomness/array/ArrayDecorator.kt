@@ -33,9 +33,11 @@ data class ArrayDecorator(
     override val decorators = listOf(affixDecorator)
     override val isEnabled get() = enabled
     override val validators = validators {
-        of(::minCount).check({ it >= MIN_MIN_COUNT }, { Bundle("array.error.min_count_too_low", MIN_MIN_COUNT) })
-        of(::maxCount).check({ it >= minCount }, { Bundle("array.error.min_count_above_max") })
-        include(::affixDecorator)
+        case({ enabled }) {
+            of(::minCount).check({ it >= MIN_MIN_COUNT }, { Bundle("array.error.min_count_too_low", MIN_MIN_COUNT) })
+            of(::maxCount).check({ it >= minCount }, { Bundle("array.error.min_count_above_max") })
+            include(::affixDecorator)
+        }
     }
 
 

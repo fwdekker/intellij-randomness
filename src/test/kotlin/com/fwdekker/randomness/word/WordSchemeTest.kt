@@ -50,9 +50,9 @@ object WordSchemeTest : FunSpec({
                 "fails if word list is empty" to
                     row(WordScheme(words = emptyList()), "word.error.empty_word_list"),
                 "fails if affix decorator is invalid" to
-                    row(WordScheme(affixDecorator = AffixDecorator(descriptor = """\""")), ""),
+                    row(WordScheme(affixDecorator = AffixDecorator(enabled = true, descriptor = """\""")), ""),
                 "fails if array decorator is invalid" to
-                    row(WordScheme(arrayDecorator = ArrayDecorator(minCount = -24)), ""),
+                    row(WordScheme(arrayDecorator = ArrayDecorator(enabled = true, minCount = -24)), ""),
             )
         ) { (scheme, validation) -> scheme shouldValidateAsBundle validation }
     }

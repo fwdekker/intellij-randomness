@@ -291,9 +291,25 @@ object TemplateReferenceTest : FunSpec({
                 "fails if the reference is recursive" to
                     row({ reference.also { it.template = referencingTemplate } }, "reference.error.recursion"),
                 "fails if affix decorator is invalid" to
-                    row({ reference.also { it.affixDecorator.descriptor = """\""" } }, ""),
+                    row(
+                        {
+                            reference.also {
+                                it.affixDecorator.enabled = true
+                                it.affixDecorator.descriptor = """\"""
+                            }
+                        },
+                        ""
+                    ),
                 "fails if array decorator is invalid" to
-                    row({ reference.also { it.arrayDecorator.minCount = -24 } }, ""),
+                    row(
+                        {
+                            reference.also {
+                                it.arrayDecorator.enabled = true
+                                it.arrayDecorator.minCount = -24
+                            }
+                        },
+                        ""
+                    ),
             )
         ) { (scheme, validation) -> scheme() shouldValidateAsBundle validation }
     }

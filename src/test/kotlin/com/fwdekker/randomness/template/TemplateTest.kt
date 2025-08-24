@@ -160,7 +160,7 @@ object TemplateTest : FunSpec({
                 "fails if scheme is invalid" to
                     row(Template("Template", mutableListOf(DummyScheme(valid = false))), ""),
                 "fails if array decorator is invalid" to
-                    row(Template(arrayDecorator = ArrayDecorator(minCount = -24)), ""),
+                    row(Template(arrayDecorator = ArrayDecorator(enabled = true, minCount = -24)), ""),
             )
         ) { (scheme, validation) -> scheme shouldValidateAsBundle validation }
     }

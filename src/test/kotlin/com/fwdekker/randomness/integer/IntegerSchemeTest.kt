@@ -112,11 +112,11 @@ object IntegerSchemeTest : FunSpec({
                 "fails if grouping separator is non-char" to
                     row(IntegerScheme(groupingSeparator = "long"), "integer.error.grouping_separator_length"),
                 "fails if fixed-length decorator is invalid" to
-                    row(IntegerScheme(fixedLengthDecorator = FixedLengthDecorator(length = -3)), ""),
+                    row(IntegerScheme(fixedLengthDecorator = FixedLengthDecorator(enabled = true, length = -3)), ""),
                 "fails if affix decorator is invalid" to
-                    row(IntegerScheme(affixDecorator = AffixDecorator(descriptor = """\""")), ""),
+                    row(IntegerScheme(affixDecorator = AffixDecorator(enabled = true, descriptor = """\""")), ""),
                 "fails if array decorator is invalid" to
-                    row(IntegerScheme(arrayDecorator = ArrayDecorator(minCount = -24)), ""),
+                    row(IntegerScheme(arrayDecorator = ArrayDecorator(enabled = true, minCount = -24)), ""),
             )
         ) { (scheme, validation) -> scheme shouldValidateAsBundle validation }
     }

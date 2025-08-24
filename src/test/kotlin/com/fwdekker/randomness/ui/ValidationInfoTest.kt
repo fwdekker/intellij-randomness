@@ -110,6 +110,7 @@ object ValidatorDslTest : FunSpec({
 
     beforeNonContainer {
         scheme = IntegerScheme()
+        scheme.arrayDecorator.enabled = true
     }
 
 
@@ -229,17 +230,17 @@ object ValidatorDslTest : FunSpec({
         }
 
         test("does not run validation if the condition is false") {
-            var enabled = true
-            val validators = scheme.validators { include(scheme::arrayDecorator) { enabled } }
+            var isValidated = true
+            val validators = scheme.validators { include(scheme::arrayDecorator) { isValidated } }
             validators.validate() shouldBe null
 
             scheme.arrayDecorator.apply { maxCount = -1 }
             validators.validate() shouldNotBe null
 
-            enabled = false
+            isValidated = false
             validators.validate() shouldBe null
 
-            enabled = true
+            isValidated = true
             validators.validate() shouldNotBe null
         }
     }

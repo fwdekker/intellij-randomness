@@ -110,7 +110,7 @@ object StringSchemeTest : FunSpec({
                 "succeeds if non-regex pattern has single trailing backslash" to
                     row(StringScheme(pattern = """text\""", isRegex = false), null),
                 "fails if array decorator is invalid" to
-                    row(StringScheme(arrayDecorator = ArrayDecorator(minCount = -328)), ""),
+                    row(StringScheme(arrayDecorator = ArrayDecorator(enabled = true, minCount = -328)), ""),
             )
         ) { (scheme, validation) -> scheme shouldValidateAsBundle validation }
     }

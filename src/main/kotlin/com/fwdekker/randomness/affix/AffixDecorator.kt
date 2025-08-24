@@ -22,10 +22,12 @@ data class AffixDecorator(
     override val decorators = emptyList<DecoratorScheme>()
     override val isEnabled get() = enabled
     override val validators = validators {
-        of(::descriptor).check(
-            { !it.fold(false) { escaped, char -> if (char == '\\') !escaped else false } },
-            { Bundle("affix.error.trailing_escape") }
-        )
+        case({ enabled }) {
+            of(::descriptor).check(
+                { !it.fold(false) { escaped, char -> if (char == '\\') !escaped else false } },
+                { Bundle("affix.error.trailing_escape") }
+            )
+        }
     }
 
 
