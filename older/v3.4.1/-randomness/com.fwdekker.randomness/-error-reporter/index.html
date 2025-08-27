@@ -1,0 +1,191 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ErrorReporter</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<link href="../../../styles/multimodule.css" rel="Stylesheet">
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Randomness
+                    </a>
+            </div>
+            <div class="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;-randomness/com.fwdekker.randomness/-error-reporter/index.html&quot;}"><div class="versions-dropdown">
+  <div class="versions-dropdown-button">v3.4.1</div>
+  <div class="versions-dropdown-data"><a href="../../../../../-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.4.2</a><a href="index.html">v3.4.1</a><a href="../../../../v3.4.0/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.4.0</a><a href="../../../../v3.3.6/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.3.6</a><a href="../../../../v3.3.5/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.3.5</a><a href="../../../../v3.3.4/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.3.4</a><a href="../../../../v3.3.3/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.3.3</a><a href="../../../../v3.3.2/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.3.2</a><a href="../../../../v3.3.1/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.3.1</a><a href="../../../../v3.3.0/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.3.0</a><a href="../../../../v3.2.0/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.2.0</a><a href="../../../../v3.1.0/-randomness/com.fwdekker.randomness/-error-reporter/index.html">v3.1.0</a><a href="../../../../../not-found-version.html?v=v3.0.0">v3.0.0</a><a href="../../../../../not-found-version.html?v=v2.7.7">v2.7.7</a><a href="../../../../../not-found-version.html?v=v2.7.6">v2.7.6</a><a href="../../../../../not-found-version.html?v=v2.7.5">v2.7.5</a><a href="../../../../../not-found-version.html?v=v2.7.4">v2.7.4</a><a href="../../../../../not-found-version.html?v=v2.7.3">v2.7.3</a><a href="../../../../../not-found-version.html?v=v2.7.2">v2.7.2</a><a href="../../../../../not-found-version.html?v=v2.7.1">v2.7.1</a><a href="../../../../../not-found-version.html?v=v2.7.0">v2.7.0</a><a href="../../../../../not-found-version.html?v=v2.6.1">v2.6.1</a><a href="../../../../../not-found-version.html?v=v2.6.0">v2.6.0</a><a href="../../../../../not-found-version.html?v=v2.5.1">v2.5.1</a><a href="../../../../../not-found-version.html?v=v2.5.0">v2.5.0</a><a href="../../../../../not-found-version.html?v=v2.4.1">v2.4.1</a><a href="../../../../../not-found-version.html?v=v2.4.0">v2.4.0</a><a href="../../../../../not-found-version.html?v=v2.3.0">v2.3.0</a><a href="../../../../../not-found-version.html?v=v2.2.0">v2.2.0</a><a href="../../../../../not-found-version.html?v=v2.1.0">v2.1.0</a><a href="../../../../../not-found-version.html?v=v2.0.0">v2.0.0</a><a href="../../../../../not-found-version.html?v=v1.6.1">v1.6.1</a><a href="../../../../../not-found-version.html?v=v1.6.0">v1.6.0</a><a href="../../../../../not-found-version.html?v=v1.5.2">v1.5.2</a><a href="../../../../../not-found-version.html?v=v1.5.1">v1.5.1</a><a href="../../../../../not-found-version.html?v=v1.5.0">v1.5.0</a><a href="../../../../../not-found-version.html?v=v1.4.0">v1.4.0</a><a href="../../../../../not-found-version.html?v=v1.3.2">v1.3.2</a><a href="../../../../../not-found-version.html?v=v1.3.1">v1.3.1</a><a href="../../../../../not-found-version.html?v=v1.3.0">v1.3.0</a><a href="../../../../../not-found-version.html?v=v1.2.0">v1.2.0</a><a href="../../../../../not-found-version.html?v=v1.1.0">v1.1.0</a><a href="../../../../../not-found-version.html?v=v1.0.1">v1.0.1</a><a href="../../../../../not-found-version.html?v=v1.0.0">v1.0.0</a></div>
+</div>
+</dokka-template-command>            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="Randomness::com.fwdekker.randomness/ErrorReporter///PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../../index.html">Randomness</a><span class="delimiter">/</span><a href="../index.html">com.fwdekker.randomness</a><span class="delimiter">/</span><span class="current">ErrorReporter</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Error</span><wbr><span><span>Reporter</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">internal </span><span class="token keyword">class </span><a href="index.html">ErrorReporter</a> : <span data-unresolved-link="com.intellij.openapi.diagnostic/ErrorReportSubmitter///PointingToDeclaration/">ErrorReportSubmitter</span><span class="clearfix"><span class="floating-right">(<a href="https://github.com/fwdekker/intellij-randomness/tree/v3.4.1/src/main/kotlin/com/fwdekker/randomness/ErrorReporter.kt#L46">source</a>)</span></span></div><p class="paragraph">Reports exceptions on GitHub.</p><p class="paragraph">Heavily inspired by <a href="https://github.com/halirutan/Wolfram-Language-IntelliJ-Plugin-Archive/tree/e3dd72f9cd344d678ac892aaa7bf59abd84871e8/src/de/halirutan/mathematica/errorreporting">Patrick Scheibe's error reporter</a>.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="586705453%2FConstructors%2F769193423" anchor-label="ErrorReporter" id="586705453%2FConstructors%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-error-reporter.html"><span>Error</span><wbr><span><span>Reporter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="586705453%2FConstructors%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="525204001%2FProperties%2F769193423" anchor-label="github" id="525204001%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="github.html"><span><span>github</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="525204001%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="github.html">github</a><span class="token operator">: </span><a href="../-git-hub-reporter/index.html">GitHubReporter</a></div><div class="brief "><p class="paragraph">Interacts with GitHub.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1859610835%2FFunctions%2F769193423" anchor-label="getPrivacyNoticeText" id="-1859610835%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-privacy-notice-text.html"><span>get</span><wbr><span>Privacy</span><wbr><span>Notice</span><wbr><span><span>Text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1859610835%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-privacy-notice-text.html"><span class="token function">getPrivacyNoticeText</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Returns the privacy notice text.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="876503689%2FFunctions%2F769193423" anchor-label="getReportActionText" id="876503689%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-report-action-text.html"><span>get</span><wbr><span>Report</span><wbr><span>Action</span><wbr><span><span>Text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="876503689%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-report-action-text.html"><span class="token function">getReportActionText</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Returns the text that is displayed in the button to report the error.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1405636884%2FFunctions%2F769193423" anchor-label="notifyUser" id="1405636884%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="notify-user.html"><span>notify</span><wbr><span><span>User</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1405636884%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="notify-user.html"><span class="token function">notifyUser</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">report<span class="token operator">: </span><span data-unresolved-link="com.intellij.openapi.diagnostic/SubmittedReportInfo///PointingToDeclaration/">SubmittedReportInfo</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Displays a notification to the user explaining the <a href="notify-user.html">report</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-726650032%2FFunctions%2F769193423" anchor-label="submit" id="-726650032%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="submit.html"><span><span>submit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-726650032%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="submit.html"><span class="token function">submit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">events<span class="token operator">: </span><span data-unresolved-link="kotlin/Array///PointingToDeclaration/">Array</span><span class="token operator">&lt;</span><span class="token keyword">out </span><span data-unresolved-link="com.intellij.openapi.diagnostic/IdeaLoggingEvent///PointingToDeclaration/">IdeaLoggingEvent</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">additionalInfo<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">parentComponent<span class="token operator">: </span><span data-unresolved-link="java.awt/Component///PointingToDeclaration/">Component</span><span class="token punctuation">, </span></span><span class="parameter ">consumer<span class="token operator">: </span><span data-unresolved-link="com.intellij.util/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span class="token keyword">in </span><span data-unresolved-link="com.intellij.openapi.diagnostic/SubmittedReportInfo///PointingToDeclaration/">SubmittedReportInfo</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></div><div class="brief "><p class="paragraph">Submits the exception by opening the browser to create an issue on GitHub.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Florine&nbsp;W.&nbsp;Dekker</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

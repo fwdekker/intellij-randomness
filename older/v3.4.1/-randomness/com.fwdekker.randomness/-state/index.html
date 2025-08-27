@@ -1,0 +1,236 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>State</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+<link href="../../../styles/multimodule.css" rel="Stylesheet">
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Randomness
+                    </a>
+            </div>
+            <div class="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;-randomness/com.fwdekker.randomness/-state/index.html&quot;}"><div class="versions-dropdown">
+  <div class="versions-dropdown-button">v3.4.1</div>
+  <div class="versions-dropdown-data"><a href="../../../../../-randomness/com.fwdekker.randomness/-state/index.html">v3.4.2</a><a href="index.html">v3.4.1</a><a href="../../../../v3.4.0/-randomness/com.fwdekker.randomness/-state/index.html">v3.4.0</a><a href="../../../../v3.3.6/-randomness/com.fwdekker.randomness/-state/index.html">v3.3.6</a><a href="../../../../v3.3.5/-randomness/com.fwdekker.randomness/-state/index.html">v3.3.5</a><a href="../../../../v3.3.4/-randomness/com.fwdekker.randomness/-state/index.html">v3.3.4</a><a href="../../../../v3.3.3/-randomness/com.fwdekker.randomness/-state/index.html">v3.3.3</a><a href="../../../../v3.3.2/-randomness/com.fwdekker.randomness/-state/index.html">v3.3.2</a><a href="../../../../v3.3.1/-randomness/com.fwdekker.randomness/-state/index.html">v3.3.1</a><a href="../../../../v3.3.0/-randomness/com.fwdekker.randomness/-state/index.html">v3.3.0</a><a href="../../../../v3.2.0/-randomness/com.fwdekker.randomness/-state/index.html">v3.2.0</a><a href="../../../../v3.1.0/-randomness/com.fwdekker.randomness/-state/index.html">v3.1.0</a><a href="../../../../../not-found-version.html?v=v3.0.0">v3.0.0</a><a href="../../../../../not-found-version.html?v=v2.7.7">v2.7.7</a><a href="../../../../../not-found-version.html?v=v2.7.6">v2.7.6</a><a href="../../../../../not-found-version.html?v=v2.7.5">v2.7.5</a><a href="../../../../../not-found-version.html?v=v2.7.4">v2.7.4</a><a href="../../../../../not-found-version.html?v=v2.7.3">v2.7.3</a><a href="../../../../../not-found-version.html?v=v2.7.2">v2.7.2</a><a href="../../../../../not-found-version.html?v=v2.7.1">v2.7.1</a><a href="../../../../../not-found-version.html?v=v2.7.0">v2.7.0</a><a href="../../../../../not-found-version.html?v=v2.6.1">v2.6.1</a><a href="../../../../../not-found-version.html?v=v2.6.0">v2.6.0</a><a href="../../../../../not-found-version.html?v=v2.5.1">v2.5.1</a><a href="../../../../../not-found-version.html?v=v2.5.0">v2.5.0</a><a href="../../../../../not-found-version.html?v=v2.4.1">v2.4.1</a><a href="../../../../../not-found-version.html?v=v2.4.0">v2.4.0</a><a href="../../../../../not-found-version.html?v=v2.3.0">v2.3.0</a><a href="../../../../../not-found-version.html?v=v2.2.0">v2.2.0</a><a href="../../../../../not-found-version.html?v=v2.1.0">v2.1.0</a><a href="../../../../../not-found-version.html?v=v2.0.0">v2.0.0</a><a href="../../../../../not-found-version.html?v=v1.6.1">v1.6.1</a><a href="../../../../../not-found-version.html?v=v1.6.0">v1.6.0</a><a href="../../../../../not-found-version.html?v=v1.5.2">v1.5.2</a><a href="../../../../../not-found-version.html?v=v1.5.1">v1.5.1</a><a href="../../../../../not-found-version.html?v=v1.5.0">v1.5.0</a><a href="../../../../../not-found-version.html?v=v1.4.0">v1.4.0</a><a href="../../../../../not-found-version.html?v=v1.3.2">v1.3.2</a><a href="../../../../../not-found-version.html?v=v1.3.1">v1.3.1</a><a href="../../../../../not-found-version.html?v=v1.3.0">v1.3.0</a><a href="../../../../../not-found-version.html?v=v1.2.0">v1.2.0</a><a href="../../../../../not-found-version.html?v=v1.1.0">v1.1.0</a><a href="../../../../../not-found-version.html?v=v1.0.1">v1.0.1</a><a href="../../../../../not-found-version.html?v=v1.0.0">v1.0.0</a></div>
+</div>
+</dokka-template-command>            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="Randomness::com.fwdekker.randomness/State///PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../../index.html">Randomness</a><span class="delimiter">/</span><a href="../index.html">com.fwdekker.randomness</a><span class="delimiter">/</span><span class="current">State</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>State</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">State</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/fwdekker/intellij-randomness/tree/v3.4.1/src/main/kotlin/com/fwdekker/randomness/State.kt#L44">source</a>)</span></span></div><p class="paragraph">A state holds variables that can be configured, validated, copied, and loaded.</p><p class="paragraph">In a <a href="index.html">State</a>, fields are typically mutable, because the user can change the field. However, fields that themselves also contain data (e.g. a <span data-unresolved-link="kotlin.collections/Collection///PointingToDeclaration/">Collection</span> or a <a href="../-decorator-scheme/index.html">DecoratorScheme</a>) should be stored as immutable references (but may themselves be mutable). For example, instead of having the field <code class="lang-kotlin">var list: List&lt;String&gt;</code>, a <a href="index.html">State</a> should have the field <code class="lang-kotlin">val list: MutableList&lt;String&gt;</code>. This reflects the typical case in which the user does not change the reference to the object, but changes the properties inside the object. And, more importantly, means that nested a <a href="../-scheme-editor/index.html">SchemeEditor</a> can share a single unchanging reference to a <a href="index.html">State</a> with its nested <a href="../-scheme-editor/index.html">SchemeEditor</a>s.</p><p class="paragraph">Properties should be annotated with <span data-unresolved-link="com.intellij.util.xmlb.annotations/Transient///PointingToDeclaration/">Transient</span> (not <span data-unresolved-link="kotlin.jvm/Transient///PointingToDeclaration/">kotlin.jvm.Transient</span>) to ensure they are not stored. The specifics of how the annotation is applied and inherited are complicated. The following rules apply:</p><ul><li><p class="paragraph">Immutable non-<span data-unresolved-link="kotlin.collections/Collection///PointingToDeclaration/">Collection</span>s (e.g. <code class="lang-kotlin">val foo: Int</code> or <code class="lang-kotlin">val bar: State</code>) are not serialized. These properties should not be annotated, not even "just in case" nor "for clarity".</p></li><li><p class="paragraph">Immutable <span data-unresolved-link="kotlin.collections/Collection///PointingToDeclaration/">Collection</span>s (e.g. <code class="lang-kotlin">val foo: List&lt;Int&gt;</code> or <code class="lang-kotlin">val bar: List&lt;State&gt;</code>) are not serialized, unless annotated with a serialization annotation such as <span data-unresolved-link="com.intellij.util.xmlb.annotations/XCollection///PointingToDeclaration/">com.intellij.util.xmlb.annotations.XCollection</span> or <span data-unresolved-link="com.intellij.util.xmlb.annotations/OptionTag///PointingToDeclaration/">com.intellij.util.xmlb.annotations.OptionTag</span>.</p></li><li><p class="paragraph">Mutable properties (i.e. <code class="lang-kotlin">var</code>) are serialized, unless annotated with <span data-unresolved-link="com.intellij.util.xmlb.annotations/Transient///PointingToDeclaration/">Transient</span>.</p></li><li><p class="paragraph">Do not combine <span data-unresolved-link="com.intellij.util.xmlb.annotations/Transient///PointingToDeclaration/">Transient</span> with any other serialization annotations.</p></li><li><p class="paragraph">To annotate a mutable property (i.e. <code class="lang-kotlin">var</code>), use <code class="lang-kotlin">@get:Transient</code>.</p></li><li><p class="paragraph">To annotate a lateinit property (i.e. <code class="lang-kotlin">lateinit var</code>), use both <code class="lang-kotlin">@field:Transient</code> and <code class="lang-kotlin">@get:Transient</code>.</p></li><li><p class="paragraph">When a property overrides a property from a superclass, only the annotations in the subclass are relevant.</p></li><li><p class="paragraph">Since <code class="lang-kotlin">abstract</code> properties must always be overridden, they should be annotated only in the subclass. Adding additional annotations "for clarity" in a superclass should be avoided, since it is completely useless and therefore misleading.</p></li><li><p class="paragraph">Since <code class="lang-kotlin">open</code> properties are not always overridden, if they are annotated, they should be annotated in both the superclass and the subclass.</p></li><li><p class="paragraph">See also <code class="lang-kotlin">isSerialized</code> in <code class="lang-kotlin">StateReflection</code> in Randomness' test module.</p></li></ul><p class="paragraph">These observations are based on IntelliJ Community 2024.1. See also the bug report at <a href="https://youtrack.jetbrains.com/issue/IJPL-175868/">IJPL-175868</a>.</p><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-scheme/index.html">Scheme</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-settings/index.html">Settings</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-timestamp/index.html">Timestamp</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.fwdekker.randomness.template/-template-list/index.html">TemplateList</a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1332718365%2FConstructors%2F769193423" anchor-label="State" id="1332718365%2FConstructors%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-state.html"><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1332718365%2FConstructors%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="557949791%2FProperties%2F769193423" anchor-label="context" id="557949791%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="context.html"><span><span>context</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="557949791%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="context.html">context</a><span class="token operator">: </span><a href="../-box/index.html">Box</a><span class="token operator">&lt;</span><a href="../-settings/index.html">Settings</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The context of this state in the form of a reference to the <a href="../-settings/index.html">Settings</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="449020817%2FProperties%2F769193423" anchor-label="uuid" id="449020817%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="uuid.html"><span><span>uuid</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="449020817%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="uuid.html">uuid</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">A UUID to uniquely track this scheme even when it is copied.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2020999317%2FProperties%2F769193423" anchor-label="validators" id="-2020999317%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="validators.html"><span><span>validators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2020999317%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="validators.html">validators</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><a href="../../com.fwdekker.randomness.ui/-validator/index.html">Validator</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Lists the <a href="../../com.fwdekker.randomness.ui/-validator/index.html">Validator</a>s relevant to this <a href="index.html">State</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1413764623%2FFunctions%2F769193423" anchor-label="applyContext" id="-1413764623%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="apply-context.html"><span>apply</span><wbr><span><span>Context</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1413764623%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="apply-context.html"><span class="token function">applyContext</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../-box/index.html">Box</a><span class="token operator">&lt;</span><a href="../-settings/index.html">Settings</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets the <a href="context.html">State.context</a> of this <a href="index.html">State</a> to <a href="apply-context.html">context</a>.</p></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="apply-context.html"><span class="token function">applyContext</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../-settings/index.html">Settings</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets the <a href="context.html">State.context</a> of this <a href="index.html">State</a> to be a reference to <a href="apply-context.html">context</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-104136688%2FFunctions%2F769193423" anchor-label="deepCopy" id="-104136688%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="deep-copy.html"><span>deep</span><wbr><span><span>Copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-104136688%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="deep-copy.html"><span class="token function">deepCopy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">retainUuid<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">State</a></div><div class="brief "><p class="paragraph">Returns a deep copy, retaining the <a href="uuid.html">uuid</a> if and only if <a href="deep-copy.html">retainUuid</a> is <code class="lang-kotlin">true</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1595078433%2FFunctions%2F769193423" anchor-label="deepCopyTransient" id="-1595078433%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="deep-copy-transient.html"><span>deep</span><wbr><span>Copy</span><wbr><span><span>Transient</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1595078433%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">protected </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="deep-copy-transient.html">SELF</a><span class="token operator"> : </span><a href="index.html">State</a><span class="token operator">&gt; </span><a href="deep-copy-transient.html">SELF</a><span class="token punctuation">.</span><a href="deep-copy-transient.html"><span class="token function">deepCopyTransient</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">retainUuid<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="deep-copy-transient.html">SELF</a></div><div class="brief "><p class="paragraph">When invoked by the instance <code class="lang-kotlin">this</code> on (another) instance <code class="lang-kotlin">self</code> as <code class="lang-kotlin">self.deepCopyTransient()</code>, this method copies <span data-unresolved-link="com.intellij.util.xmlb.annotations/Transient///PointingToDeclaration/">Transient</span> fields from <code class="lang-kotlin">this</code> to <code class="lang-kotlin">self</code>, and returns <code class="lang-kotlin">self</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-688153589%2FFunctions%2F769193423" anchor-label="doValidate" id="-688153589%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="do-validate.html"><span>do</span><wbr><span><span>Validate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-688153589%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="do-validate.html"><span class="token function">doValidate</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.fwdekker.randomness.ui/-validation-info/index.html">ValidationInfo</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Validates the state, and indicates whether and why it is invalid.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1376318126%2FFunctions%2F769193423" anchor-label="validators" id="-1376318126%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.fwdekker.randomness.ui/-validator-dsl/-companion/validators.html"><span><span>validators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1376318126%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">State</a><span class="token punctuation">.</span><a href="../../com.fwdekker.randomness.ui/-validator-dsl/-companion/validators.html"><span class="token function">validators</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">body<span class="token operator">: </span><a href="../../com.fwdekker.randomness.ui/-validator-dsl/index.html">ValidatorDsl</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="kotlin/Unit///PointingToDeclaration/">Unit</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><a href="../../com.fwdekker.randomness.ui/-validator/index.html">Validator</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Initiates the <a href="../../com.fwdekker.randomness.ui/-validator-dsl/index.html">ValidatorDsl</a> on <code class="lang-kotlin">this</code> <a href="index.html">State</a>, and returns all <a href="../../com.fwdekker.randomness.ui/-validator/index.html">Validator</a>s that were created inside the DSL using the DSL's own functions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Florine&nbsp;W.&nbsp;Dekker</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
