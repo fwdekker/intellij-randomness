@@ -45,7 +45,7 @@ abstract class State {
     /**
      * A UUID to uniquely track this scheme even when it is copied.
      */
-    var uuid: String = Generators.randomBasedGenerator(Random.Default.asJavaRandom()).generate().toString()
+    var uuid: String = Generators.randomBasedGenerator(Random.asJavaRandom()).generate().toString()
 
     /**
      * The context of this state in the form of a reference to the [Settings].
