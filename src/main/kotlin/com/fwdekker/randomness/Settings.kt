@@ -204,6 +204,26 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
                                     }
                             }
                     },
+                Version.parse("3.4.2") to
+                    { settings ->
+                        settings.getSchemes()
+                            .filter { it.name == "UuidScheme" }
+                            .forEach { scheme ->
+                                val min = Timestamp("1970-01-01 00:00:00.000")
+                                scheme.getMultiProperty("minDateTime")
+                                    .forEach { prop ->
+                                        if (Timestamp(prop.getAttributeValue("value")).isBefore(min))
+                                            prop.setAttribute("value", min.value)
+                                    }
+
+                                val max = Timestamp("5236-03-31 21:21:00.684")
+                                scheme.getMultiProperty("maxDateTime")
+                                    .forEach { prop ->
+                                        if (Timestamp(prop.getAttributeValue("value")).isAfter(max))
+                                            prop.setAttribute("value", max.value)
+                                    }
+                            }
+                    }
             )
 
         /**

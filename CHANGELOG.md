@@ -1,5 +1,5 @@
 # Changelog
-## 3.4.2 -- 2025-08-25
+## 3.4.2 -- 2025-08-28
 ### Changed
 * Invalid values in disabled fields are now ignored. ([#609](https://github.com/fwdekker/intellij-randomness/pull/609))
 
