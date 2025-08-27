@@ -119,6 +119,21 @@ jobs:
             --title "$MY_VERSION" \
             --notes-file RELEASE_NOTES.md \
             --target main
+      - name: Reset version number and changelog
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          sed -i "s/version=.*/version=9.9.9-unreleased/" gradle.properties
+          sed -i "s/# Changelog/# Changelog\n## 9.9.9-unreleased\n### Added\n### Changed\n### Deprecated\n### Removed\n### Fixed\n### Security\n\n/" CHANGELOG.md
+
+          git config --global user.name "fwdekkerbot"
+          git config --global user.email "bot@fwdekker.com"
+          git add --all
+          git commit -m "Reset version number and changelog"
+
+          git push origin main
+
 
   release-pages:
     needs: [ pre-flight-checks, release-plugin ]
