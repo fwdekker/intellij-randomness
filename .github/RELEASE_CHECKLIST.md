@@ -5,6 +5,7 @@
 * [ ] `README.md` is up to date.
   * [ ] The acknowledgements are up to date.
 * [ ] `CHANGELOG.md` is up to date.
+  * [ ] The version number and date for the upcoming release are correct.
   * [ ] Contributors who have opened issues or pull requests are acknowledged explicitly where appropriate.
   * [ ] The change notes look fine when viewed in the IDE after loading the plugin.
   * [ ] All subsections use bullet points, even those with only one entry. (Otherwise, the subsection does not show up when viewed in the IDE.)

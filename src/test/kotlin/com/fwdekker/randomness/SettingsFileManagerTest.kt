@@ -80,10 +80,10 @@ object SettingsFileManagerTest : FunSpec({
         }
 
         test("throws an exception if the target file does not exist") {
-            val file = File("/does-not-exist.xml")
-            file shouldNot exist()
+            val noFile = File("/does-not-exist.xml")
+            noFile shouldNot exist()
 
-            shouldThrow<IOException> { SettingsFileManager.restoreFrom(file) }
+            shouldThrow<IOException> { SettingsFileManager.restoreFrom(noFile) }
         }
     }
 

@@ -2,7 +2,6 @@ package com.fwdekker.randomness
 
 import com.fwdekker.randomness.Timestamp.Companion.FORMAT
 import com.fwdekker.randomness.Timestamp.Companion.NOW
-import com.fwdekker.randomness.ui.Validator
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.github.sisyphsu.dateparser.DateParserUtils
 import com.intellij.util.xmlb.Converter
@@ -54,29 +53,27 @@ class Timestamp(value: String = "1970-01-01 00:00:00.000") : State() {
     val epochMilli: Long?
         get() = if (value == NOW) Instant.now().toEpochMilli() else this._epochMilli
 
-    override val validators: List<Validator<*>> // Gets set in `init`
+    override val validators = validators {
+        of(::epochMilli).check({ it != null }, { Bundle("timestamp.error.parse") })
+    }
 
 
     init {
-        var value = value
-        var epochMilli: Long? = null
+        var myValue = value
+        var myEpochMilli: Long? = null
 
-        if (value.isNotBlank() && value != NOW) {
+        if (myValue.isNotBlank() && myValue != NOW) {
             try {
-                val dateTime = DateParserUtils.parseDateTime(value)
-                value = dateTime.format(FORMATTER)
-                epochMilli = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli()
+                val dateTime = DateParserUtils.parseDateTime(myValue)
+                myValue = dateTime.format(FORMATTER)
+                myEpochMilli = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli()
             } catch (_: DateTimeParseException) {
                 // Swallow
             }
         }
 
-        this.value = value
-        this._epochMilli = epochMilli
-        this.validators = validators {
-            // [epochMilli] is still `null` only if [value] is invalid
-            of(this@Timestamp::epochMilli).check({ it != null }, { Bundle("timestamp.error.parse") })
-        }
+        this.value = myValue
+        this._epochMilli = myEpochMilli
     }
 
 
