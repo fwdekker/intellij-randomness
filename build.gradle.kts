@@ -8,6 +8,8 @@ import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.versioning.VersioningConfiguration
 import org.jetbrains.dokka.versioning.VersioningPlugin
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 import java.time.Year
@@ -18,8 +20,8 @@ fun properties(key: String): String = project.findProperty(key).toString()
 /// Plugins
 plugins {
     // Compilation
-    id("org.jetbrains.kotlin.jvm") version "1.9.24"  // Set to latest version compatible with `pluginSinceBuild`, see also https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
-    id("org.jetbrains.intellij.platform") version "2.5.0"
+    id("org.jetbrains.kotlin.jvm") version "2.0.21"  // Set to latest version compatible with `pluginSinceBuild`, see also https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
+    id("org.jetbrains.intellij.platform") version "2.7.2"
 
     // Tests/coverage
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
@@ -28,7 +30,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.23.8"  // See also `gradle.properties`
 
     // Documentation
-    id("org.jetbrains.changelog") version "2.2.1"
+    id("org.jetbrains.changelog") version "2.4.0"
     id("org.jetbrains.dokka") version "1.9.20"  // See also `buildscript.dependencies` below and `gradle.properties`
 
     // To run GitHubScrambler
@@ -73,10 +75,9 @@ dependencies {
     dokkaHtmlPlugin("org.jetbrains.dokka", "versioning-plugin", properties("dokkaVersion"))
 
     intellijPlatform {
-        intellijIdeaCommunity(
-            properties("intellijVersion"),
-            useInstaller = !properties("intellijVersion").endsWith("EAP-SNAPSHOT"),
-        )
+        intellijIdeaCommunity(properties("intellijVersion")) {
+            useInstaller = !properties("intellijVersion").endsWith("EAP-SNAPSHOT")
+        }
 
         pluginVerifier()
         zipSigner()
@@ -95,11 +96,12 @@ tasks {
         targetCompatibility = properties("javaVersion")
     }
     withType<KotlinCompile> {
-        kotlinOptions {
-            // Transforms e.g. "1.9.20" to "1.9"
-            val kotlinApiVersion = properties("kotlinVersion").split(".").take(2).joinToString(".")
+        compilerOptions {
+            val kotlinApiVersion = properties("kotlinVersion")
+                .split(".").take(2).joinToString(".") // Transforms e.g. "1.9.20" to "1.9"
+                .let { KotlinVersion.fromVersion(it) }
 
-            jvmTarget = properties("javaVersion")
+            jvmTarget = JvmTarget.fromTarget(properties("javaVersion"))
             apiVersion = kotlinApiVersion
             languageVersion = kotlinApiVersion
         }
@@ -149,7 +151,7 @@ tasks {
 
         pluginVerification {
             ides {
-                properties("pluginVerifierIdeVersions").split(",").forEach { ide(it) }
+                recommended()
             }
         }
     }
@@ -229,10 +231,10 @@ tasks {
 
         dokkaSourceSets {
             named("main") {
-                includes.from(files("packages.md"))
+                includes.from("packages.md")
 
                 jdkVersion = properties("javaVersion").toInt()
-                languageVersion = properties("kotlinVersion")
+                languageVersion.set(properties("kotlinVersion"))
 
                 documentedVisibilities =
                     setOf(
@@ -245,7 +247,7 @@ tasks {
                 reportUndocumented = true
 
                 sourceLink {
-                    localDirectory = file("src/main/kotlin")
+                    localDirectory.set(file("src/main/kotlin"))
                     remoteUrl = URI("https://github.com/fwdekker/intellij-randomness/tree/v${properties("version")}/src/main/kotlin").toURL()
                     remoteLineSuffix = "#L"
                 }
@@ -258,6 +260,7 @@ tasks {
 abstract class DokkaHtmlPost : DefaultTask() {
     private val buildDir = project.layout.buildDirectory
 
+    @Suppress("unused") // Used by virtue of `@TaskAction` annotation
     @TaskAction
     fun strip() {
         buildDir.dir("dokka/html/").get().asFile

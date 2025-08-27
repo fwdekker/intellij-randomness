@@ -1,5 +1,8 @@
 # Changelog
 ## 9.9.9-unreleased
+### Breaking changes
+* Minimum IDE version has been increased to 2024.3. This helps avert compatibility issues with future versions. ([#TODO](https://github.com/fwdekker/intellij-randomness/issues/TODO))
+
 ### Added
 ### Changed
 ### Deprecated
