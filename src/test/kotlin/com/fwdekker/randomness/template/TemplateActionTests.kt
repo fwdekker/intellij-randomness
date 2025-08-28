@@ -13,8 +13,8 @@ import com.fwdekker.randomness.testhelpers.shouldNotBeSameIconAs
 import com.fwdekker.randomness.testhelpers.typeIcon
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.Presentation
+import com.intellij.testFramework.TestActionEvent
 import com.intellij.util.ui.EmptyIcon
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.row
@@ -194,7 +194,7 @@ object TemplateSettingsActionTest : FunSpec({
  */
 @Suppress("OverrideOnly") // Irrelevant
 fun AnAction.getPresentation(): Presentation {
-    val presentation = Presentation()
-    update(AnActionEvent.createFromDataContext("", presentation) { null })
-    return presentation
+    val event = TestActionEvent.createTestEvent()
+    update(event)
+    return event.presentation
 }
