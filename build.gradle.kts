@@ -86,6 +86,13 @@ dependencies {
     }
 }
 
+configurations {
+    all {
+        // See https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#coroutinesLibraries
+        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core")
+    }
+}
+
 
 /// Configuration
 tasks {
