@@ -6,7 +6,7 @@ import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.from
 import com.fwdekker.randomness.testhelpers.serializeToXmlString
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
-import com.intellij.configurationStore.StoreUtil
+import com.intellij.configurationStore.saveSettings
 import com.intellij.openapi.application.ApplicationManager
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
@@ -27,8 +27,8 @@ import java.io.IOException
 object SettingsFileManagerTest : FunSpec({
     lateinit var file: File
 
-    fun saveSettingsToDisk() =
-        StoreUtil.saveSettings(ApplicationManager.getApplication(), forceSavingAllSettings = true)
+    suspend fun saveSettingsToDisk() =
+        saveSettings(ApplicationManager.getApplication(), forceSavingAllSettings = true)
 
 
     useBareIdeaFixture()

@@ -6,12 +6,11 @@ import com.fwdekker.randomness.testhelpers.afterNonContainer
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.ideaEdtTest
 import com.fwdekker.randomness.testhelpers.ideaRunEdt
-import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.command.WriteCommandAction.runWriteCommandAction
 import com.intellij.openapi.editor.CaretModel
 import com.intellij.openapi.editor.Document
+import com.intellij.testFramework.TestActionEvent
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture
 import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory
 import io.kotest.core.spec.style.FunSpec
@@ -200,7 +199,7 @@ object InsertActionTest : FunSpec({
         }
 
         ideaEdtTest("inserts nothing if the project is null") {
-            val event = AnActionEvent.createFromDataContext("", null) {
+            val event = TestActionEvent.createTestEvent {
                 if (it == CommonDataKeys.PROJECT.name) myFixture.project
                 else null
             }
@@ -211,10 +210,7 @@ object InsertActionTest : FunSpec({
         }
 
         ideaEdtTest("inserts nothing if the editor is null") {
-            val event = AnActionEvent.createFromDataContext("", null) {
-                if (it == CommonDataKeys.EDITOR.name) myFixture.editor
-                else null
-            }
+            val event = TestActionEvent.createTestEvent { null }
 
             insertAction.actionPerformed(event)
 
@@ -224,28 +220,28 @@ object InsertActionTest : FunSpec({
 
     context("presentation") {
         ideaEdtTest("disables the presentation if the editor is null") {
-            val presentation = Presentation()
+            val event = TestActionEvent.createTestEvent { null }
 
-            insertAction.update(AnActionEvent.createFromDataContext("", presentation) { null })
+            insertAction.update(event)
 
-            presentation.isEnabled shouldBe false
+            event.presentation.isEnabled shouldBe false
         }
 
         ideaEdtTest("enables the presentation if the editor is not null") {
-            val presentation = Presentation()
+            val event = TestActionEvent.createTestEvent()
 
-            insertAction.update(AnActionEvent.createFromDataContext("", presentation) { myFixture.editor })
+            insertAction.update(event)
 
-            presentation.isEnabled shouldBe true
+            event.presentation.isEnabled shouldBe true
         }
 
         ideaEdtTest("disables the presentation if the editor is read-only") {
-            val presentation = Presentation()
+            val event = TestActionEvent.createTestEvent()
 
             myFixture.editor.document.setReadOnly(true)
-            insertAction.update(AnActionEvent.createFromDataContext("", presentation) { myFixture.editor })
+            insertAction.update(event)
 
-            presentation.isEnabled shouldBe false
+            event.presentation.isEnabled shouldBe false
         }
     }
 })
