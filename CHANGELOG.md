@@ -5,6 +5,8 @@
 
 ### Added
 ### Changed
+* Regex patterns now ignore named capturing groups instead of giving an error. Achieved by updating [RgxGen](https://github.com/curious-odd-man/RgxGen) to v3.1. ([#TODO](https://github.com/fwdekker/intellij-randomness/issues/TODO))
+
 ### Deprecated
 ### Removed
 ### Fixed
