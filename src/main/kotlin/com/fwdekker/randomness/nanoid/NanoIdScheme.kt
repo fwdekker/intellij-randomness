@@ -53,11 +53,8 @@ data class NanoIdScheme(
     companion object {
         /** The base icon for Nano IDs. */
         val BASE_ICON
-            get() = TypeIcon(
-                Icons.SCHEME,
-                "id",
-                listOf(JBColor(Color(120, 200, 120, 154), Color(120, 200, 120, 154)))
-            )
+            get() = TypeIcon(Icons.SCHEME, "id", listOf(JBColor(Color(185, 155, 248, 154), Color(185, 155, 248, 154))))
+
 
         /** The minimum allowed value of [size]. */
         const val MIN_SIZE = 1
