@@ -10,6 +10,7 @@ import com.fwdekker.randomness.array.ArrayDecorator
 import com.fwdekker.randomness.datetime.DateTimeScheme
 import com.fwdekker.randomness.decimal.DecimalScheme
 import com.fwdekker.randomness.integer.IntegerScheme
+import com.fwdekker.randomness.nanoid.NanoIdScheme
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.fwdekker.randomness.uuid.UuidScheme
@@ -134,6 +135,7 @@ data class TemplateList(
                     )
                 ),
                 Template("UUID", mutableListOf(UuidScheme())),
+                Template("Nano ID", mutableListOf(NanoIdScheme())),
                 Template("Date-Time", mutableListOf(DateTimeScheme())),
                 Template(
                     "IP address",

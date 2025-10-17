@@ -42,7 +42,8 @@ Randomness can also be found in the main menu under <kbd>Tools</kbd> and under <
     3. **Strings**, such as `"PaQDQqSBEH"`, with support for reverse regex.
     4. **Words**, such as `"Bridge"`, with predefined or custom word lists.
     5. **UUIDs**, such as `0caa7b28-fe58-4ba6-a25a-9e5beaaf8f4b`, with or without dashes.
-    6. **Date-times**, such as `2022-02-03 19:03`, or any other format you want.
+    6. **Nano IDs**, such as `V1StGXR8_Z5jdHi6B-myT`, with customisable alphabets and sizes.
+    7. **Date-times**, such as `2022-02-03 19:03`, or any other format you want.
 * 🧬 **Templates**<br />
   For complex kinds of data, you can use templates.
   A template is a list of data types that should be concatenated to create random data.
