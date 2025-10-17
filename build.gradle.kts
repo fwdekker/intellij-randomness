@@ -64,6 +64,7 @@ dependencies {
     }
     implementation("com.github.curious-odd-man", "rgxgen", properties("rgxgenVersion"))
     implementation("org.eclipse.mylyn.github", "org.eclipse.egit.github.core", properties("githubCore"))
+    implementation("io.viascom.nanoid", "nanoid", properties("nanoidVersion"))
     scrambler("org.jetbrains.kotlin:kotlin-reflect")
 
     testImplementation("org.assertj", "assertj-swing-junit", properties("assertjSwingVersion"))

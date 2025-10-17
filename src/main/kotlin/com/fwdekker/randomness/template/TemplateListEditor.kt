@@ -10,6 +10,8 @@ import com.fwdekker.randomness.decimal.DecimalScheme
 import com.fwdekker.randomness.decimal.DecimalSchemeEditor
 import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.integer.IntegerSchemeEditor
+import com.fwdekker.randomness.nanoid.NanoIdScheme
+import com.fwdekker.randomness.nanoid.NanoIdSchemeEditor
 import com.fwdekker.randomness.setAll
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.string.StringSchemeEditor
@@ -154,6 +156,7 @@ class TemplateListEditor(
             is DecimalScheme -> DecimalSchemeEditor(scheme)
             is StringScheme -> StringSchemeEditor(scheme)
             is UuidScheme -> UuidSchemeEditor(scheme)
+            is NanoIdScheme -> NanoIdSchemeEditor(scheme)
             is WordScheme -> WordSchemeEditor(scheme)
             is DateTimeScheme -> DateTimeSchemeEditor(scheme)
             is TemplateReference -> TemplateReferenceEditor(scheme)
