@@ -182,7 +182,7 @@ jobs:
 
       - name: Generate new documentation
         working-directory: main/
-        run: ./gradlew dokkaHtml -Pdokka.pagesDir='${{ github.workspace }}/gh-pages/'
+        run: ./gradlew dokkaGenerateHtml -Pdokka.pagesDir='${{ github.workspace }}/gh-pages/'
 
       - name: Move new documentation into gh-pages
         run: |

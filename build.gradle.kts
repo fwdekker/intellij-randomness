@@ -2,16 +2,11 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.changelog.Changelog
-import org.jetbrains.dokka.DokkaConfiguration.Visibility
-import org.jetbrains.dokka.base.DokkaBase
-import org.jetbrains.dokka.base.DokkaBaseConfiguration
-import org.jetbrains.dokka.versioning.VersioningConfiguration
-import org.jetbrains.dokka.versioning.VersioningPlugin
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.net.URI
 import java.time.Year
 
 fun properties(key: String): String = project.findProperty(key).toString()
@@ -31,17 +26,10 @@ plugins {
 
     // Documentation
     id("org.jetbrains.changelog") version "2.4.0"
-    id("org.jetbrains.dokka") version "1.9.20"  // See also `buildscript.dependencies` below and `gradle.properties`
+    id("org.jetbrains.dokka") version "2.1.0"  // See also `buildscript.dependencies` below and `gradle.properties`
 
     // To run GitHubScrambler
     application
-}
-
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.dokka", "dokka-base", "1.9.20")  // See also `plugins` above and `gradle.properties`
-        classpath("org.jetbrains.dokka", "versioning-plugin", "1.9.20")  // See also `plugins` above and `gradle.properties`
-    }
 }
 
 
@@ -218,67 +206,48 @@ tasks {
 
 
     // Documentation
-    dokkaHtml.configure {
-        notCompatibleWithConfigurationCache("See also https://github.com/Kotlin/dokka/issues/1217")
+    dokka {
+        moduleName.set("Randomness")
+        moduleVersion.set("v${properties("version")}")
 
-        pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-            customAssets = listOf(file(".config/dokka/logo-icon.svg"))
-            footerMessage = "&copy; ${Year.now().value} Florine&nbsp;W.&nbsp;Dekker"
+        dokkaSourceSets.main {
+            includes.from("packages.md")
+
+            jdkVersion.set(properties("javaVersion").toInt())
+            languageVersion.set(properties("kotlinVersion"))
+
+            documentedVisibilities.set(
+                setOf(
+                    VisibilityModifier.Public,
+                    VisibilityModifier.Private,
+                    VisibilityModifier.Protected,
+                    VisibilityModifier.Internal,
+                    VisibilityModifier.Package,
+                )
+            )
+            reportUndocumented.set(true)
+
+            sourceLink {
+                localDirectory.set(file("src/main/kotlin"))
+                remoteUrl("https://github.com/fwdekker/intellij-randomness/tree/v${properties("version")}/src/main/kotlin")
+                remoteLineSuffix.set("#L")
+            }
         }
-        pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
+        dokkaPublications.html {
+            suppressInheritedMembers.set(true)
+            offlineMode.set(true)
+        }
+        pluginsConfiguration.html {
+            // TODO: Change `logo-icon.svg` back to a symlink after https://github.com/Kotlin/dokka/issues/4369 is fixed
+            customAssets.from(file(".config/dokka/logo-icon.svg"))
+            footerMessage.set("&copy; ${Year.now().value} Florine&nbsp;W.&nbsp;Dekker")
+        }
+        pluginsConfiguration.versioning {
             if (project.hasProperty("dokka.pagesDir")) {
                 val pagesDir = project.property("dokka.pagesDir")
-                olderVersions = listOf(file("$pagesDir"))
-                olderVersionsDir = file("$pagesDir/older/")
-            }
-        }
-        moduleName = "Randomness"
-        moduleVersion = "v${properties("version")}"
-        offlineMode = true
-        suppressInheritedMembers = true
-
-        dokkaSourceSets {
-            named("main") {
-                includes.from("packages.md")
-
-                jdkVersion = properties("javaVersion").toInt()
-                languageVersion.set(properties("kotlinVersion"))
-
-                documentedVisibilities =
-                    setOf(
-                        Visibility.PUBLIC,
-                        Visibility.PRIVATE,
-                        Visibility.PROTECTED,
-                        Visibility.INTERNAL,
-                        Visibility.PACKAGE,
-                    )
-                reportUndocumented = true
-
-                sourceLink {
-                    localDirectory.set(file("src/main/kotlin"))
-                    remoteUrl = URI("https://github.com/fwdekker/intellij-randomness/tree/v${properties("version")}/src/main/kotlin").toURL()
-                    remoteLineSuffix = "#L"
-                }
+                olderVersions.setFrom(file("$pagesDir"))
+                olderVersionsDir.set(file("$pagesDir/older/"))
             }
         }
     }
 }
-
-// TODO[Workaround]: Remove after https://github.com/Kotlin/dokka/issues/3398 has been fixed
-abstract class DokkaHtmlPost : DefaultTask() {
-    private val buildDir = project.layout.buildDirectory
-
-    @Suppress("unused") // Used by virtue of `@TaskAction` annotation
-    @TaskAction
-    fun strip() {
-        buildDir.dir("dokka/html/").get().asFile
-            .walk()
-            .filter { it.isDirectory && it.name.startsWith('.') }
-            .forEach { it.deleteRecursively() }
-
-        buildDir.dir("dokka/html/").get().asFileTree
-            .forEach { file -> file.writeText(file.readText().dropLastWhile { it == '\n' } + '\n') }
-    }
-}
-tasks.register<DokkaHtmlPost>("dokkaHtmlPost")
-tasks.dokkaHtml { finalizedBy("dokkaHtmlPost") }

@@ -117,12 +117,12 @@ This is also true for prefixing with `f:`.
 
 ### 📚 Documentation
 ```bash
-$ gradlew dokkaHtml                        # Generate documentation
-$ gradlew dokkaHtml -Pdokka.pagesDir=/foo  # Generate documentation, and link to older versions in `/foo`
+$ gradlew dokkaGenerateHtml                        # Generate documentation
+$ gradlew dokkaGenerateHtml -Pdokka.pagesDir=/foo  # Generate documentation, and link to older versions in `/foo`
 ```
 
 Documentation pages link to each other using a version dropdown menu.
-Simply running `gradlew dokkaHtml` does not generate a dropdown menu, because Dokka is not automatically aware of all previous versions.
+Simply running `gradlew dokkaGenerateHtml` does not generate a dropdown menu, because Dokka is not automatically aware of all previous versions.
 To link the versions together, check out the `gh-branch` of this repository in a separate directory, and point `dokka.pagesDir` to that directory.
 
 ### 📯 Release
