@@ -48,7 +48,7 @@ fun List<Validator<*>>.validate(): ValidationInfo? = firstNotNullOfOrNull { it.v
  *
  * @param state the [State] that this DSL creates [Validator]s for. This [State] is not modified by the DSL itself
  * @param validators the list into which to store [Validator]s that are created in this DSL
- * @param condition the pre-condition to apply to all [Validator]s created by this [DSL]. If [condition] returns `false`
+ * @param condition the pre-condition to apply to all [Validator]s created by this DSL. If [condition] returns `false`
  * during validation, then the output of the [Validator]s is changed to `null`. The [condition] applies only to
  * [Validator]s constructed at this level of nesting of the DSL, and not, for example, to those already in [validators]
  * at construction time
