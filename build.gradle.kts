@@ -105,6 +105,13 @@ tasks {
     }
 
 
+    // Pre-process source files
+    processResources {
+        val rgxgenVersion = libs.versions.rgxgen.get()
+        filter { it.replace("%%RGXGEN_VERSION%%", rgxgenVersion) }
+    }
+
+
     // Plugin building
     intellijPlatform {
         buildSearchableOptions = !project.hasProperty("build.hotswap")
@@ -120,7 +127,7 @@ tasks {
             }
 
             ideaVersion {
-                sinceBuild = libs.versions.intellij.api.get()
+                sinceBuild = ideVersionToBuildNumber(libs.versions.intellij.ide.get())
                 untilBuild = provider { null }
             }
         }
@@ -238,7 +245,7 @@ tasks {
             offlineMode.set(true)
         }
         pluginsConfiguration.html {
-            // TODO: Change `logo-icon.svg` back to a symlink after https://github.com/Kotlin/dokka/issues/4369 is fixed
+            // TODO[Workaround]: Change `logo-icon.svg` back to a symlink after https://github.com/Kotlin/dokka/issues/4369 is fixed
             customAssets.from(file(".config/dokka/logo-icon.svg"))
             footerMessage.set("&copy; ${Year.now().value} Florine&nbsp;W.&nbsp;Dekker")
         }
@@ -250,4 +257,13 @@ tasks {
             }
         }
     }
+}
+
+
+fun ideVersionToBuildNumber(ideVersion: String): String {
+    if (ideVersion.endsWith("-EAP-SNAPSHOT"))
+        return ideVersion
+
+    require(ideVersion.matches("[0-9]{4}\\.[0-9]".toRegex())) { "Invalid IDE version number '${ideVersion}'." }
+    return "${ideVersion[2]}${ideVersion[3]}${ideVersion[5]}.0"
 }
