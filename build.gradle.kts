@@ -15,18 +15,18 @@ fun properties(key: String): String = project.findProperty(key).toString()
 /// Plugins
 plugins {
     // Compilation
-    id("org.jetbrains.kotlin.jvm") version "2.0.21"  // Set to latest version compatible with `pluginSinceBuild`, see also https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
-    id("org.jetbrains.intellij.platform") version "2.7.2"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.intellij)
 
     // Tests/coverage
-    id("org.jetbrains.kotlinx.kover") version "0.9.1"
+    alias(libs.plugins.kover)
 
     // Static analysis
-    id("io.gitlab.arturbosch.detekt") version "1.23.8"  // See also `gradle.properties`
+    alias(libs.plugins.detekt)
 
     // Documentation
-    id("org.jetbrains.changelog") version "2.4.0"
-    id("org.jetbrains.dokka") version "2.1.0"  // See also `buildscript.dependencies` below and `gradle.properties`
+    alias(libs.plugins.changelog)
+    alias(libs.plugins.dokka)
 
     // To run GitHubScrambler
     application
@@ -42,29 +42,27 @@ repositories {
 }
 
 dependencies {
-    implementation("com.fasterxml.uuid", "java-uuid-generator", properties("uuidGeneratorVersion")) {
+    implementation(libs.uuidGenerator) {
         // Logging API is already provided by IDEA platform
         exclude(group = "org.slf4j", module = "slf4j-api")
     }
-    implementation("com.github.sisyphsu", "dateparser", properties("dateparserVersion")) {
+    implementation(libs.dateparser) {
         // TODO[Workaround]: Remove after https://github.com/sisyphsu/dateparser/issues/30 has been fixed
         exclude(group = "org.projectlombok", module = "lombok")
     }
-    implementation("com.github.curious-odd-man", "rgxgen", properties("rgxgenVersion"))
-    implementation("org.eclipse.mylyn.github", "org.eclipse.egit.github.core", properties("githubCore"))
-    scrambler("org.jetbrains.kotlin:kotlin-reflect")
+    implementation(libs.rgxgen)
+    implementation(libs.github)
+    scrambler(libs.kotlin.reflect)
 
-    testImplementation("org.assertj", "assertj-swing-junit", properties("assertjSwingVersion"))
-    testImplementation("io.kotest", "kotest-assertions-core", properties("kotestVersion"))
-    testImplementation("io.kotest", "kotest-framework-datatest", properties("kotestVersion"))
-    testImplementation("io.kotest", "kotest-runner-junit5", properties("kotestVersion"))
+    testImplementation(libs.assertj.swing)
+    testImplementation(libs.bundles.kotest)
 
-    detektPlugins("io.gitlab.arturbosch.detekt", "detekt-formatting", properties("detektVersion"))
-    dokkaHtmlPlugin("org.jetbrains.dokka", "versioning-plugin", properties("dokkaVersion"))
+    detektPlugins(libs.detektFormattingPlugin)
+    dokkaHtmlPlugin(libs.dokkaVersioningPlugin)
 
     intellijPlatform {
-        intellijIdeaCommunity(properties("intellijVersion")) {
-            useInstaller = !properties("intellijVersion").endsWith("EAP-SNAPSHOT")
+        intellijIdeaCommunity(libs.versions.intellij.ide.get()) {
+            useInstaller = !libs.versions.intellij.ide.get().endsWith("EAP-SNAPSHOT")
         }
 
         pluginVerifier()
@@ -85,27 +83,29 @@ configurations {
 
 /// Configuration
 tasks {
-    // Compilation
-    java.toolchain.languageVersion.set(JavaLanguageVersion.of(properties("javaVersion")))  // See also https://github.com/gradle/gradle/issues/30499
+    // Toolchain
+    java.toolchain.languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))  // See also https://github.com/gradle/gradle/issues/30499
     withType<JavaCompile> {
-        sourceCompatibility = properties("javaVersion")
-        targetCompatibility = properties("javaVersion")
+        sourceCompatibility = libs.versions.java.get()
+        targetCompatibility = libs.versions.java.get()
     }
     withType<KotlinCompile> {
         compilerOptions {
-            val kotlinApiVersion = properties("kotlinVersion")
-                .split(".").take(2).joinToString(".") // Transforms e.g. "1.9.20" to "1.9"
+            val kotlinApiVersion = libs.versions.kotlin.get()
+                .split(".").take(2).joinToString(".") // Transforms e.g. "2.0.21" to "2.0"
                 .let { KotlinVersion.fromVersion(it) }
 
-            jvmTarget = JvmTarget.fromTarget(properties("javaVersion"))
+            jvmTarget = JvmTarget.fromTarget(libs.versions.java.get())
             apiVersion = kotlinApiVersion
             languageVersion = kotlinApiVersion
         }
     }
     withType<Detekt> {
-        jvmTarget = properties("javaVersion")
+        jvmTarget = libs.versions.java.get()
     }
 
+
+    // Plugin building
     intellijPlatform {
         buildSearchableOptions = !project.hasProperty("build.hotswap")
 
@@ -120,7 +120,7 @@ tasks {
             }
 
             ideaVersion {
-                sinceBuild = properties("pluginSinceBuild")
+                sinceBuild = libs.versions.intellij.api.get()
                 untilBuild = provider { null }
             }
         }
@@ -213,8 +213,8 @@ tasks {
         dokkaSourceSets.main {
             includes.from("packages.md")
 
-            jdkVersion.set(properties("javaVersion").toInt())
-            languageVersion.set(properties("kotlinVersion"))
+            jdkVersion.set(libs.versions.java.get().toInt())
+            languageVersion.set(libs.versions.kotlin.get())
 
             documentedVisibilities.set(
                 setOf(
