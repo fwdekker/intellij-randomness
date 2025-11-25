@@ -21,73 +21,86 @@ jobs:
 
     outputs:
       MY_VERSION: ${{ steps.my_version.outputs.MY_VERSION }}
-      MY_JAVA_VERSION: ${{ steps.my_version.outputs.MY_JAVA_VERSION }}
-      MY_KOTLIN_VERSION: ${{ steps.my_version.outputs.MY_KOTLIN_VERSION }}
+      MY_JAVA_VERSION: ${{ steps.my_java_version.outputs.MY_JAVA_VERSION }}
+      MY_KOTLIN_VERSION: ${{ steps.my_kotlin_version.outputs.MY_KOTLIN_VERSION }}
 
     steps:
       - name: Print inputs
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+          CHECKLIST_COMPLETE: ${{ github.event.inputs.checklist_complete }}
         run: |
-          printf "dry_run: '%s'\n" '${{ github.event.inputs.dry_run }}'
-          printf "checklist_complete: '%s'\n" '${{ github.event.inputs.checklist_complete }}'
+          printf "dry_run: '%s'\n" "$DRY_RUN"
+          printf "checklist_complete: '%s'\n" "$CHECKLIST_COMPLETE"
+
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Extract Randomness version number
         id: my_version
         run: |
-          MY_VERSION="v$(cat gradle.properties | grep '^version=' | sed 's/^.*=//')"
+          MY_VERSION="v$(cat gradle.properties | grep -oP '(?<=^version=)[\d\.]+(\-[a-zA-Z\d\.]+)?$' | head -n1)"
+          test -n "$MY_VERSION"
+
           printf "Found version '%s'.\n" "$MY_VERSION"
           printf "MY_VERSION=%s\n" "$MY_VERSION" >> "$GITHUB_ENV"
           printf "MY_VERSION=%s\n" "$MY_VERSION" >> "$GITHUB_OUTPUT"
       - name: Extract target Java version
         id: my_java_version
         run: |
-          MY_JAVA_VERSION="v$(cat gradle.properties | grep '^javaVersion=' | sed 's/^.*=//')"
+          MY_JAVA_VERSION="$(cat gradle/libs.versions.toml | grep -oP '(?<=^java = ")\d+(?="$)' | head -n1)"
+          test -n "$MY_JAVA_VERSION"
+
           printf "Found version '%s'.\n" "$MY_JAVA_VERSION"
           printf "MY_JAVA_VERSION=%s\n" "$MY_JAVA_VERSION" >> "$GITHUB_ENV"
           printf "MY_JAVA_VERSION=%s\n" "$MY_JAVA_VERSION" >> "$GITHUB_OUTPUT"
       - name: Extract target Kotlin version
         id: my_kotlin_version
         run: |
-          MY_KOTLIN_VERSION="v$(cat gradle.properties | grep '^javaVersion=' | sed 's/^.*=//')"
+          MY_KOTLIN_VERSION="$(cat gradle/libs.versions.toml | grep -oP '(?<=^kotlin = ")[\d\.]+(?="$)' | head -n1)"
+          test -n "$MY_KOTLIN_VERSION"
+
           printf "Found version '%s'.\n" "$MY_KOTLIN_VERSION"
           printf "MY_KOTLIN_VERSION=%s\n" "$MY_KOTLIN_VERSION" >> "$GITHUB_ENV"
           printf "MY_KOTLIN_VERSION=%s\n" "$MY_KOTLIN_VERSION" >> "$GITHUB_OUTPUT"
+
       - name: "Check: Release checklist completed"
-        run: |
-          ! test '${{ github.event.inputs.checklist_complete }}' = 'false'
+        env:
+          CHECKLIST_COMPLETE: ${{ github.event.inputs.checklist_complete }}
+        run: '! test "$CHECKLIST_COMPLETE" = ''false'''
       - name: "Check: Current branch is 'main'"
         if: ${{ github.event.inputs.dry_run == 'false' }}
-        run: |
-          test '${{ github.ref }}' = 'refs/heads/main'
-      - name: "Check: Version does not start with 9.9.9"
+        env:
+          GITHUB_REF: ${{ github.ref }}
+        run: test "$GITHUB_REF" = 'refs/heads/main'
+      - name: "Check: Version starts with 'v'"
+        run: '! test "$MY_VERSION" = "${MY_VERSION#v}"'
+      - name: "Check: Version does not start with 'v9.9.9'"
         if: ${{ github.event.inputs.dry_run == 'false' }}
-        run: |
-          test "$MY_VERSION" = "${MY_VERSION#9.9.9}"
+        run: test "$MY_VERSION" = "${MY_VERSION#v9.9.9}"
       - name: "Check: Version number is formatted correctly"
         if: ${{ github.event.inputs.dry_run == 'false' }}
         run: |
           expr "$MY_VERSION" : '^v[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+$' >/dev/null
       - name: "Check: Version is listed in changelog"
         if: ${{ github.event.inputs.dry_run == 'false' }}
-        run: |
-          grep -qF "## ${MY_VERSION#v} -- " CHANGELOG.md
+        run: grep -qF "## ${MY_VERSION#v} -- " CHANGELOG.md
       - name: "Check: Changelog does not contain string 'TODO'"
         if: ${{ github.event.inputs.dry_run == 'false' }}
-        run: |
-          ! grep -qF "TODO" CHANGELOG.md
+        run: '! grep -qF "TODO" CHANGELOG.md'
       - name: "Check: Release does not already exist"
         if: ${{ github.event.inputs.dry_run == 'false' }}
-        # Using `fetch-tags` option of `actions/checkout` does not work properly
         run: |
+          # Using `fetch-tags` option of `actions/checkout` does not work properly
           git fetch --prune --unshallow --tags
           ! git show-ref --tags "$MY_VERSION" --quiet
 
   release-plugin:
     needs: [ pre-flight-checks ]
     runs-on: ubuntu-latest
-
     env:
       MY_VERSION: ${{ needs.pre-flight-checks.outputs.MY_VERSION }}
+      MY_JAVA_VERSION: ${{ needs.pre-flight-checks.outputs.MY_JAVA_VERSION }}
 
     steps:
       - name: Checkout
@@ -96,7 +109,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: ${{ env.MY_JAVA_VERSION }}
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -111,14 +124,14 @@ jobs:
         run: ./gradlew signPlugin
       - name: "Pre-check: Extract plugin"
         run: |
-          unzip "build/distributions/intellij-randomness-$MY_VERSION.zip" -d build/jar/
-          unzip "build/jar/intellij-randomness/lib/intellij-randomness-$MY_VERSION.jar" -d build/jar/
+          unzip "build/distributions/intellij-randomness-${MY_VERSION#v}.zip" -d build/jar/
+          unzip "build/jar/intellij-randomness/lib/intellij-randomness-${MY_VERSION#v}.jar" -d build/jar/
       - name: "Check: Plugin was built with correct Java version"
         run: |
-          grep -qE "^Build\-JVM: $MY_JAVA_VERSION" build/jar/META-INF/MANIFEST.MF
+          grep -F "Build-JVM: $MY_JAVA_VERSION" build/jar/META-INF/MANIFEST.MF
       - name: "Check: Plugin was built with correct Kotlin version"
         run: |
-          grep -qE "^Kotlin-Version: $MY_KOTLIN_VERSION" build/jar/META-INF/MANIFEST.MF
+          grep -F "Kotlin-Version: $MY_KOTLIN_VERSION" build/jar/META-INF/MANIFEST.MF
       - name: Publish plugin to JetBrains Marketplace
         if: ${{ github.event.inputs.dry_run == 'false' }}
         env:
@@ -130,10 +143,10 @@ jobs:
 
       - name: Extract release notes
         run: |
-          printf "%s\n\n%s\n" \
-            "This plugin is also available on the [plugin repository](https://plugins.jetbrains.com/plugin/9836-randomness)." \
-            "$(awk "/^## ${MY_VERSION#v}/{flag=1;next}; /^## /{flag=0}; {if (flag==1) {print}}" CHANGELOG.md)" \
-            | tee RELEASE_NOTES.md
+          HEAD="This plugin is also available on the [plugin repository](https://plugins.jetbrains.com/plugin/9836-randomness)."
+          BODY="$(awk "/^## ${MY_VERSION#v}/{flag=1;next}; /^## /{flag=0}; {if (flag==1) {print}}" CHANGELOG.md)"
+
+          printf "%s\n\n%s\n" "$HEAD" "$BODY" | tee RELEASE_NOTES.md
       - name: Publish release
         if: ${{ github.event.inputs.dry_run == 'false' }}
         env:
@@ -149,9 +162,9 @@ jobs:
   release-pages:
     needs: [ pre-flight-checks, release-plugin ]
     runs-on: ubuntu-latest
-
     env:
       MY_VERSION: ${{ needs.pre-flight-checks.outputs.MY_VERSION }}
+      MY_JAVA_VERSION: ${{ needs.pre-flight-checks.outputs.MY_JAVA_VERSION }}
 
     steps:
       - name: Checkout Randomness source code
@@ -173,7 +186,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: ${{ env.MY_JAVA_VERSION }}
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -182,7 +195,9 @@ jobs:
 
       - name: Generate new documentation
         working-directory: main/
-        run: ./gradlew dokkaGenerateHtml -Pdokka.pagesDir='${{ github.workspace }}/gh-pages/'
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+        run: ./gradlew dokkaGenerateHtml -Pdokka.pagesDir="$GITHUB_WORKSPACE/gh-pages/"
 
       - name: Move new documentation into gh-pages
         run: |
