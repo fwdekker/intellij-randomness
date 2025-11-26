@@ -15,8 +15,29 @@ on:
       - '.github/img/**'
 
 jobs:
-  test-linux:
+  pre-flight-checks:
     runs-on: ubuntu-latest
+    outputs:
+      MY_JAVA_VERSION: ${{ steps.my_java_version.outputs.MY_JAVA_VERSION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Extract target Java version
+        id: my_java_version
+        run: |
+          MY_JAVA_VERSION="$(cat gradle/libs.versions.toml | grep -oP '(?<=^java = ")\d+(?="$)' | head -n1)"
+          test -n "$MY_JAVA_VERSION"
+
+          printf "Found version '%s'.\n" "$MY_JAVA_VERSION"
+          printf "MY_JAVA_VERSION=%s\n" "$MY_JAVA_VERSION" >> "$GITHUB_OUTPUT"
+
+  test-linux:
+    needs: [ pre-flight-checks ]
+    runs-on: ubuntu-latest
+    env:
+      MY_JAVA_VERSION: ${{ needs.pre-flight-checks.outputs.MY_JAVA_VERSION }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,7 +45,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: ${{ env.MY_JAVA_VERSION }}
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -39,7 +60,11 @@ jobs:
           path: build/reports/kover/report.xml
 
   test-macos:
+    needs: [ pre-flight-checks ]
     runs-on: macos-latest
+    env:
+      MY_JAVA_VERSION: ${{ needs.pre-flight-checks.outputs.MY_JAVA_VERSION }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,7 +72,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: ${{ env.MY_JAVA_VERSION }}
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -57,7 +82,11 @@ jobs:
         run: ./gradlew check
 
   test-windows:
+    needs: [ pre-flight-checks ]
     runs-on: windows-latest
+    env:
+      MY_JAVA_VERSION: ${{ needs.pre-flight-checks.outputs.MY_JAVA_VERSION }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -65,7 +94,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: ${{ env.MY_JAVA_VERSION }}
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -77,6 +106,7 @@ jobs:
   upload-coverage:
     needs: [ test-linux, test-macos, test-windows ]
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
