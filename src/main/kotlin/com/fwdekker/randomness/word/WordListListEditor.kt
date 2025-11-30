@@ -4,6 +4,7 @@ import com.fwdekker.randomness.Settings
 import com.fwdekker.randomness.setAll
 import com.fwdekker.randomness.ui.ValidationInfo
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.util.Disposer
 import java.awt.BorderLayout
 import javax.swing.JPanel
 
@@ -28,10 +29,14 @@ class WordListListEditor(val originalWordListList: WordListList = Settings.DEFAU
             val selectedIdx = tree.selectionModel.selectedIndices.singleOrNull() ?: return@addListSelectionListener
             val selected = tree.dataModel.getElementAt(selectedIdx)
 
-            editor?.apply()
+            editor?.also {
+                it.apply()
+                Disposer.dispose(it)
+            }
             editor = WordListEditor(selected).also {
                 editorContainer.removeAll()
                 editorContainer.add(it.component, BorderLayout.CENTER)
+                Disposer.register(this, it)
             }
         }
 
@@ -56,6 +61,12 @@ class WordListListEditor(val originalWordListList: WordListList = Settings.DEFAU
 
         tree.dataModel.allContentsChanged()
         editor?.reset()
+    }
+
+    fun selectWordList(uuid: String) {
+        val index = tree.dataModel.toList().indexOfFirst { it.uuid == uuid }
+        if (index >= 0)
+            tree.selectionModel.setSelectionInterval(index, index)
     }
 
     /**

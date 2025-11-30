@@ -24,6 +24,7 @@ import javax.swing.JComponent
  *
  * @see TemplateSettingsAction
  */
+// TODO: Change into `SearchableConfigurable`, and deprecate the ugly `schemeToSelect` mechanism
 internal class TemplateListConfigurable : Configurable, Disposable {
     /**
      * The user interface for changing the settings, displayed in IntelliJ's settings window.

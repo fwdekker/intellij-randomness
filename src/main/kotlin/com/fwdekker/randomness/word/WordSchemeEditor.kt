@@ -14,6 +14,7 @@ import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.toNullableProperty
 import com.intellij.ui.dsl.listCellRenderer.textListCellRenderer
+import com.intellij.ui.layout.ComboBoxPredicate
 
 
 /**
@@ -37,6 +38,10 @@ class WordSchemeEditor(scheme: WordScheme = WordScheme()) : SchemeEditor<WordSch
                     .bindItem(scheme::wordList)
                     .bindValidation(scheme::wordList)
                     .also { wordLists = it.component }
+
+                // TODO: Use separate bundle string
+                link(Bundle("reference.ui.value.visit")) { selectWordListInSettings(wordLists, scheme.wordList) }
+                    .visibleIf(ComboBoxPredicate<WordList>(wordLists) { it != null })
             }
         }
 
