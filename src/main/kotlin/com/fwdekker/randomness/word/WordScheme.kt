@@ -7,6 +7,8 @@ import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.TypeIcon
 import com.fwdekker.randomness.affix.AffixDecorator
 import com.fwdekker.randomness.array.ArrayDecorator
+import com.fwdekker.randomness.template.Template
+import com.fwdekker.randomness.template.TemplateList
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.intellij.ui.JBColor
 import com.intellij.util.xmlb.annotations.OptionTag
@@ -23,7 +25,7 @@ import java.awt.Color
  * @property arrayDecorator Settings that determine whether the output should be an array of values.
  */
 data class WordScheme(
-    var words: List<String> = DEFAULT_WORDS,
+    var wordListName: String? = null, // TODO: Use UUID instead of name
     var capitalization: CapitalizationMode = DEFAULT_CAPITALIZATION,
     @OptionTag val affixDecorator: AffixDecorator = DEFAULT_AFFIX_DECORATOR,
     @OptionTag val arrayDecorator: ArrayDecorator = DEFAULT_ARRAY_DECORATOR,
@@ -33,22 +35,32 @@ data class WordScheme(
     override val typeIcon get() = BASE_ICON
     override val decorators get() = listOf(affixDecorator, arrayDecorator)
     override val validators = validators {
-        of(::words).check({ it.isNotEmpty() }, { Bundle("word.error.empty_word_list") })
+        of(::wordList).check({ it != null }, { "Invalid word list." }) // TODO: Use bundle
         include(::affixDecorator)
         include(::arrayDecorator)
     }
+
+    /**
+     * The [Template] that is being referenced, or `null` if it could not be found in the [context]'s [TemplateList].
+     */
+    @get:Transient
+    var wordList: WordList?
+        get() = (+context).wordListList.wordLists.find { it.name == wordListName }
+        set(value) {
+            wordListName = value?.name
+        }
 
 
     /**
      * Returns [count] formatted random words.
      */
     override fun generateUndecoratedStrings(count: Int) =
-        List(count) { capitalization.transform(words.random(random), random) }
+        List(count) { capitalization.transform(wordList!!.words.random(random), random) }
 
 
     override fun deepCopy(retainUuid: Boolean) =
         copy(
-            words = words.toList(),
+            wordListName = wordListName,
             affixDecorator = affixDecorator.deepCopy(retainUuid),
             arrayDecorator = arrayDecorator.deepCopy(retainUuid),
         ).deepCopyTransient(retainUuid)

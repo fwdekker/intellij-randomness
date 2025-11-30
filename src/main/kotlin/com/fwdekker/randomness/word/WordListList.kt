@@ -15,7 +15,10 @@ data class WordList(
 
 data class WordListList(
     @OptionTag
-    val wordLists: MutableList<WordList> = mutableListOf(),
+    val wordLists: MutableList<WordList> = mutableListOf(
+        WordList("Foo", mutableListOf("foo", "foo", "foo")),
+        WordList("Bar", mutableListOf("bar", "bar", "bar")),
+    ),
 ) : State() {
     override fun deepCopy(retainUuid: Boolean): WordListList =
         copy(wordLists = wordLists.map { it.deepCopy(retainUuid) }.toMutableList())

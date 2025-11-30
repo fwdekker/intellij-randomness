@@ -13,7 +13,7 @@ internal class WordListListConfigurable : Configurable, Disposable {
 
     override fun getDisplayName() = "Randomness: Word Lists"
 
-    override fun createComponent(): JComponent? {
+    override fun createComponent(): JComponent {
         editor = WordListListEditor().also { Disposer.register(this, it) }
         return editor.rootComponent
     }

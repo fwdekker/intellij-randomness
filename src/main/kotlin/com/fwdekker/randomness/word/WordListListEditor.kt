@@ -1,31 +1,51 @@
 package com.fwdekker.randomness.word
 
-import com.fwdekker.randomness.Bundle
+import com.fwdekker.randomness.Settings
 import com.fwdekker.randomness.setAll
 import com.fwdekker.randomness.ui.ValidationInfo
 import com.intellij.openapi.Disposable
-import com.intellij.ui.dsl.builder.panel
+import java.awt.BorderLayout
+import javax.swing.JPanel
 
 
-class WordListListEditor(val originalWordListList: WordListList = WordListList()) : Disposable {
-    val rootComponent = panel {
-        group(Bundle("word.ui.words.header")) {
-            row {
-                label("Woah mama")
-                checkBox("Check it out!")
+class WordListListEditor(val originalWordListList: WordListList = Settings.DEFAULT.wordListList) : Disposable {
+    private val currentWordListList = WordListList() // Synced with [originalWordListList] in [reset]
+
+    val rootComponent = JPanel(BorderLayout())
+    private val tree = WordListListTree(currentWordListList)
+    private var editor: WordListEditor? = null
+
+
+    init {
+        rootComponent.add(tree.component, BorderLayout.WEST)
+
+        val editorContainer = JPanel(BorderLayout())
+        rootComponent.add(editorContainer, BorderLayout.CENTER)
+
+        tree.selectionModel.addListSelectionListener { event ->
+            if (event.valueIsAdjusting) return@addListSelectionListener
+
+            val selectedIdx = tree.selectionModel.selectedIndices.singleOrNull() ?: return@addListSelectionListener
+            val selected = tree.dataModel.getElementAt(selectedIdx)
+
+            editor?.apply()
+            editor = WordListEditor(selected).also {
+                editorContainer.removeAll()
+                editorContainer.add(it.component, BorderLayout.CENTER)
             }
         }
-    }.also { reset() }
 
-
-    private val currentWordListList = WordListList() // Synced with [originalWordListList] in [reset]
+        reset()
+    }
 
 
     fun doValidate(): ValidationInfo? = currentWordListList.doValidate()
 
-    fun isModified(): Boolean = originalWordListList != currentWordListList
+    fun isModified(): Boolean = originalWordListList != currentWordListList || editor?.isModified() ?: false
 
     fun apply() {
+        editor?.apply()
+
         originalWordListList.wordLists.setAll(currentWordListList.deepCopy(retainUuid = true).wordLists)
         originalWordListList.applyContext((+originalWordListList.context).copy(wordListList = originalWordListList))
     }
@@ -34,7 +54,8 @@ class WordListListEditor(val originalWordListList: WordListList = WordListList()
         currentWordListList.wordLists.setAll(originalWordListList.deepCopy(retainUuid = true).wordLists)
         currentWordListList.applyContext((+currentWordListList.context).copy(wordListList = currentWordListList))
 
-//        templateTree.reload() // TODO: Reload UI somehow? Is that necessary?
+        tree.dataModel.allContentsChanged()
+        editor?.reset()
     }
 
     /**

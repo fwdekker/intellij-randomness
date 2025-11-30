@@ -13,7 +13,6 @@ import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
 import com.fwdekker.randomness.uuid.UuidScheme
-import com.fwdekker.randomness.word.DefaultWordList
 import com.fwdekker.randomness.word.WordScheme
 import com.intellij.util.xmlb.annotations.OptionTag
 
@@ -85,22 +84,22 @@ data class TemplateList(
                     "Personal Name",
                     mutableListOf(
                         WordScheme(
-                            words = DefaultWordList.WORD_LIST_MAP["Forenames"]!!.words,
+                            wordListName = "Foo",
                             affixDecorator = AffixDecorator(enabled = true, descriptor = "@ "),
                         ),
-                        WordScheme(words = DefaultWordList.WORD_LIST_MAP["Surnames"]!!.words),
+                        WordScheme(wordListName = "Bar"),
                     )
                 ),
                 Template(
                     "Lorem Ipsum",
                     mutableListOf(
                         WordScheme(
-                            words = DefaultWordList.WORD_LIST_MAP["Lorem"]!!.words,
+                            wordListName = "Foo",
                             capitalization = CapitalizationMode.FIRST_LETTER,
                             affixDecorator = AffixDecorator(enabled = true, descriptor = "@ "),
                         ),
                         WordScheme(
-                            words = DefaultWordList.WORD_LIST_MAP["Lorem"]!!.words,
+                            wordListName = "Bar",
                             capitalization = CapitalizationMode.LOWER,
                             arrayDecorator = ArrayDecorator(
                                 enabled = true,
