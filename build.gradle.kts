@@ -52,6 +52,7 @@ dependencies {
     }
     implementation(libs.rgxgen)
     implementation(libs.github)
+    implementation(libs.nanoid)
     scrambler(libs.kotlin.reflect)
 
     testImplementation(libs.assertj.swing)

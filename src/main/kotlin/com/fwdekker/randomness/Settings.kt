@@ -223,6 +223,62 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
                                             prop.setAttribute("value", max.value)
                                     }
                             }
+                    },
+                Version.parse("3.5.0") to
+                    { settings ->
+                        // Migrate UuidScheme to UidScheme
+                        settings.getSchemes()
+                            .filter { it.name == "UuidScheme" }
+                            .forEach { scheme ->
+                                // Change scheme name from UuidScheme to UidScheme
+                                scheme.name = "UidScheme"
+
+                                // Add idTypeKey property set to "uuid"
+                                scheme.addProperty("idTypeKey", "uuid")
+
+                                // Wrap existing UUID properties into uuidConfig
+                                val uuidConfigElement = Element("UuidConfig")
+
+                                // Move UUID-specific properties to uuidConfig
+                                listOf("version", "minDateTime", "maxDateTime", "isUppercase", "addDashes").forEach { propName ->
+                                    scheme.getMultiProperty(propName).forEach { prop ->
+                                        scheme.children.remove(prop)
+                                        uuidConfigElement.addContent(prop.clone())
+                                    }
+                                }
+
+                                // Add uuidConfig as a property
+                                scheme.addContent(
+                                    Element("option")
+                                        .setAttribute("name", "uuidConfig")
+                                        .addContent(uuidConfigElement)
+                                )
+
+                                // Add default nanoIdConfig
+                                val nanoIdConfigElement = Element("NanoIdConfig")
+                                scheme.addContent(
+                                    Element("option")
+                                        .setAttribute("name", "nanoIdConfig")
+                                        .addContent(nanoIdConfigElement)
+                                )
+                            }
+
+                        // Add default UUID and NanoID templates if they don't exist
+                        val templatesElement = settings.getPropertyByPath("templateList", null, "templates", null)
+                        if (templatesElement != null) {
+                            val existingTemplateNames = settings.getTemplates()
+                                .mapNotNull { it.getPropertyValue("name") }
+
+                            // Add UUID template if not present
+                            if ("UUID" !in existingTemplateNames) {
+                                templatesElement.addContent(createUidTemplateElement("UUID", "uuid"))
+                            }
+
+                            // Add Nano ID template if not present
+                            if ("Nano ID" !in existingTemplateNames) {
+                                templatesElement.addContent(createUidTemplateElement("Nano ID", "nanoid"))
+                            }
+                        }
                     }
             )
 
@@ -230,6 +286,42 @@ internal class PersistentSettings : PersistentStateComponent<Element> {
          * The settings format version of Randomness.
          */
         val CURRENT_VERSION: Version = UPGRADES.keys.max()
+
+        /**
+         * Creates an XML Element representing a Template with a UidScheme.
+         *
+         * @param templateName The name of the template (e.g., "UUID" or "Nano ID")
+         * @param idTypeKey The ID type key (e.g., "uuid" or "nanoid")
+         */
+        private fun createUidTemplateElement(templateName: String, idTypeKey: String): Element {
+            val uidScheme = Element("UidScheme")
+                .apply {
+                    addProperty("idTypeKey", idTypeKey)
+                    addContent(
+                        Element("option")
+                            .setAttribute("name", "uuidConfig")
+                            .addContent(Element("UuidConfig"))
+                    )
+                    addContent(
+                        Element("option")
+                            .setAttribute("name", "nanoIdConfig")
+                            .addContent(Element("NanoIdConfig"))
+                    )
+                }
+
+            val schemesOption = Element("option")
+                .setAttribute("name", "schemes")
+                .addContent(
+                    Element("list")
+                        .addContent(uidScheme)
+                )
+
+            return Element("Template")
+                .apply {
+                    addProperty("name", templateName)
+                    addContent(schemesOption)
+                }
+        }
     }
 }
 

@@ -285,6 +285,7 @@ object PersistentSettingsTest : FunSpec({
                 row("3.3.4", "3.3.5", "removes `generator` fields"),
                 row("3.3.6", "3.4.0", "patches epochs to timestamp strings"),
                 row("3.4.1", "3.4.2", "clamps timestamps in UUID settings"),
+                row("3.4.2", "3.5.0", "migrates UUID settings to new format"),
             ) { (from, to, _) ->
                 val unpatched = getTestConfig("/settings-upgrades/v$from-v$to-before.xml").parseXml()
 

@@ -4,6 +4,8 @@
 * Minimum IDE version has been increased to 2024.3. This helps avert compatibility issues with future versions. ([#TODO](https://github.com/fwdekker/intellij-randomness/issues/TODO))
 
 ### Added
+* Added support for Nano ID. ([#TODO](https://github.com/fwdekker/intellij-randomness/issues/TODO))
+
 ### Changed
 * Regex patterns now ignore named capturing groups instead of giving an error. Achieved by updating [RgxGen](https://github.com/curious-odd-man/RgxGen) to v3.1. ([#TODO](https://github.com/fwdekker/intellij-randomness/issues/TODO))
 

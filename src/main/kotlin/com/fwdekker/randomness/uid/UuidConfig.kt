@@ -1,4 +1,4 @@
-package com.fwdekker.randomness.uuid
+package com.fwdekker.randomness.uid
 
 import com.fasterxml.uuid.EthernetAddress
 import com.fasterxml.uuid.NoArgGenerator
@@ -11,77 +11,35 @@ import com.fasterxml.uuid.impl.TimeBasedGenerator
 import com.fasterxml.uuid.impl.TimeBasedReorderedGenerator
 import com.fwdekker.randomness.Bundle
 import com.fwdekker.randomness.CapitalizationMode
-import com.fwdekker.randomness.Icons
-import com.fwdekker.randomness.Scheme
 import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.TimestampConverter
-import com.fwdekker.randomness.TypeIcon
-import com.fwdekker.randomness.affix.AffixDecorator
-import com.fwdekker.randomness.array.ArrayDecorator
-import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
-import com.intellij.ui.JBColor
 import com.intellij.util.xmlb.annotations.OptionTag
-import com.intellij.util.xmlb.annotations.Transient
-import java.awt.Color
 import java.util.UUID
 import kotlin.random.Random
 import kotlin.random.asJavaRandom
 
 
 /**
- * Contains settings for generating random UUIDs.
+ * Configuration for generating UUIDs.
  *
  * @property version The version of UUIDs to generate.
  * @property minDateTime The minimum date-time to use, applicable only for time-based UUIDs.
  * @property maxDateTime The maximum date-time to use, applicable only for time-based UUIDs.
  * @property isUppercase `true` if and only if all letters are uppercase.
  * @property addDashes `true` if and only if the UUID should have dashes in it.
- * @property affixDecorator The affixation to apply to the generated values.
- * @property arrayDecorator Settings that determine whether the output should be an array of values.
  */
-data class UuidScheme(
+data class UuidConfig(
     var version: Int = DEFAULT_VERSION,
     @OptionTag(converter = TimestampConverter::class) var minDateTime: Timestamp = DEFAULT_MIN_DATE_TIME,
     @OptionTag(converter = TimestampConverter::class) var maxDateTime: Timestamp = DEFAULT_MAX_DATE_TIME,
     var isUppercase: Boolean = DEFAULT_IS_UPPERCASE,
     var addDashes: Boolean = DEFAULT_ADD_DASHES,
-    @OptionTag val affixDecorator: AffixDecorator = DEFAULT_AFFIX_DECORATOR,
-    @OptionTag val arrayDecorator: ArrayDecorator = DEFAULT_ARRAY_DECORATOR,
-) : Scheme() {
-    @get:Transient
-    override val name = Bundle("uuid.title")
-    override val typeIcon get() = BASE_ICON
-    override val decorators get() = listOf(affixDecorator, arrayDecorator)
-    override val validators = validators {
-        of(::version).check({ it in SUPPORTED_VERSIONS }, { Bundle("uuid.error.unknown_version", it) })
-        case({ version in TIME_BASED_VERSIONS }) {
-            include(::minDateTime)
-            include(::maxDateTime)
-            of(::minDateTime)
-                .check(
-                    { !it.isBefore(MIN_MIN_DATE_TIME) },
-                    { Bundle("timestamp.error.too_old", MIN_MIN_DATE_TIME.value) }
-                )
-            of(::maxDateTime)
-                .check(
-                    { !it.isAfter(MAX_MAX_DATE_TIME) },
-                    { Bundle("timestamp.error.too_new", MAX_MAX_DATE_TIME.value) }
-                )
-                .check(
-                    { !it.isBefore(minDateTime) },
-                    { Bundle("datetime.error.min_datetime_above_max") }
-                )
-        }
-        include(::affixDecorator)
-        include(::arrayDecorator)
-    }
-
-
+) {
     /**
-     * Returns [count] random UUIDs.
+     * Generates [count] random UUIDs using the given [random] instance.
      */
     @Suppress("detekt:MagicNumber") // UUID versions are well-defined
-    override fun generateUndecoratedStrings(count: Int): List<String> {
+    fun generate(count: Int, random: Random): List<String> {
         val generator = when (version) {
             1 -> TimeBasedGenerator(random.nextAddress(), random.uuidTimer(minDateTime, maxDateTime))
             4 -> RandomBasedGenerator(random.asJavaRandom())
@@ -103,23 +61,13 @@ data class UuidScheme(
     }
 
 
-    override fun deepCopy(retainUuid: Boolean) =
-        copy(
-            affixDecorator = affixDecorator.deepCopy(retainUuid),
-            arrayDecorator = arrayDecorator.deepCopy(retainUuid),
-        ).deepCopyTransient(retainUuid)
-
-
     /**
-     * Holds constants.
+     * Creates a deep copy of this configuration.
      */
-    companion object {
-        /**
-         * The base icon for UUIDs.
-         */
-        val BASE_ICON
-            get() = TypeIcon(Icons.SCHEME, "id", listOf(JBColor(Color(185, 155, 248, 154), Color(185, 155, 248, 154))))
+    fun deepCopy() = copy()
 
+
+    companion object {
         /**
          * The default value of the [version] field.
          */
@@ -147,9 +95,6 @@ data class UuidScheme(
 
         /**
          * The minimum valid value of [minDateTime].
-         *
-         * This is a limitation of the underlying library, not of the UUID standard itself. See also
-         * https://github.com/cowtowncoder/java-uuid-generator/issues/133.
          */
         val MIN_MIN_DATE_TIME: Timestamp = Timestamp("1970-01-01 00:00:00.000")
 
@@ -160,9 +105,6 @@ data class UuidScheme(
 
         /**
          * The maximum valid value of [maxDateTime].
-         *
-         * This is a limitation of the underlying library, not of the UUID standard itself. See also
-         * https://github.com/cowtowncoder/java-uuid-generator/issues/133.
          */
         val MAX_MAX_DATE_TIME: Timestamp = Timestamp("5236-03-31 21:21:00.684")
 
@@ -172,21 +114,12 @@ data class UuidScheme(
         val DEFAULT_MAX_DATE_TIME: Timestamp = MAX_MAX_DATE_TIME
 
         /**
-         * The preset values for the [affixDecorator] field.
+         * The preset values for affix decorators.
          */
         val PRESET_AFFIX_DECORATOR_DESCRIPTORS = listOf("'", "\"", "`")
-
-        /**
-         * The default value of the [affixDecorator] field.
-         */
-        val DEFAULT_AFFIX_DECORATOR get() = AffixDecorator(enabled = false, descriptor = "\"")
-
-        /**
-         * The default value of the [arrayDecorator] field.
-         */
-        val DEFAULT_ARRAY_DECORATOR get() = ArrayDecorator()
     }
 }
+
 
 /**
  * Constants about UUIDs.
@@ -209,7 +142,7 @@ object UuidMeta {
     const val V6_TIMESTAMP_EPOCH: Long = V1_TIMESTAMP_EPOCH
 
     /**
-     * The modulo under which UUIDv1 timestamps are stored.
+     * The modulo under which UUIDv6 timestamps are stored.
      */
     const val V6_TIMESTAMP_MODULO: Long = V1_TIMESTAMP_MODULO
 
@@ -219,7 +152,7 @@ object UuidMeta {
     const val V7_TIMESTAMP_EPOCH: Long = 0L
 
     /**
-     * The modulo under which UUIDv1 timestamps are stored.
+     * The modulo under which UUIDv7 timestamps are stored.
      */
     const val V7_TIMESTAMP_MODULO: Long = 0x1000000000000L
 }
@@ -242,8 +175,6 @@ private fun Random.nextLongInclusive(min: Long = Long.MIN_VALUE, max: Long = Lon
 
 /**
  * Returns a [UUIDClock] that generates random times between [min] and [max] using this [Random] instance.
- *
- * Both [min] and [max] are inclusive, and are assumed to be valid.
  */
 private fun Random.uuidClock(min: Timestamp, max: Timestamp) =
     object : UUIDClock() {
@@ -252,8 +183,6 @@ private fun Random.uuidClock(min: Timestamp, max: Timestamp) =
 
 /**
  * Returns a [UUIDTimer] that generates random times between [min] and [max] using this [Random] instance.
- *
- * Both [min] and [max] are inclusive, and are assumed to be valid.
  */
 private fun Random.uuidTimer(min: Timestamp, max: Timestamp) =
     UUIDTimer(asJavaRandom(), null, uuidClock(min, max))
@@ -263,8 +192,6 @@ private fun Random.uuidTimer(min: Timestamp, max: Timestamp) =
  * Generates v8 UUIDs.
  *
  * Works by generating a v4 UUID and then replacing the version nibble.
- *
- * TODO\[Workaround]: Remove class after https://github.com/cowtowncoder/java-uuid-generator/issues/47 has been fixed
  */
 private class FreeFormGenerator(random: Random) : NoArgGenerator() {
     /**

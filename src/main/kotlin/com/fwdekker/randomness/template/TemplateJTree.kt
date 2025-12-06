@@ -7,7 +7,7 @@ import com.fwdekker.randomness.datetime.DateTimeScheme
 import com.fwdekker.randomness.decimal.DecimalScheme
 import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
-import com.fwdekker.randomness.uuid.UuidScheme
+import com.fwdekker.randomness.uid.UidScheme
 import com.fwdekker.randomness.word.WordScheme
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionToolbarPosition
@@ -710,7 +710,7 @@ class TemplateJTree(
                 DecimalScheme(),
                 StringScheme(),
                 WordScheme(),
-                UuidScheme(),
+                UidScheme(),
                 DateTimeScheme(),
                 TemplateReference(),
             )

@@ -12,7 +12,8 @@ import com.fwdekker.randomness.decimal.DecimalScheme
 import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
-import com.fwdekker.randomness.uuid.UuidScheme
+import com.fwdekker.randomness.uid.IdType
+import com.fwdekker.randomness.uid.UidScheme
 import com.fwdekker.randomness.word.DefaultWordList
 import com.fwdekker.randomness.word.WordScheme
 import com.intellij.util.xmlb.annotations.OptionTag
@@ -133,7 +134,8 @@ data class TemplateList(
                         )
                     )
                 ),
-                Template("UUID", mutableListOf(UuidScheme())),
+                Template("UUID", mutableListOf(UidScheme(idTypeKey = IdType.Uuid.key))),
+                Template("Nano ID", mutableListOf(UidScheme(idTypeKey = IdType.NanoId.key))),
                 Template("Date-Time", mutableListOf(DateTimeScheme())),
                 Template(
                     "IP address",

@@ -24,6 +24,7 @@ kotest = "5.9.1"  # https://mvnrepository.com/artifact/io.kotest/kotest-assertio
 kover = "0.9.1"  # https://plugins.gradle.org/plugin/org.jetbrains.kotlinx.kover
 rgxgen = "3.1"  # https://mvnrepository.com/artifact/com.github.curious-odd-man/rgxgen
 uuidGenerator = "5.1.0"  # https://mvnrepository.com/artifact/com.fasterxml.uuid/java-uuid-generator
+nanoid = "1.0.1" # https://mvnrepository.com/artifact/io.viascom.nanoid/nanoid
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
@@ -46,6 +47,7 @@ kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref 
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 rgxgen = { module = "com.github.curious-odd-man:rgxgen", version.ref = "rgxgen" }
 uuidGenerator = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "uuidGenerator" }
+nanoid = { module = "io.viascom.nanoid:nanoid", version.ref = "nanoid" }
 
 [bundles]
 kotest = ["kotest-assertions-core", "kotest-framework-dataset", "kotest-runner-junit5"]
