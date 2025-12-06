@@ -7,6 +7,8 @@ import com.fwdekker.randomness.Timestamp
 import com.fwdekker.randomness.Timestamp.Companion.FORMATTER
 import com.fwdekker.randomness.getMod
 import com.fwdekker.randomness.integer.IntegerScheme
+import com.fwdekker.randomness.uid.NanoIdConfig
+import com.fwdekker.randomness.uid.UuidConfig
 import com.github.sisyphsu.dateparser.DateParserUtils
 import com.intellij.util.xmlb.annotations.OptionTag
 import com.intellij.util.xmlb.annotations.Transient
@@ -113,6 +115,9 @@ fun Any?.mutated(): Any {
         is Timestamp ->
             if (epochMilli == null) Timestamp("foo_$value")
             else Timestamp(DateParserUtils.parseDateTime(value).plusSeconds(1).format(FORMATTER))
+
+        is NanoIdConfig -> copy(size = size + 1, alphabet = "foo_$alphabet")
+        is UuidConfig -> copy(version = if (version == 4) 1 else 4, isUppercase = !isUppercase, addDashes = !addDashes)
 
         is State ->
             properties()

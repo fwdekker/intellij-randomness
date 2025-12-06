@@ -10,8 +10,6 @@ import com.fwdekker.randomness.decimal.DecimalScheme
 import com.fwdekker.randomness.decimal.DecimalSchemeEditor
 import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.integer.IntegerSchemeEditor
-import com.fwdekker.randomness.nanoid.NanoIdScheme
-import com.fwdekker.randomness.nanoid.NanoIdSchemeEditor
 import com.fwdekker.randomness.setAll
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.string.StringSchemeEditor
@@ -20,8 +18,8 @@ import com.fwdekker.randomness.ui.PreviewPanel
 import com.fwdekker.randomness.ui.ValidationInfo
 import com.fwdekker.randomness.ui.addChangeListenerTo
 import com.fwdekker.randomness.ui.focusLater
-import com.fwdekker.randomness.uuid.UuidScheme
-import com.fwdekker.randomness.uuid.UuidSchemeEditor
+import com.fwdekker.randomness.uid.UidScheme
+import com.fwdekker.randomness.uid.UidSchemeEditor
 import com.fwdekker.randomness.word.WordScheme
 import com.fwdekker.randomness.word.WordSchemeEditor
 import com.intellij.openapi.Disposable
@@ -155,8 +153,7 @@ class TemplateListEditor(
             is IntegerScheme -> IntegerSchemeEditor(scheme)
             is DecimalScheme -> DecimalSchemeEditor(scheme)
             is StringScheme -> StringSchemeEditor(scheme)
-            is UuidScheme -> UuidSchemeEditor(scheme)
-            is NanoIdScheme -> NanoIdSchemeEditor(scheme)
+            is UidScheme -> UidSchemeEditor(scheme)
             is WordScheme -> WordSchemeEditor(scheme)
             is DateTimeScheme -> DateTimeSchemeEditor(scheme)
             is TemplateReference -> TemplateReferenceEditor(scheme)

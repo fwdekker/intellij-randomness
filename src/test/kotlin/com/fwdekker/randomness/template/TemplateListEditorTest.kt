@@ -16,7 +16,7 @@ import com.fwdekker.randomness.testhelpers.shouldContainExactly
 import com.fwdekker.randomness.testhelpers.shouldMatchBundle
 import com.fwdekker.randomness.testhelpers.useBareIdeaFixture
 import com.fwdekker.randomness.testhelpers.useEdtViolationDetection
-import com.fwdekker.randomness.uuid.UuidScheme
+import com.fwdekker.randomness.uid.UidScheme
 import com.fwdekker.randomness.word.WordScheme
 import com.intellij.openapi.util.Disposer
 import io.kotest.assertions.throwables.shouldThrow
@@ -105,7 +105,7 @@ object TemplateListEditorTest : FunSpec({
                     "integer" to row(IntegerScheme()) { it.spinner("minValue") },
                     "decimal" to row(DecimalScheme()) { it.spinner("minValue") },
                     "string" to row(StringScheme()) { it.textBox("pattern") },
-                    "uuid" to row(UuidScheme()) { it.comboBox("version") },
+                    "uid" to row(UidScheme()) { it.comboBox("idType") },
                     "word" to row(WordScheme()) { it.comboBox("presets") },
                     "date-time" to row(DateTimeScheme()) { it.textBox("minDateTime") },
                     "template reference" to row(TemplateReference()) { it.comboBox("template") },

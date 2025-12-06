@@ -7,7 +7,7 @@ import com.fwdekker.randomness.template.TemplateList
 import com.fwdekker.randomness.testhelpers.Tags
 import com.fwdekker.randomness.testhelpers.beforeNonContainer
 import com.fwdekker.randomness.testhelpers.shouldMatchXml
-import com.fwdekker.randomness.uuid.UuidScheme
+import com.fwdekker.randomness.uid.UidScheme
 import com.intellij.openapi.util.JDOMUtil
 import com.intellij.util.xmlb.XmlSerializer.serialize
 import io.kotest.assertions.throwables.shouldThrow
@@ -603,7 +603,7 @@ object XmlHelpersTest : FunSpec({
                 templateList = TemplateList(
                     mutableListOf(
                         Template(name = "Foo", schemes = mutableListOf(IntegerScheme(), StringScheme())),
-                        Template(name = "Bar", schemes = mutableListOf(UuidScheme())),
+                        Template(name = "Bar", schemes = mutableListOf(UidScheme())),
                     )
                 )
             )
@@ -644,6 +644,22 @@ object XmlHelpersTest : FunSpec({
             realUuids shouldNot beEmpty()
 
             xmlUuids shouldContainExactlyInAnyOrder realUuids
+        }
+
+        test("UidScheme nested configs have uuids serialized") {
+            val uidScheme = settings.templates
+                .flatMap { it.schemes }
+                .filterIsInstance<UidScheme>()
+                .single()
+
+            val uidSchemeXml = xml.getSchemes()
+                .single { it.getPropertyValue("uuid") == uidScheme.uuid }
+
+            val uuidConfigXml = uidSchemeXml.getProperty("uuidConfig")?.children?.singleOrNull()
+            val nanoIdConfigXml = uidSchemeXml.getProperty("nanoIdConfig")?.children?.singleOrNull()
+
+            uuidConfigXml?.getPropertyValue("uuid") shouldBe uidScheme.uuidConfig.uuid
+            nanoIdConfigXml?.getPropertyValue("uuid") shouldBe uidScheme.nanoIdConfig.uuid
         }
     }
 })

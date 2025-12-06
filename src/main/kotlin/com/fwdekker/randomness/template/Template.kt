@@ -12,7 +12,7 @@ import com.fwdekker.randomness.decimal.DecimalScheme
 import com.fwdekker.randomness.integer.IntegerScheme
 import com.fwdekker.randomness.string.StringScheme
 import com.fwdekker.randomness.ui.ValidatorDsl.Companion.validators
-import com.fwdekker.randomness.uuid.UuidScheme
+import com.fwdekker.randomness.uid.UidScheme
 import com.fwdekker.randomness.word.WordScheme
 import com.intellij.ui.Gray
 import com.intellij.util.xmlb.annotations.OptionTag
@@ -36,7 +36,7 @@ data class Template(
             IntegerScheme::class,
             StringScheme::class,
             TemplateReference::class,
-            UuidScheme::class,
+            UidScheme::class,
             WordScheme::class,
         ]
     )

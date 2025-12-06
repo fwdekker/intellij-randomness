@@ -23,8 +23,8 @@ github = "2.1.5"  # https://mvnrepository.com/artifact/org.eclipse.mylyn.github/
 kotest = "5.9.1"  # https://mvnrepository.com/artifact/io.kotest/kotest-assertions-core-jvm
 kover = "0.9.1"  # https://plugins.gradle.org/plugin/org.jetbrains.kotlinx.kover
 rgxgen = "3.1"  # https://mvnrepository.com/artifact/com.github.curious-odd-man/rgxgen
-uuidGenerator = "5.1.0"  # https://mvnrepository.com/artifact/io.viascom.nanoid/nanoid
-nanoid = "1.0.1" #
+uuidGenerator = "5.1.0"  # https://mvnrepository.com/artifact/com.fasterxml.uuid/java-uuid-generator
+nanoid = "1.0.1" # https://mvnrepository.com/artifact/io.viascom.nanoid/nanoid
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
